@@ -80,7 +80,9 @@ fos_rest:
     body_listener: true
     format_listener:
         rules:
-            - { path: '^/', priorities: ['json'], fallback_format: json, prefer_extension: false }
+            - { path: '^/api/', priorities: ['json'], fallback_format: json, prefer_extension: false }
+            - { path: '^/', priorities: ['json', 'html'], fallback_format: 'html' }
+    serializer:
     param_fetcher_listener: true
     view:
         view_response_listener: 'force'

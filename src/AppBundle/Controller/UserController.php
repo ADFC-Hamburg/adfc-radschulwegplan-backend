@@ -16,7 +16,7 @@ class UserController extends FOSRestController
     /**
      * @Rest\Get("/api/v1/user")
      */
-    public function getAction()
+    public function getAllAction()
     {
       $restresult = $this->getDoctrine()->getRepository('AppBundle:User')->findAll();
         if ($restresult === null) {
