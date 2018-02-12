@@ -39,7 +39,7 @@ twig:
 # Doctrine Configuration
 doctrine:
     dbal:
-        driver: pdo_mysql
+        driver: pdo_pgsql
         host: '%database_host%'
         port: '%database_port%'
         dbname: '%database_name%'
@@ -52,7 +52,16 @@ doctrine:
         #   2. Uncomment database_path in parameters.yml.dist
         #   3. Uncomment next line:
         #path: '%database_path%'
-
+        types:
+                geography: 
+                    class: 'Jsor\Doctrine\PostGIS\Types\GeographyType'
+                    commented: false
+                geometry:
+                    class: 'Jsor\Doctrine\PostGIS\Types\GeometryType'
+                    commented: false
+                raster:
+                    class: 'Jsor\Doctrine\PostGIS\Types\RasterType'
+                    commented: false
     orm:
         auto_generate_proxy_classes: '%kernel.debug%'
         naming_strategy: doctrine.orm.naming_strategy.underscore
