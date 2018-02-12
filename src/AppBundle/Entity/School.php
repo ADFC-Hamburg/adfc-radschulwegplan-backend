@@ -66,8 +66,8 @@ class School
     /**
      * @var int
      *
-     * @ManyToOne(targetEntity="User")
-     * @JoinColumn(name="changed_by", referencedColumnName="id")
+     * @ORM\ManyToOne(targetEntity="User")
+     * @ORM\JoinColumn(name="changed_by", referencedColumnName="id")
      */
     private $changedBy;
 
@@ -81,8 +81,8 @@ class School
     /**
      * @var int
      *
-     * @ManyToOne(targetEntity="User")
-     * @JoinColumn(name="created_by", referencedColumnName="id")
+     * @ORM\ManyToOne(targetEntity="User")
+     * @ORM\JoinColumn(name="created_by", referencedColumnName="id")
      */
     private $createdBy;
 
