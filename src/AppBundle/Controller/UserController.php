@@ -67,5 +67,4 @@ elseif(!empty($name) && empty($role)){
 }
 else return new View("User name or role cannot be empty", Response::HTTP_NOT_ACCEPTABLE); 
  }
-http://127.0.0.1:8000/api/v1/user
 }

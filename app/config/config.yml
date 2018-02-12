@@ -74,7 +74,7 @@ nelmio_cors:
         max_age: 3600
         hosts: []
         origin_regex: false
- 
+
 # FOSRest Configuration
 fos_rest:
     body_listener: true
@@ -88,3 +88,13 @@ fos_rest:
         view_response_listener: 'force'
         formats:
             json: true
+
+fos_user:
+    db_driver: orm # other valid values are 'mongodb', 'couchdb' and 'propel'
+    firewall_name: main
+    from_email:
+        address:        rsw-noreply@sven.anders.hamburg
+        sender_name:    Demo App
+    user_class: AppBundle\Entity\User
+    service:
+        mailer: fos_user.mailer.twig_swift 
