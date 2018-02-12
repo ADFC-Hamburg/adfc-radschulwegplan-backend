@@ -10,7 +10,7 @@ use Doctrine\ORM\Mapping as ORM;
  * @ORM\Table(name="school")
  * @ORM\Entity(repositoryClass="AppBundle\Repository\SchoolRepository")
  */
-class School
+class School extends BaseEntity
 {
     /**
      * @var int
@@ -55,36 +55,6 @@ class School
      * @ORM\Column(name="webpage", type="string", length=255, nullable=true)
      */
     private $webpage;
-
-    /**
-     * @var \DateTime
-     *
-     * @ORM\Column(name="last_change", type="datetime")
-     */
-    private $lastChange;
-
-    /**
-     * @var int
-     *
-     * @ORM\ManyToOne(targetEntity="User")
-     * @ORM\JoinColumn(name="changed_by", referencedColumnName="id")
-     */
-    private $changedBy;
-
-    /**
-     * @var \DateTime
-     *
-     * @ORM\Column(name="created", type="datetime")
-     */
-    private $created;
-
-    /**
-     * @var int
-     *
-     * @ORM\ManyToOne(targetEntity="User")
-     * @ORM\JoinColumn(name="created_by", referencedColumnName="id")
-     */
-    private $createdBy;
 
 
     /**
@@ -217,76 +187,5 @@ class School
         return $this->webpage;
     }
 
-    /**
-     * Set lastChange
-     *
-     * @param \DateTime $lastChange
-     *
-     * @return School
-     */
-    public function setLastChange($lastChange)
-    {
-        $this->lastChange = $lastChange;
-
-        return $this;
-    }
-
-    /**
-     * Get lastChange
-     *
-     * @return \DateTime
-     */
-    public function getLastChange()
-    {
-        return $this->lastChange;
-    }
-
-    /**
-     * Set created
-     *
-     * @param \DateTime $created
-     *
-     * @return School
-     */
-    public function setCreated($created)
-    {
-        $this->created = $created;
-
-        return $this;
-    }
-
-    /**
-     * Get created
-     *
-     * @return \DateTime
-     */
-    public function getCreated()
-    {
-        return $this->created;
-    }
-
-    /**
-     * Set createdBy
-     *
-     * @param integer $createdBy
-     *
-     * @return School
-     */
-    public function setCreatedBy($createdBy)
-    {
-        $this->createdBy = $createdBy;
-
-        return $this;
-    }
-
-    /**
-     * Get createdBy
-     *
-     * @return int
-     */
-    public function getCreatedBy()
-    {
-        return $this->createdBy;
-    }
 }
 
