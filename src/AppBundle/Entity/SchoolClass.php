@@ -10,7 +10,7 @@ use Doctrine\ORM\Mapping as ORM;
  * @ORM\Table(name="school_class",uniqueConstraints={@ORM\UniqueConstraint(name="school_class_idx", columns={"name", "school"})})
  * @ORM\Entity(repositoryClass="AppBundle\Repository\SchoolClassRepository")
  */
-class SchoolClass
+class SchoolClass extends BaseEntity
 {
     /**
      * @var int
@@ -36,37 +36,7 @@ class SchoolClass
      */
     private $school;
 
-    /**
-     * @var \DateTime
-     *
-     * @ORM\Column(name="lastChange", type="datetime")
-     */
-    private $lastChange;
-
-    /**
-     * @var \DateTime
-     *
-     * @ORM\Column(name="created", type="datetime")
-     */
-    private $created;
-
-    /**
-     * @var int
-     *
-     * @ORM\ManyToOne(targetEntity="User")
-     * @ORM\JoinColumn(name="changed_by", referencedColumnName="id")
-     */
-    private $changedBy;
-
-    /**
-     * @var int
-     *
-     * @ORM\ManyToOne(targetEntity="User")
-     * @ORM\JoinColumn(name="created_by", referencedColumnName="id")
-     */
-    private $createdBy;
-
-
+ 
     /**
      * Get id
      *
@@ -125,100 +95,5 @@ class SchoolClass
         return $this->school;
     }
 
-    /**
-     * Set lastChange
-     *
-     * @param \DateTime $lastChange
-     *
-     * @return SchoolClass
-     */
-    public function setLastChange($lastChange)
-    {
-        $this->lastChange = $lastChange;
-
-        return $this;
-    }
-
-    /**
-     * Get lastChange
-     *
-     * @return \DateTime
-     */
-    public function getLastChange()
-    {
-        return $this->lastChange;
-    }
-
-    /**
-     * Set created
-     *
-     * @param \DateTime $created
-     *
-     * @return SchoolClass
-     */
-    public function setCreated($created)
-    {
-        $this->created = $created;
-
-        return $this;
-    }
-
-    /**
-     * Get created
-     *
-     * @return \DateTime
-     */
-    public function getCreated()
-    {
-        return $this->created;
-    }
-
-    /**
-     * Set changedBy
-     *
-     * @param integer $changedBy
-     *
-     * @return SchoolClass
-     */
-    public function setChangedBy($changedBy)
-    {
-        $this->changedBy = $changedBy;
-
-        return $this;
-    }
-
-    /**
-     * Get changedBy
-     *
-     * @return int
-     */
-    public function getChangedBy()
-    {
-        return $this->changedBy;
-    }
-
-    /**
-     * Set createdBy
-     *
-     * @param integer $createdBy
-     *
-     * @return SchoolClass
-     */
-    public function setCreatedBy($createdBy)
-    {
-        $this->createdBy = $createdBy;
-
-        return $this;
-    }
-
-    /**
-     * Get createdBy
-     *
-     * @return int
-     */
-    public function getCreatedBy()
-    {
-        return $this->createdBy;
-    }
 }
 
