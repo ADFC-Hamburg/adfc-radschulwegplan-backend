@@ -10,6 +10,13 @@ use Doctrine\ORM\Mapping as ORM;
  */
 abstract class BaseEntity
 {
+
+    public function __construct()
+    {
+        parent::__construct();
+        // your own logic
+    }
+
     /**
      * @var \DateTime
      *
@@ -48,7 +55,7 @@ abstract class BaseEntity
      *
      * @return BaseEntity
      */
-    public function setCreated(DateTime $created)
+    public function setCreated(\DateTime $created)
     {
         $this->created = $created;
 
@@ -72,7 +79,7 @@ abstract class BaseEntity
      *
      * @return BaseEntity
      */
-    public function setChanged(DateTime $changed)
+    public function setChanged(\DateTime $changed)
     {
         $this->changed = $changed;
 
@@ -126,7 +133,18 @@ abstract class BaseEntity
 
         return $this;
     }
-
+    public function setChangedNow(User $user) {
+        $this->setChangedBy($user);
+        $now=new \DateTime("now");
+        $this->setChanged($now);
+    }
+    public function setCreatedNow(User $user) {
+        $this->setChangedBy($user);
+        $this->setCreatedBy($user);
+        $now=new \DateTime("now");
+        $this->setChanged($now);
+        $this->setCreated($now);
+    }
     /**
      * Get changedBy
      *
