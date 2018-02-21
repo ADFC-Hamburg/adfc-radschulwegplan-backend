@@ -9,7 +9,8 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use FOS\RestBundle\View\View;
 use AppBundle\Entity\DangerPoint;
-
+use Nelmio\ApiDocBundle\Annotation\Model;
+use Swagger\Annotations as SWG;
 /* 
 
 TODO:
@@ -26,6 +27,16 @@ class DangerPointController extends FOSRestController
 {
 
     /**
+     * Get all DangerPoints the user is allowed to see
+     * 
+     * @SWG\Response(
+     *     response=200,
+     *     description="Returns the DangerPoints of a user",
+     *     @SWG\Schema(
+     *         type="array",
+     *         @Model(type=DangerPoint::class)
+     *     )
+     * )
      * @Rest\Get("/api/v1/danger_point")
      */
     public function getAllAction()
@@ -33,7 +44,7 @@ class DangerPointController extends FOSRestController
         if ($this->get('security.authorization_checker')->isGranted('ROLE_ADMIN')) {
             $restresult = $this->getDoctrine()->getRepository('AppBundle:DangerPoint')->findAll();
         } else {
-            $restresult = ['a'];
+            $restresult = [];
         }
         if ($restresult === null) {
             return new View("there are no points exist", Response::HTTP_NOT_FOUND);
@@ -42,6 +53,19 @@ class DangerPointController extends FOSRestController
     }
     
     /**
+     * Get one DangerPoint
+     *
+     * @SWG\Response(
+     *     response=200,
+     *     description="Returns one DangerPoint with id={id}",
+     *     @Model(type=DangerPoint::class)
+     * )
+     * @SWG\Parameter(
+     *     name="id",
+     *     in="path",
+     *     type="integer",
+     *     description="The id of the point"
+     * )
      * @Rest\Get("/api/v1/danger_point/{id}")
      */
     public function idAction($id)
@@ -53,6 +77,51 @@ class DangerPointController extends FOSRestController
         return $singleresult;
     }
     /**
+     * Modify DangerPoint
+     *
+     * @SWG\Parameter(
+     *     name="lat",
+     *     in="formData",
+     *     type="number",
+     *     description="The latitude of the point"
+     * )
+     * @SWG\Parameter(
+     *     name="lon",
+     *     in="formData",
+     *     type="number",
+     *     description="The longitude of the point"
+     * )
+     * @SWG\Parameter(
+     *     name="title",
+     *     in="formData",
+     *     type="string",
+     *     description="The title of the point"
+     * )
+     * @SWG\Parameter(
+     *     name="description",
+     *     in="formData",
+     *     type="string",
+     *     description="The description of the point"
+     * )
+     * @SWG\Parameter(
+     *     name="typeId",
+     *     in="formData",
+     *     type="integer",
+     *     required=false,
+     *     description="The typeId of the point"
+     * )
+     * @SWG\Parameter(
+     *     name="id",
+     *     in="path",
+     *     type="integer",
+     *     required=true,
+     *     description="The Id of the point (required)"
+     * )
+     * @SWG\Response(
+     *     response=200,
+     *     description="Returns one DangerPont with id",
+     *     @Model(type=DangerPoint::class)
+     * )
      * @Rest\Put("/api/v1/danger_point/{id}")
      */
     public function updateAction($id, Request $request)
@@ -96,6 +165,48 @@ class DangerPointController extends FOSRestController
     }
 
     /**
+     * Create new DangerPoint
+     *
+     * @SWG\Parameter(
+     *     name="lat",
+     *     in="formData",
+     *     type="number",
+     *     required=true,
+     *     description="The latitude of the point"
+     * )
+     * @SWG\Parameter(
+     *     name="lon",
+     *     in="formData",
+     *     type="number",
+     *     required=true,
+     *     description="The longitude of the point"
+     * )
+     * @SWG\Parameter(
+     *     name="title",
+     *     in="formData",
+     *     required=false,
+     *     type="string",
+     *     description="The title of the point"
+     * )
+     * @SWG\Parameter(
+     *     name="description",
+     *     in="formData",
+     *     type="string",
+     *     required=false,
+     *     description="The description of the point; can contain line breaks"
+     * )
+     * @SWG\Parameter(
+     *     name="typeId",
+     *     in="formData",
+     *     type="integer",
+     *     required=true,
+     *     description="The typeId of the point"
+     * )
+     * @SWG\Response(
+     *     response=200,
+     *     description="Returns one DangerPoint with id",
+     *     @Model(type=DangerPoint::class)
+     * )
      * @Rest\Post("/api/v1/danger_point/")
      */
     public function postAction(Request $request)
@@ -121,10 +232,22 @@ class DangerPointController extends FOSRestController
         $newObj= $em->merge($data);
         $em->flush();
         return $newObj;
-//        return new View("DangerPoint Added Successfully", Response::HTTP_OK);
     }
 
     /**
+     * Delete one DangerPoint
+     *
+     * @SWG\Parameter(
+     *     name="id",
+     *     in="path",
+     *     type="integer",
+     *     description="The id of the point"
+     * )
+     * @SWG\Response(
+     *     response=200,
+     *     description="Returns the DangerPoint with the given id",
+     *     @Model(type=DangerPoint::class)
+     * )
      * @Rest\Delete("/api/v1/danger_point/{id}")
      */
     public function deleteAction($id)
