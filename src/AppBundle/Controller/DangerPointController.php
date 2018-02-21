@@ -27,11 +27,11 @@ class DangerPointController extends FOSRestController
 {
 
     /**
-     * Get all DangerPoints the use is allowed to see
+     * Get all DangerPoints the user is allowed to see
      * 
      * @SWG\Response(
      *     response=200,
-     *     description="Returns the rewards of an user",
+     *     description="Returns the DangerPoints of a user",
      *     @SWG\Schema(
      *         type="array",
      *         @Model(type=DangerPoint::class)
@@ -193,7 +193,7 @@ class DangerPointController extends FOSRestController
      *     in="formData",
      *     type="string",
      *     required=false,
-     *     description="The description of the point can contain linebreaks"
+     *     description="The description of the point; can contain line breaks"
      * )
      * @SWG\Parameter(
      *     name="typeId",
@@ -204,7 +204,7 @@ class DangerPointController extends FOSRestController
      * )
      * @SWG\Response(
      *     response=200,
-     *     description="Returns one DangerPont with id",
+     *     description="Returns one DangerPoint with id",
      *     @Model(type=DangerPoint::class)
      * )
      * @Rest\Post("/api/v1/danger_point/")
@@ -232,7 +232,6 @@ class DangerPointController extends FOSRestController
         $newObj= $em->merge($data);
         $em->flush();
         return $newObj;
-//        return new View("DangerPoint Added Successfully", Response::HTTP_OK);
     }
 
     /**
@@ -246,7 +245,7 @@ class DangerPointController extends FOSRestController
      * )
      * @SWG\Response(
      *     response=200,
-     *     description="Returns one DangerPont with id",
+     *     description="Returns the DangerPoint with the given id",
      *     @Model(type=DangerPoint::class)
      * )
      * @Rest\Delete("/api/v1/danger_point/{id}")
