@@ -27,6 +27,14 @@ matrix:
 env:
   - SYMFONY_VERSION="3.4.*" DB=postgres
 
+# database creation
+before_script:
+  - psql -c "CREATE USER foo WITH PASSWORD 'bar';" -U postgres
+  - psql -c 'create database travis_postgis;' -U postgres
+  - psql -c 'CREATE EXTENSION postgis;' -U postgres -d travis_postgis
+  - psql -c 'CREATE EXTENSION postgis_topology;' -U postgres -d travis_postgis
+  - psql -c 'GRANT ALL PRIVILEGES ON DATABASE travis_postgis to foo;' -U postgres -d travis_postgis
+
 # Update composer
 before_install:
   - composer self-update
