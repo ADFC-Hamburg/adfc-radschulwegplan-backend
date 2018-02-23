@@ -11,17 +11,17 @@ services:
 # Cache composer packages so "composer install" is faster
 cache:
   directories:
-      - $HOME/.composer/cache/files
+    - $HOME/.composer/cache/files
 
 # Matrix to test in every php version
 matrix:
   # Fast finish allows to set the build as "finished" even if the "allow_failures" matrix elements are not finished yet.
-    fast_finish: true
-      include:
-      - php: 7.0
-      - php: hhvm
-      allow_failures:
-      - php: hhvm
+  fast_finish: true
+  include:
+    - php: 7.0
+    - php: hhvm
+  allow_failures:
+    - php: hhvm
 
 # Define an environment variable
 env:
@@ -35,10 +35,10 @@ before_install:
 # Create database, schema and fixtures
 install:
   - composer install
-    - cp app/config/parameters.yml.dist app/config/parameters.yml
-    - php bin/console doctrine:database:create --env=test
-    - php bin/console doctrine:schema:create --env=test
-    - php bin/console doctrine:fixtures:load -n --env=test
+  - cp app/config/parameters.yml.dist app/config/parameters.yml
+  - php bin/console doctrine:database:create --env=test
+  - php bin/console doctrine:schema:create --env=test
+  - php bin/console doctrine:fixtures:load -n --env=test
 
 # Run script
 script:
