@@ -32,6 +32,7 @@ before_install:
   # Update Composer
   - composer self-update
   # Create DB
+  - sudo apt-get install postgis
   - psql -c "CREATE USER foo WITH PASSWORD 'bar';" -U postgres
   - psql -c 'create database travis_postgis;' -U postgres
   - psql -c 'CREATE EXTENSION postgis;' -U postgres -d travis_postgis
