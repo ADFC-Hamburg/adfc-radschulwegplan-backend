@@ -44,6 +44,3 @@ install:
 script:
   - phpunit
 
-# After a build, send email notification with the build results
-#notifications:
-#  email: your_email
