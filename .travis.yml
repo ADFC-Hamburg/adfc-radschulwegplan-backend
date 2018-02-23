@@ -7,7 +7,10 @@ sudo: false
 # Start mysql service
 services:
   - postgresql
-
+  
+addons:
+  postgresql: "9.6"
+  
 # Cache composer packages so "composer install" is faster
 cache:
   directories:
@@ -25,14 +28,15 @@ matrix:
 
 # Define an environment variable
 env:
-  - SYMFONY_VERSION="3.4.*" DB=postgres
+  - SYMFONY_VERSION="3.4.*" DB=postgresql
 
 
 before_install:
   # Update Composer
   - composer self-update
+  # Install Postgis
+  - sudo apt-get install postgresql-9.6-postgis-2.3 postgis -y -q
   # Create DB
-  - sudo apt-get install postgis
   - psql -c "CREATE USER foo WITH PASSWORD 'bar';" -U postgres
   - psql -c 'create database travis_postgis;' -U postgres
   - psql -c 'CREATE EXTENSION postgis;' -U postgres -d travis_postgis
