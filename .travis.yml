@@ -43,10 +43,7 @@ install:
   - cp app/config/parameters.yml.dist app/config/parameters.yml
   - php bin/console doctrine:database:create --env=test --if-not-exists
   - php bin/console doctrine:schema:create --env=test
-  - php bin/console fos:user:create --env=test test-admin test-admin@example.com pass-admin
-  - php ./bin/console fos:user:promote --env=test test-admin  ROLE_ADMIN
-  # https://symfony.com/doc/master/bundles/DoctrineFixturesBundle/index.html
-  #- php bin/console doctrine:fixtures:load -n --env=test
+  - php bin/console doctrine:fixtures:load -n --env=test
 
 # Run script
 script:
