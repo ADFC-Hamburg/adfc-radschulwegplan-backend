@@ -48,6 +48,6 @@ install:
 
 # Run script
 script:
-  - vendor/bin/phpunit --coverage-clover=coverage.xml
+  - vendor/bin/simple-phpunit --coverage-clover=coverage.xml
   - bash <(curl -s https://codecov.io/bash)
 
