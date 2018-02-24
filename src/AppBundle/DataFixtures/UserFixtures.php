@@ -34,9 +34,9 @@ class UserFixtures  extends Fixture implements ORMFixtureInterface, ContainerAwa
         $user->setPlainPassword('pass-admin');
         $user->setEnabled(true);
         $user->setRoles(array('ROLE_ADMIN'));
-
-        // Update the user
         $userManager->updateUser($user, true);
+
+        $this->addReference('adfc-admin-user', $user);
 
         $user = $userManager->createUser();
         $user->setUsername('test-school-admin');
@@ -44,9 +44,9 @@ class UserFixtures  extends Fixture implements ORMFixtureInterface, ContainerAwa
         $user->setPlainPassword('pass-admin-school');
         $user->setEnabled(true);
         $user->setRoles(array('ROLE_SCHOOL_ADMIN'));
-
-        // Update the user
         $userManager->updateUser($user, true);
+
+        $this->addReference('school-admin-user', $user);
 
         $user = $userManager->createUser();
         $user->setUsername('test-school-review');
@@ -54,10 +54,9 @@ class UserFixtures  extends Fixture implements ORMFixtureInterface, ContainerAwa
         $user->setPlainPassword('pass-school-review');
         $user->setEnabled(true);
         $user->setRoles(array('ROLE_SCHOOL_REVIEW'));
-
-        // Update the user
         $userManager->updateUser($user, true);
 
+        $this->addReference('review-user', $user);
         
         $user = $userManager->createUser();
         $user->setUsername('test-student');
@@ -65,9 +64,8 @@ class UserFixtures  extends Fixture implements ORMFixtureInterface, ContainerAwa
         $user->setPlainPassword('pass-student');
         $user->setEnabled(true);
         $user->setRoles(array('ROLE_STUDENT'));
-
-        // Update the user
         $userManager->updateUser($user, true);
-
+        
+        $this->addReference('student-user', $user);
     }
 }

@@ -26,7 +26,13 @@ class DangerPointTest extends BaseTestCase
         $client = $this->createAdminAuthorizedClient();
         $crawler = $client->request('GET', self::GET_ALL_API_PATH);
         $this->assertEquals(200, $client->getResponse()->getStatusCode());
+        $data = json_decode($client->getResponse()->getContent(), true);
+        $this->assertEquals(20,count($data));
+        for ($i = 0; $i < 20; $i++) {
+            $this->assertEquals('point '.$i, $data[$i]['title']);
+            $this->assertEquals('point desc '.$i, $data[$i]['description']);
+            $this->assertEquals($i, $data[$i]['type_id']);
+        }
     }
-        
-    
+
 }
