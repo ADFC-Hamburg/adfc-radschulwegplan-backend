@@ -48,5 +48,6 @@ install:
 
 # Run script
 script:
-  - phpunit
+  - vendor/bin/phpunit --coverage-clover=coverage.xml
+  - bash <(curl -s https://codecov.io/bash)
 
