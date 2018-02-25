@@ -11,6 +11,7 @@ use FOS\RestBundle\View\View;
 use AppBundle\Entity\DangerPoint;
 use Nelmio\ApiDocBundle\Annotation\Model;
 use Swagger\Annotations as SWG;
+use Psr\Log\LoggerInterface;
 /* 
 
 TODO:
@@ -25,7 +26,13 @@ TODO:
 
 class DangerPointController extends FOSRestController
 {
+    private $logger;
 
+    public function __construct(LoggerInterface $logger)
+    {
+        $this->logger = $logger;
+    }
+    
     /**
      * Get all DangerPoints the user is allowed to see
      * 
@@ -126,6 +133,13 @@ class DangerPointController extends FOSRestController
      */
     public function updateAction($id, Request $request)
     {
+        $this->logger->info('UDPATE ACTION');
+        $this->logger->info($request);
+        $this->logger->info('ID: '. $id);
+        $this->logger->info('ContentType: '. $request->getContentType());
+        $this->logger->info('M: '. $request->getMethod());
+        $this->logger->info('RM: '. $request->getRealMethod());
+        $this->logger->info('CONTENT: '. $request->getContent());
         $em = $this->getDoctrine()->getManager();
         $entry = $this->getDoctrine()->getRepository('AppBundle:DangerPoint')->find($id);
         if (empty($entry)) {
@@ -134,8 +148,10 @@ class DangerPointController extends FOSRestController
         // else
         $lat = $request->get('lat');
         $lon = $request->get('lon');
-        $chanded=false;
+        $changed=false;
         if (!(empty($lat) || empty($lon))) {
+            $this->logger->info('lat: ', array($lat) );
+            $this->logger->info('lon: ', array($lon) );
             $entry->setPos(sprintf('SRID=4326;POINT(%f %f)',$lat, $lon));
             $changed=true;
         }
@@ -147,21 +163,22 @@ class DangerPointController extends FOSRestController
         }
         $description = $request->get('description');
         if (!(empty($description))) {
-            $entry->setTitle($descripion);
+            $entry->setDescription($description);
             $changed=true;
         }
         $typeId = $request->get('typeId');
         if (!(empty($typeId))) {
-            $entry->setTitle($typeId);
+            $entry->setTypeId($typeId);
             $changed=true;
         }
         if ($changed) {
             $user = $this->get('security.token_storage')->getToken()->getUser();
             $entry->setChangedNow($user);
+            $em->persist($entry);
+            $em->flush();
+
         }
-        $newObj= $em->merge($entry);
-        $em->flush();
-        return $newObj;
+        return $entry;
     }
 
     /**
