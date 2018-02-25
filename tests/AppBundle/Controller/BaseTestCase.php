@@ -6,7 +6,6 @@ use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 
 abstract class BaseTestCase extends WebTestCase
 {
-
     const USERNAME = "test-admin";
     const PASSWORD = "pass-admin";
         

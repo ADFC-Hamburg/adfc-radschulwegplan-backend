@@ -94,6 +94,4 @@ class SchoolClass extends BaseEntity
     {
         return $this->school;
     }
-
 }
-

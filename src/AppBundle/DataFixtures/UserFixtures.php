@@ -9,9 +9,7 @@ use Doctrine\Bundle\FixturesBundle\Fixture;
 use Symfony\Component\DependencyInjection\ContainerAwareInterface;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 
-
-
-class UserFixtures  extends Fixture implements ORMFixtureInterface, ContainerAwareInterface
+class UserFixtures extends Fixture implements ORMFixtureInterface, ContainerAwareInterface
 {
     /**
      * @var ContainerInterface

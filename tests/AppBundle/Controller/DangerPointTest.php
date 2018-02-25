@@ -10,7 +10,8 @@ class DangerPointTest extends BaseTestCase
     const DELETE_API_PREFIX="/api/v1/danger_point/";
     const UPDATE_API_PREFIX="/api/v1/danger_point/";
     
-    public function testLogin() {
+    public function testLogin()
+    {
         $client=$this->createAdminAuthorizedClient();
         $this->assertTrue($client->getResponse()->isRedirect());
         $crawler = $client->followRedirect();
@@ -18,20 +19,22 @@ class DangerPointTest extends BaseTestCase
         $this->assertContains('Welcome to Symfony', $crawler->filter('#container h1')->text());
     }
 
-    public function testGetAllNoAccessWithoutLogin() {
+    public function testGetAllNoAccessWithoutLogin()
+    {
         $client = static::createClient();
         $crawler = $client->request('GET', self::GET_ALL_API_PATH);
-        $this->assertEquals(302,$client->getResponse()->getStatusCode());
-        $this->assertContains('/login',$client->getResponse()->getTargetUrl());
+        $this->assertEquals(302, $client->getResponse()->getStatusCode());
+        $this->assertContains('/login', $client->getResponse()->getTargetUrl());
     }
 
 
-    public function testGetAll() {
+    public function testGetAll()
+    {
         $client = $this->createAdminAuthorizedClient();
         $crawler = $client->request('GET', self::GET_ALL_API_PATH);
         $this->assertEquals(200, $client->getResponse()->getStatusCode());
         $data = json_decode($client->getResponse()->getContent(), true);
-        $this->assertEquals(20,count($data));
+        $this->assertEquals(20, count($data));
         for ($i = 0; $i < 20; $i++) {
             $this->assertEquals('point '.$i, $data[$i]['title']);
             $this->assertEquals('point desc '.$i, $data[$i]['description']);
@@ -39,7 +42,8 @@ class DangerPointTest extends BaseTestCase
         }
     }
 
-    public function testInsert() {
+    public function testInsert()
+    {
         $client = $this->createAdminAuthorizedClient();
         // test typeId is required:
         $crawler = $client->request(
@@ -103,7 +107,8 @@ class DangerPointTest extends BaseTestCase
         $olddata= $data;
         $crawler = $client->request(
             'GET',
-            self::GET_ONE_API_PREFIX.$id);
+            self::GET_ONE_API_PREFIX.$id
+        );
         $this->assertEquals(200, $client->getResponse()->getStatusCode());
         $data = json_decode($client->getResponse()->getContent(), true);
         $this->assertEquals($olddata['id'], $data['id']);
@@ -114,7 +119,7 @@ class DangerPointTest extends BaseTestCase
         $this->assertEquals('test-admin', $data['created_by']['username']);
         $this->assertEquals('test-admin', $data['changed_by']['username']);
 
-        print_r( self::UPDATE_API_PREFIX.$id);
+        print_r(self::UPDATE_API_PREFIX.$id);
         // change item
         $crawler = $client->request(
             'PUT',
@@ -132,18 +137,20 @@ class DangerPointTest extends BaseTestCase
                 'title' => 'Bordstein zu tief',
                 'description' => 'Der Bordstein ist hier -50 cm',
                 'typeId' => 19
-            ))
+            )
+            )
         );
 //        if ($client->getResponse()->getStatusCode()!= 200) {
-            print_r($client->getInternalRequest());
-            print_r($client->getResponse());
+        print_r($client->getInternalRequest());
+        print_r($client->getResponse());
 //        }
         $this->assertEquals(200, $client->getResponse()->getStatusCode());
 
         // get changed item back
         $crawler = $client->request(
             'GET',
-            self::GET_ONE_API_PREFIX.$id);
+            self::GET_ONE_API_PREFIX.$id
+        );
         $this->assertEquals(200, $client->getResponse()->getStatusCode());
         $data = json_decode($client->getResponse()->getContent(), true);
         print_r($data);
@@ -159,23 +166,22 @@ class DangerPointTest extends BaseTestCase
         // delete
         $crawler = $client->request(
             'DELETE',
-            self::DELETE_API_PREFIX.$id);
+            self::DELETE_API_PREFIX.$id
+        );
         $this->assertEquals(200, $client->getResponse()->getStatusCode());
 
         // delete again, should fail
         $crawler = $client->request(
             'DELETE',
-            self::DELETE_API_PREFIX.$id);
+            self::DELETE_API_PREFIX.$id
+        );
         $this->assertEquals(404, $client->getResponse()->getStatusCode());
 
         // get deleted item, should fail
         $crawler = $client->request(
             'GET',
-            self::GET_ONE_API_PREFIX.$id);
+            self::GET_ONE_API_PREFIX.$id
+        );
         $this->assertEquals(404, $client->getResponse()->getStatusCode());
-        
-        
     }
-
-
 }
