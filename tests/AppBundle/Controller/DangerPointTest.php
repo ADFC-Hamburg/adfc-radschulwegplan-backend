@@ -90,7 +90,6 @@ class DangerPointTest extends BaseTestCase
                 'typeId' => 9
             )
         );
-        print_r($client->getInternalRequest());
         $this->assertEquals(200, $client->getResponse()->getStatusCode());
         $data = json_decode($client->getResponse()->getContent(), true);
         $this->assertArrayHasKey('id', $data);
@@ -119,7 +118,6 @@ class DangerPointTest extends BaseTestCase
         $this->assertEquals('test-admin', $data['created_by']['username']);
         $this->assertEquals('test-admin', $data['changed_by']['username']);
 
-        print_r(self::UPDATE_API_PREFIX.$id);
         // change item
         $crawler = $client->request(
             'PUT',
@@ -130,7 +128,7 @@ class DangerPointTest extends BaseTestCase
             'HTTP_X-Requested-With' => 'XMLHttpRequest'
 
             ),
-            http_build_query(
+            urlencode(http_build_query(
             array(
                 'lat' => 53.542,
                 'lon' => 10.142,
@@ -139,11 +137,12 @@ class DangerPointTest extends BaseTestCase
                 'typeId' => 19
             )
             )
+            )
         );
-//        if ($client->getResponse()->getStatusCode()!= 200) {
-        print_r($client->getInternalRequest());
-        print_r($client->getResponse());
-//        }
+        if ($client->getResponse()->getStatusCode()!= 200) {
+            print_r($client->getInternalRequest());
+            print_r($client->getResponse());
+        }
         $this->assertEquals(200, $client->getResponse()->getStatusCode());
 
         // get changed item back
@@ -153,7 +152,6 @@ class DangerPointTest extends BaseTestCase
         );
         $this->assertEquals(200, $client->getResponse()->getStatusCode());
         $data = json_decode($client->getResponse()->getContent(), true);
-        print_r($data);
         $this->assertEquals($olddata['id'], $data['id']);
         $this->assertEquals(19, $data['type_id']);
         $this->assertEquals('SRID=4326;POINT(53.542 10.142)', $data['pos']);

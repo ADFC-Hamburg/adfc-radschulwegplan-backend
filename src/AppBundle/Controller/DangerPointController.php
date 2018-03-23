@@ -134,13 +134,6 @@ class DangerPointController extends FOSRestController
      */
     public function updateAction($id, Request $request)
     {
-        $this->logger->info('UDPATE ACTION');
-        $this->logger->info($request);
-        $this->logger->info('ID: '. $id);
-        $this->logger->info('ContentType: '. $request->getContentType());
-        $this->logger->info('M: '. $request->getMethod());
-        $this->logger->info('RM: '. $request->getRealMethod());
-        $this->logger->info('CONTENT: '. $request->getContent());
         $em = $this->getDoctrine()->getManager();
         $entry = $this->getDoctrine()->getRepository('AppBundle:DangerPoint')->find($id);
         if (empty($entry)) {
