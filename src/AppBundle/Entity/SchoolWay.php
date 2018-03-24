@@ -125,4 +125,3 @@ class SchoolWay extends BaseEntity
         return $this->year;
     }
 }
-

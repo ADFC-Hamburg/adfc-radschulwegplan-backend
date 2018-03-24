@@ -14,7 +14,6 @@ class DangerPoint extends BaseEntity
 {
     public function __construct()
     {
-
     }
 
 
@@ -160,6 +159,4 @@ class DangerPoint extends BaseEntity
     {
         return $this->typeId;
     }
-
 }
-

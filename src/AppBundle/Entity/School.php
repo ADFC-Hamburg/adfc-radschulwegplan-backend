@@ -186,6 +186,4 @@ class School extends BaseEntity
     {
         return $this->webpage;
     }
-
 }
-
