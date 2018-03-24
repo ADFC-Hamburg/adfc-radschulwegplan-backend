@@ -24,7 +24,10 @@ TODO:
 
 */
 
-
+/**
+ * @Route("api/v1/danger_point")
+ *
+ */
 class DangerPointController extends FOSRestController
 {
     private $logger;
@@ -45,7 +48,7 @@ class DangerPointController extends FOSRestController
      *         @Model(type=DangerPoint::class)
      *     )
      * )
-     * @Rest\Get("/api/v1/danger_point")
+     * @Rest\Get("")
      */
     public function getAllAction()
     {
@@ -74,7 +77,7 @@ class DangerPointController extends FOSRestController
      *     type="integer",
      *     description="The id of the point"
      * )
-     * @Rest\Get("/api/v1/danger_point/{id}")
+     * @Rest\Get("/{id}")
      */
     public function idAction($id)
     {
@@ -130,7 +133,7 @@ class DangerPointController extends FOSRestController
      *     description="Returns one DangerPont with id",
      *     @Model(type=DangerPoint::class)
      * )
-     * @Rest\Put("/api/v1/danger_point/{id}")
+     * @Rest\Put("/{id}")
      */
     public function updateAction($id, Request $request)
     {
@@ -220,7 +223,7 @@ class DangerPointController extends FOSRestController
      *     description="Returns one DangerPoint with id",
      *     @Model(type=DangerPoint::class)
      * )
-     * @Rest\Post("/api/v1/danger_point/")
+     * @Rest\Post("")
      */
     public function postAction(Request $request)
     {
@@ -260,7 +263,7 @@ class DangerPointController extends FOSRestController
      *     description="Returns the DangerPoint with the given id",
      *     @Model(type=DangerPoint::class)
      * )
-     * @Rest\Delete("/api/v1/danger_point/{id}")
+     * @Rest\Delete("/{id}")
      */
     public function deleteAction($id)
     {
