@@ -122,21 +122,12 @@ class DangerPointTest extends BaseTestCase
         $crawler = $client->request(
             'PUT',
             self::UPDATE_API_PREFIX.$id,
-            array(),
-            array(),
-            array( 'CONTENT_TYPE' => 'application/x-www-form-urlencoded',
-            'HTTP_X-Requested-With' => 'XMLHttpRequest'
-
-            ),
-            urlencode(http_build_query(
             array(
                 'lat' => 53.542,
                 'lon' => 10.142,
                 'title' => 'Bordstein zu tief',
                 'description' => 'Der Bordstein ist hier -50 cm',
                 'typeId' => 19
-            )
-            )
             )
         );
         if ($client->getResponse()->getStatusCode()!= 200) {

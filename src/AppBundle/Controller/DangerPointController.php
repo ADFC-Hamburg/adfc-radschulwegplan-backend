@@ -134,6 +134,7 @@ class DangerPointController extends FOSRestController
      */
     public function updateAction($id, Request $request)
     {
+        $this->logger->info('UPDATE START');
         $em = $this->getDoctrine()->getManager();
         $entry = $this->getDoctrine()->getRepository('AppBundle:DangerPoint')->find($id);
         if (empty($entry)) {
@@ -162,6 +163,7 @@ class DangerPointController extends FOSRestController
         }
         $typeId = $request->get('typeId');
         if (!(empty($typeId))) {
+            $this->logger->info('typeId: ', array($typeId));
             $entry->setTypeId($typeId);
             $changed=true;
         }
@@ -171,6 +173,7 @@ class DangerPointController extends FOSRestController
             $em->persist($entry);
             $em->flush();
         }
+        $this->logger->info('UPDATE END');
         return $entry;
     }
 
