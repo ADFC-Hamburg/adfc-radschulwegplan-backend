@@ -18,6 +18,7 @@ php:
 cache:
   directories:
     - $HOME/.composer/cache/files
+    - .php_cs.cache
 
 # Define an environment variable
 env:
@@ -49,4 +50,6 @@ install:
 script:
   - vendor/bin/simple-phpunit --coverage-clover=coverage.xml
   - bash <(curl -s https://codecov.io/bash)
+  - ./vendor/bin/php-cs-fixer fix -v --dry-run --stop-on-violation 
+
 
