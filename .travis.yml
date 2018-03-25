@@ -49,7 +49,8 @@ install:
 # Run script
 script:
   - vendor/bin/simple-phpunit --coverage-clover=coverage.xml
+  - ./vendor/bin/php-cs-fixer fix -v --dry-run --stop-on-violation
   - bash <(curl -s https://codecov.io/bash)
-  - ./vendor/bin/php-cs-fixer fix -v --dry-run --stop-on-violation 
+
 
 
