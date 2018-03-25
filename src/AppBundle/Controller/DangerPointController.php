@@ -1,17 +1,35 @@
 <?php
+
+/*
+ * This file is part of the ADFC Radschulwegplan Backend package.
+ *
+ * <https://github.com/ADFC-Hamburg/adfc-radschulwegplan-backend>
+ *
+ * (c) 2018 by James Twellmeyer
+ * (c) 2018 by Sven Anders <github2018@sven.anders.hamburg>
+ *
+ * Released under the GPL 3.0
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ *
+ * Please also visit our (german) webpage about the project:
+ *
+ * <https://hamburg.adfc.de/verkehr/themen-a-z/kinder/schulwegplanung/>
+ *
+ */
+
 namespace AppBundle\Controller;
 
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
-use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use AppBundle\Entity\DangerPoint;
 use FOS\RestBundle\Controller\Annotations as Rest;
 use FOS\RestBundle\Controller\FOSRestController;
+use FOS\RestBundle\View\View;
+use Nelmio\ApiDocBundle\Annotation\Model;
+use Psr\Log\LoggerInterface;
+use Swagger\Annotations as SWG;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
-use FOS\RestBundle\View\View;
-use AppBundle\Entity\DangerPoint;
-use Nelmio\ApiDocBundle\Annotation\Model;
-use Swagger\Annotations as SWG;
-use Psr\Log\LoggerInterface;
 
 /*
 
@@ -24,7 +42,6 @@ TODO:
 
 */
 
-
 class DangerPointController extends FOSRestController
 {
     private $logger;
@@ -33,9 +50,9 @@ class DangerPointController extends FOSRestController
     {
         $this->logger = $logger;
     }
-    
+
     /**
-     * Get all DangerPoints the user is allowed to see
+     * Get all DangerPoints the user is allowed to see.
      *
      * @SWG\Response(
      *     response=200,
@@ -52,16 +69,17 @@ class DangerPointController extends FOSRestController
         if ($this->get('security.authorization_checker')->isGranted('ROLE_ADMIN')) {
             $restresult = $this->getDoctrine()->getRepository('AppBundle:DangerPoint')->findAll();
         } else {
-            $restresult = [];
+            $restresult = array();
         }
-        if ($restresult === null) {
-            return new View("there are no points exist", Response::HTTP_NOT_FOUND);
+        if (null === $restresult) {
+            return new View('there are no points exist', Response::HTTP_NOT_FOUND);
         }
+
         return $restresult;
     }
-    
+
     /**
-     * Get one DangerPoint
+     * Get one DangerPoint.
      *
      * @SWG\Response(
      *     response=200,
@@ -79,13 +97,15 @@ class DangerPointController extends FOSRestController
     public function idAction($id)
     {
         $singleresult = $this->getDoctrine()->getRepository('AppBundle:DangerPoint')->find($id);
-        if ($singleresult === null) {
-            return new View("point not found", Response::HTTP_NOT_FOUND);
+        if (null === $singleresult) {
+            return new View('point not found', Response::HTTP_NOT_FOUND);
         }
+
         return $singleresult;
     }
+
     /**
-     * Modify DangerPoint
+     * Modify DangerPoint.
      *
      * @SWG\Parameter(
      *     name="lat",
@@ -138,34 +158,34 @@ class DangerPointController extends FOSRestController
         $em = $this->getDoctrine()->getManager();
         $entry = $this->getDoctrine()->getRepository('AppBundle:DangerPoint')->find($id);
         if (empty($entry)) {
-            return new View("point not found", Response::HTTP_NOT_FOUND);
+            return new View('point not found', Response::HTTP_NOT_FOUND);
         }
         // else
         $lat = $request->get('lat');
         $lon = $request->get('lon');
-        $changed=false;
+        $changed = false;
         if (!(empty($lat) || empty($lon))) {
             $this->logger->info('lat: ', array($lat));
             $this->logger->info('lon: ', array($lon));
             $entry->setPos(sprintf('SRID=4326;POINT(%f %f)', $lat, $lon));
-            $changed=true;
+            $changed = true;
         }
-        
+
         $title = $request->get('title');
         if (!(empty($title))) {
             $entry->setTitle($title);
-            $changed=true;
+            $changed = true;
         }
         $description = $request->get('description');
         if (!(empty($description))) {
             $entry->setDescription($description);
-            $changed=true;
+            $changed = true;
         }
         $typeId = $request->get('typeId');
         if (!(empty($typeId))) {
             $this->logger->info('typeId: ', array($typeId));
             $entry->setTypeId($typeId);
-            $changed=true;
+            $changed = true;
         }
         if ($changed) {
             $user = $this->get('security.token_storage')->getToken()->getUser();
@@ -174,11 +194,12 @@ class DangerPointController extends FOSRestController
             $em->flush();
         }
         $this->logger->info('UPDATE END');
+
         return $entry;
     }
 
     /**
-     * Create new DangerPoint
+     * Create new DangerPoint.
      *
      * @SWG\Parameter(
      *     name="lat",
@@ -225,29 +246,30 @@ class DangerPointController extends FOSRestController
     public function postAction(Request $request)
     {
         $user = $this->get('security.token_storage')->getToken()->getUser();
-        $data = new DangerPoint;
+        $data = new DangerPoint();
         $lat = $request->get('lat');
         $lon = $request->get('lon');
         $title = $request->get('title');
         $description = $request->get('description');
         $typeId = $request->get('typeId');
         if (empty($lat) || empty($lon) || empty($typeId)) {
-            return new View("NULL VALUES ARE NOT ALLOWED".$lat, Response::HTTP_NOT_ACCEPTABLE);
+            return new View('NULL VALUES ARE NOT ALLOWED'.$lat, Response::HTTP_NOT_ACCEPTABLE);
         }
         $data->setTitle($title);
         $data->setDescription($description);
         $data->setTypeId($typeId);
         $data->setPos(sprintf('SRID=4326;POINT(%f %f)', $lat, $lon));
         $data->setCreatedNow($user);
-        
+
         $em = $this->getDoctrine()->getManager();
-        $newObj= $em->merge($data);
+        $newObj = $em->merge($data);
         $em->flush();
+
         return $newObj;
     }
 
     /**
-     * Delete one DangerPoint
+     * Delete one DangerPoint.
      *
      * @SWG\Parameter(
      *     name="id",
@@ -264,15 +286,15 @@ class DangerPointController extends FOSRestController
      */
     public function deleteAction($id)
     {
-        $data = new DangerPoint;
+        $data = new DangerPoint();
         $em = $this->getDoctrine()->getManager();
         $entry = $this->getDoctrine()->getRepository('AppBundle:DangerPoint')->find($id);
         if (empty($entry)) {
-            return new View("entry not found", Response::HTTP_NOT_FOUND);
-        } else {
-            $em->remove($entry);
-            $em->flush();
+            return new View('entry not found', Response::HTTP_NOT_FOUND);
         }
-        return new View("deleted successfully", Response::HTTP_OK);
+        $em->remove($entry);
+        $em->flush();
+
+        return new View('deleted successfully', Response::HTTP_OK);
     }
 }

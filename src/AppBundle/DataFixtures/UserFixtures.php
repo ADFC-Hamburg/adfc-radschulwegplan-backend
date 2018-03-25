@@ -1,11 +1,29 @@
 <?php
+
+/*
+ * This file is part of the ADFC Radschulwegplan Backend package.
+ *
+ * <https://github.com/ADFC-Hamburg/adfc-radschulwegplan-backend>
+ *
+ * (c) 2018 by James Twellmeyer
+ * (c) 2018 by Sven Anders <github2018@sven.anders.hamburg>
+ *
+ * Released under the GPL 3.0
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ *
+ * Please also visit our (german) webpage about the project:
+ *
+ * <https://hamburg.adfc.de/verkehr/themen-a-z/kinder/schulwegplanung/>
+ *
+ */
+
 namespace AppBundle\DataFixtures;
 
-use Doctrine\Common\Persistence\ObjectManager;
-
-use Doctrine\Bundle\FixturesBundle\ORMFixtureInterface;
 use Doctrine\Bundle\FixturesBundle\Fixture;
-
+use Doctrine\Bundle\FixturesBundle\ORMFixtureInterface;
+use Doctrine\Common\Persistence\ObjectManager;
 use Symfony\Component\DependencyInjection\ContainerAwareInterface;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 
@@ -20,7 +38,7 @@ class UserFixtures extends Fixture implements ORMFixtureInterface, ContainerAwar
     {
         $this->container = $container;
     }
-    
+
     public function load(ObjectManager $manager)
     {  // Get our userManager, you must implement `ContainerAwareInterface`
         $userManager = $this->container->get('fos_user.user_manager');
@@ -55,7 +73,7 @@ class UserFixtures extends Fixture implements ORMFixtureInterface, ContainerAwar
         $userManager->updateUser($user, true);
 
         $this->addReference('review-user', $user);
-        
+
         $user = $userManager->createUser();
         $user->setUsername('test-student');
         $user->setEmail('test-student@example.com');
@@ -63,7 +81,7 @@ class UserFixtures extends Fixture implements ORMFixtureInterface, ContainerAwar
         $user->setEnabled(true);
         $user->setRoles(array('ROLE_STUDENT'));
         $userManager->updateUser($user, true);
-        
+
         $this->addReference('student-user', $user);
     }
 }

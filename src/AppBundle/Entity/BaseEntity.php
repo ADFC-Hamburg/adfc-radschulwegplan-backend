@@ -1,21 +1,33 @@
 <?php
 
+/*
+ * This file is part of the ADFC Radschulwegplan Backend package.
+ *
+ * <https://github.com/ADFC-Hamburg/adfc-radschulwegplan-backend>
+ *
+ * (c) 2018 by James Twellmeyer
+ * (c) 2018 by Sven Anders <github2018@sven.anders.hamburg>
+ *
+ * Released under the GPL 3.0
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ *
+ * Please also visit our (german) webpage about the project:
+ *
+ * <https://hamburg.adfc.de/verkehr/themen-a-z/kinder/schulwegplanung/>
+ *
+ */
+
 namespace AppBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 
 /**
- * BaseEntity
- *
+ * BaseEntity.
  */
 abstract class BaseEntity
 {
-    public function __construct()
-    {
-        parent::__construct();
-        // your own logic
-    }
-
     /**
      * @var \DateTime
      *
@@ -46,9 +58,14 @@ abstract class BaseEntity
      */
     protected $changedBy;
 
+    public function __construct()
+    {
+        parent::__construct();
+        // your own logic
+    }
 
     /**
-     * Set created
+     * Set created.
      *
      * @param \DateTime $created
      *
@@ -62,17 +79,17 @@ abstract class BaseEntity
     }
 
     /**
-     * Get created
+     * Get created.
      *
      * @return \DateTime
      */
-    public function getCreated():DateTime
+    public function getCreated(): DateTime
     {
         return $this->created;
     }
 
     /**
-     * Set changed
+     * Set changed.
      *
      * @param \DateTime $changed
      *
@@ -86,7 +103,7 @@ abstract class BaseEntity
     }
 
     /**
-     * Get changed
+     * Get changed.
      *
      * @return \DateTime
      */
@@ -96,9 +113,9 @@ abstract class BaseEntity
     }
 
     /**
-     * Set createdBy
+     * Set createdBy.
      *
-     * @param integer $createdBy
+     * @param int $createdBy
      *
      * @return BaseEntity
      */
@@ -110,19 +127,19 @@ abstract class BaseEntity
     }
 
     /**
-     * Get createdBy
+     * Get createdBy.
      *
      * @return User
      */
-    public function getCreatedBy():User
+    public function getCreatedBy(): User
     {
         return $this->createdBy;
     }
 
     /**
-     * Set changedBy
+     * Set changedBy.
      *
-     * @param integer $changedBy
+     * @param int $changedBy
      *
      * @return BaseEntity
      */
@@ -132,26 +149,29 @@ abstract class BaseEntity
 
         return $this;
     }
+
     public function setChangedNow(User $user)
     {
         $this->setChangedBy($user);
-        $now=new \DateTime("now");
+        $now = new \DateTime('now');
         $this->setChanged($now);
     }
+
     public function setCreatedNow(User $user)
     {
         $this->setChangedBy($user);
         $this->setCreatedBy($user);
-        $now=new \DateTime("now");
+        $now = new \DateTime('now');
         $this->setChanged($now);
         $this->setCreated($now);
     }
+
     /**
-     * Get changedBy
+     * Get changedBy.
      *
      * @return User
      */
-    public function getChangedBy():User
+    public function getChangedBy(): User
     {
         return $this->changedBy;
     }

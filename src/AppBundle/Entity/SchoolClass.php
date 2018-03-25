@@ -1,11 +1,30 @@
 <?php
 
+/*
+ * This file is part of the ADFC Radschulwegplan Backend package.
+ *
+ * <https://github.com/ADFC-Hamburg/adfc-radschulwegplan-backend>
+ *
+ * (c) 2018 by James Twellmeyer
+ * (c) 2018 by Sven Anders <github2018@sven.anders.hamburg>
+ *
+ * Released under the GPL 3.0
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ *
+ * Please also visit our (german) webpage about the project:
+ *
+ * <https://hamburg.adfc.de/verkehr/themen-a-z/kinder/schulwegplanung/>
+ *
+ */
+
 namespace AppBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 
 /**
- * SchoolClass
+ * SchoolClass.
  *
  * @ORM\Table(name="school_class",uniqueConstraints={@ORM\UniqueConstraint(name="school_class_idx", columns={"name", "school"})})
  * @ORM\Entity(repositoryClass="AppBundle\Repository\SchoolClassRepository")
@@ -36,9 +55,8 @@ class SchoolClass extends BaseEntity
      */
     private $school;
 
- 
     /**
-     * Get id
+     * Get id.
      *
      * @return int
      */
@@ -48,7 +66,7 @@ class SchoolClass extends BaseEntity
     }
 
     /**
-     * Set name
+     * Set name.
      *
      * @param string $name
      *
@@ -62,7 +80,7 @@ class SchoolClass extends BaseEntity
     }
 
     /**
-     * Get name
+     * Get name.
      *
      * @return string
      */
@@ -72,9 +90,9 @@ class SchoolClass extends BaseEntity
     }
 
     /**
-     * Set school
+     * Set school.
      *
-     * @param integer $school
+     * @param int $school
      *
      * @return SchoolClass
      */
@@ -86,7 +104,7 @@ class SchoolClass extends BaseEntity
     }
 
     /**
-     * Get school
+     * Get school.
      *
      * @return int
      */

@@ -1,11 +1,30 @@
 <?php
 
+/*
+ * This file is part of the ADFC Radschulwegplan Backend package.
+ *
+ * <https://github.com/ADFC-Hamburg/adfc-radschulwegplan-backend>
+ *
+ * (c) 2018 by James Twellmeyer
+ * (c) 2018 by Sven Anders <github2018@sven.anders.hamburg>
+ *
+ * Released under the GPL 3.0
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ *
+ * Please also visit our (german) webpage about the project:
+ *
+ * <https://hamburg.adfc.de/verkehr/themen-a-z/kinder/schulwegplanung/>
+ *
+ */
+
 namespace AppBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 
 /**
- * SchoolWay
+ * SchoolWay.
  *
  * @ORM\Table(name="school_way")
  * @ORM\Entity(repositoryClass="AppBundle\Repository\SchoolWayRepository")
@@ -42,9 +61,8 @@ class SchoolWay extends BaseEntity
      */
     private $year;
 
-
     /**
-     * Get id
+     * Get id.
      *
      * @return int
      */
@@ -54,7 +72,7 @@ class SchoolWay extends BaseEntity
     }
 
     /**
-     * Set way
+     * Set way.
      *
      * @param geometry $way
      *
@@ -68,7 +86,7 @@ class SchoolWay extends BaseEntity
     }
 
     /**
-     * Get way
+     * Get way.
      *
      * @return geometry
      */
@@ -78,9 +96,9 @@ class SchoolWay extends BaseEntity
     }
 
     /**
-     * Set wayType
+     * Set wayType.
      *
-     * @param integer $wayType
+     * @param int $wayType
      *
      * @return SchoolWay
      */
@@ -92,7 +110,7 @@ class SchoolWay extends BaseEntity
     }
 
     /**
-     * Get wayType
+     * Get wayType.
      *
      * @return int
      */
@@ -102,9 +120,9 @@ class SchoolWay extends BaseEntity
     }
 
     /**
-     * Set wayType
+     * Set wayType.
      *
-     * @param integer $wayType
+     * @param int $wayType
      *
      * @return SchoolWay
      */
@@ -116,7 +134,7 @@ class SchoolWay extends BaseEntity
     }
 
     /**
-     * Get wayType
+     * Get wayType.
      *
      * @return int
      */
