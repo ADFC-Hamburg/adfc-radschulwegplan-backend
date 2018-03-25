@@ -43,6 +43,7 @@ return PhpCsFixer\Config::create()
             ->exclude('app')
             ->exclude('bin')
             ->exclude('var/cache')
+            ->exclude('web/config.php')
             ->exclude('vendor')		
     )
 ;
