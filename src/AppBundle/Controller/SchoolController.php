@@ -70,7 +70,6 @@ class SchoolController extends FosRestController
         return $singleresult;
     }
 
-    
     /**
      * Modify school
      *
@@ -140,7 +139,8 @@ class SchoolController extends FosRestController
 
         return $newObj;
     }
-        /**
+
+    /**
      * Create new School
      *
      * @SWG\Parameter(
@@ -239,6 +239,7 @@ class SchoolController extends FosRestController
         $this->logger->info('UPDATE END');
         return $entry;
     }
+
     /**
      * Delete one School
      *

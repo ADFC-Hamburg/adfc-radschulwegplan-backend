@@ -52,11 +52,11 @@ class SchoolControllerTest extends BaseTestCase
             )
         );
         $this->assertEquals(200, $client->getResponse()->getStatusCode());
-$data = json_decode($client->getResponse()->getContent(), true);
+        $data = json_decode($client->getResponse()->getContent(), true);
         $this->assertArrayHasKey('id', $data);
         $id=$data['id'];
 
-                // FIXME why do I need to load the client again, otherwise route below will fail
+        // FIXME why do I need to load the client again, otherwise route below will fail
         $client = $this->createAdminAuthorizedClient();
 
         $crawler = $client->request(
@@ -108,7 +108,7 @@ $data = json_decode($client->getResponse()->getContent(), true);
             'GET',
             self::API_PATH."/".$id
         );
-      $this->assertEquals(200, $client->getResponse()->getStatusCode());
+        $this->assertEquals(200, $client->getResponse()->getStatusCode());
         $data = json_decode($client->getResponse()->getContent(), true);
         $this->assertEquals($data['id'], $id);
         $this->assertEquals("Friedrich Ebert Gymnasium",$data['name']);
@@ -152,8 +152,6 @@ $data = json_decode($client->getResponse()->getContent(), true);
             self::API_PATH."/".$id
         );
         $this->assertEquals(404, $client->getResponse()->getStatusCode());
-
-        
     }
 
 }
