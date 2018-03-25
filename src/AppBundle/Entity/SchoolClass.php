@@ -5,7 +5,7 @@
  *
  * <https://github.com/ADFC-Hamburg/adfc-radschulwegplan-backend>
  *
- * (c) 2018 by James Twellmeyer
+ * (c) 2018 by James Twellmeyer <jet02@twellmeyer.eu>
  * (c) 2018 by Sven Anders <github2018@sven.anders.hamburg>
  *
  * Released under the GPL 3.0
