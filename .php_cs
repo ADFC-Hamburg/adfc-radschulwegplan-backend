@@ -23,6 +23,7 @@ return PhpCsFixer\Config::create()
         'phpdoc_no_empty_return' => false,
     ])
     ->setUsingCache(true)
+    ->setCacheFile(__DIR__.'/.php_cs.cache/file')
     ->setRiskyAllowed(true)
     ->setFinder(
         PhpCsFixer\Finder::create()
