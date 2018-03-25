@@ -27,4 +27,83 @@ class User extends BaseUser
         parent::__construct();
         // your own logic
     }
+
+    /**
+     * @var School
+     *
+     * School
+     *
+     * @ORM\ManyToOne(targetEntity="School")
+     * @ORM\JoinColumn(name="school_id", referencedColumnName="id", nullable=true)
+     */
+    private $school;
+
+    /**
+     * @var SchoolClass
+     *
+     * SchoolClass
+     *
+     * @ORM\ManyToOne(targetEntity="SchoolClass")
+     * @ORM\JoinColumn(name="school_class_id", referencedColumnName="id", nullable=true)
+     */
+    private $schoolClass;
+
+    /**
+     * getSchool
+     *
+     * @return School
+     */
+    public function getSchool()
+    {
+        return $this->school;
+    }
+
+    /**
+     * hasSchool
+     *
+     * @return boolean
+     */
+    public function hasSchool()
+    {
+        return is_null($this->school);
+    }
+
+    /**
+     * getSchoolClass
+     *
+     * @return SchoolClass
+     */
+    public function getSchoolClass()
+    {
+        return $this->schoolClass;
+    }
+
+    /**
+     * setSchool
+     *
+     * @return User
+     */
+    public function setSchool($school)
+    {
+        if ((!is_null($this->schoolClass)) && ($this->schoolClass->getId() != $this->school->getId())) {
+            throw new SchoolSchoolClassMismatchException($this->school->getId(), $this->schoolClass->getId());
+        }
+        $this->school=$school;
+       
+        return $this;
+    }
+
+    
+    /**
+     * setSchoolClass (sets school too)
+     *
+     * @return User
+     */
+    public function setSchoolClass($schoolClass)
+    {
+        $this->schoolClass=$schoolClass;
+        $this->school=$scholClass->getSchool();
+        return $this;
+    }
+
 }

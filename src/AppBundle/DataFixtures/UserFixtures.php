@@ -36,34 +36,5 @@ class UserFixtures extends Fixture implements ORMFixtureInterface, ContainerAwar
 
         $this->addReference('adfc-admin-user', $user);
 
-        $user = $userManager->createUser();
-        $user->setUsername('test-school-admin');
-        $user->setEmail('test-admin-school@example.com');
-        $user->setPlainPassword('pass-admin-school');
-        $user->setEnabled(true);
-        $user->setRoles(array('ROLE_SCHOOL_ADMIN'));
-        $userManager->updateUser($user, true);
-
-        $this->addReference('school-admin-user', $user);
-
-        $user = $userManager->createUser();
-        $user->setUsername('test-school-review');
-        $user->setEmail('test-review@example.com');
-        $user->setPlainPassword('pass-school-review');
-        $user->setEnabled(true);
-        $user->setRoles(array('ROLE_SCHOOL_REVIEW'));
-        $userManager->updateUser($user, true);
-
-        $this->addReference('review-user', $user);
-        
-        $user = $userManager->createUser();
-        $user->setUsername('test-student');
-        $user->setEmail('test-student@example.com');
-        $user->setPlainPassword('pass-student');
-        $user->setEnabled(true);
-        $user->setRoles(array('ROLE_STUDENT'));
-        $userManager->updateUser($user, true);
-        
-        $this->addReference('student-user', $user);
     }
 }

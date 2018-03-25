@@ -12,6 +12,10 @@ use Doctrine\ORM\Mapping as ORM;
  */
 class School extends BaseEntity
 {
+    public function __construct()
+    {
+    }
+    
     /**
      * @var int
      *
