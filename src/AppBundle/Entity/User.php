@@ -21,6 +21,7 @@
 
 namespace AppBundle\Entity;
 
+use AppBundle\Exception\SchoolSchoolClassMismatchException;
 use Doctrine\ORM\Mapping as ORM;
 use FOS\UserBundle\Model\User as BaseUser;
 
@@ -104,8 +105,8 @@ class User extends BaseUser
      */
     public function setSchool($school)
     {
-        if ((!is_null($this->schoolClass)) && ($this->schoolClass->getId() != $this->school->getId())) {
-            throw new SchoolSchoolClassMismatchException($this->school->getId(), $this->schoolClass->getId());
+        if ((!is_null($this->schoolClass)) && ($this->schoolClass->getSchool()->getId() != $school->getId())) {
+            throw new SchoolSchoolClassMismatchException($school->getId(), $this->schoolClass->getSchool()->getId());
         }
         $this->school = $school;
 
@@ -120,7 +121,7 @@ class User extends BaseUser
     public function setSchoolClass($schoolClass)
     {
         $this->schoolClass = $schoolClass;
-        $this->school = $scholClass->getSchool();
+        $this->school = $schoolClass->getSchool();
 
         return $this;
     }
