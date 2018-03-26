@@ -34,7 +34,7 @@ use FOS\UserBundle\Model\User as BaseUser;
 class User extends BaseUser
 {
     /**
-     * @var int
+     * @var int id
      *
      * @ORM\Column(name="id", type="integer")
      * @ORM\Id
@@ -50,7 +50,7 @@ class User extends BaseUser
      * @ORM\ManyToOne(targetEntity="School")
      * @ORM\JoinColumn(name="school_id", referencedColumnName="id", nullable=true)
      */
-    private $school;
+    private $school = null;
 
     /**
      * @var SchoolClass
@@ -60,7 +60,7 @@ class User extends BaseUser
      * @ORM\ManyToOne(targetEntity="SchoolClass")
      * @ORM\JoinColumn(name="school_class_id", referencedColumnName="id", nullable=true)
      */
-    private $schoolClass;
+    private $schoolClass = null;
 
     public function __construct()
     {
@@ -71,7 +71,7 @@ class User extends BaseUser
     /**
      * getSchool.
      *
-     * @return School
+     * @return School a school associated to the user or NULL, if there is no school associated
      */
     public function getSchool()
     {
@@ -81,11 +81,11 @@ class User extends BaseUser
     /**
      * hasSchool.
      *
-     * @return bool
+     * @return bool is a school associated?
      */
     public function hasSchool()
     {
-        return is_null($this->school);
+        return !is_null($this->school);
     }
 
     /**

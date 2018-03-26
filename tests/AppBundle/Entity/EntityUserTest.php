@@ -50,8 +50,12 @@ class EntityUserTest extends KernelTestCase
         $user = new User();
         $s = new School();
         $s->setName('hiho');
+        $this->assertSame($user->getSchool(), null);
+        $this->assertSame($user->getSchoolClass(), null);
+        $this->assertFalse($user->hasSchool());
         $user->setSchool($s);
         $this->assertSame($s, $user->getSchool());
+        $this->assertTrue($user->hasSchool());
     }
 
     public function testSchoolClassGeterAndSeter()
@@ -62,9 +66,11 @@ class EntityUserTest extends KernelTestCase
         $sc = new SchoolClass();
         $sc->setName('hiho');
         $sc->setSchool($s);
+        $this->assertFalse($user->hasSchool());
         $user->setSchoolClass($sc);
         $this->assertSame($s, $user->getSchool());
         $this->assertSame($sc, $user->getSchoolClass());
+        $this->assertTrue($user->hasSchool());
     }
 
     public function testSchoolSeterFailure()
