@@ -25,20 +25,8 @@ class SchoolControllerTest extends BaseTestCase
 {
     const API_PATH = 'api/v1/school';
 
-    public function testNewSchool()
+    public function testStudentNotAllowedToCreateASchool()
     {
-        $client = $this->createAdminAuthorizedClient();
-
-        // old list
-        $crawler = $client->request(
-            'GET',
-            self::API_PATH,
-            array()
-        );
-        $this->assertSame(200, $client->getResponse()->getStatusCode());
-        $data = json_decode($client->getResponse()->getContent(), true);
-        $oldCount = count($data);
-
         $client = $this->createStudentAuthorizedClient();
         // create item
         $crawler = $client->request(
@@ -53,7 +41,26 @@ class SchoolControllerTest extends BaseTestCase
             )
         );
         $this->assertSame(403, $client->getResponse()->getStatusCode());
+    }
 
+    public function testOldCountSchools()
+    {
+        $client = $this->createAdminAuthorizedClient();
+
+        // old list
+        $crawler = $client->request(
+            'GET',
+            self::API_PATH,
+            array()
+        );
+        $this->assertSame(200, $client->getResponse()->getStatusCode());
+        $data = json_decode($client->getResponse()->getContent(), true);
+
+        return count($data);
+    }
+
+    public function testCreateSchool()
+    {
         $client = $this->createAdminAuthorizedClient();
         // create item
         $crawler = $client->request(
@@ -67,12 +74,21 @@ class SchoolControllerTest extends BaseTestCase
                 'webpage' => 'https://www.ebert-gymnasium.de/',
             )
         );
+        if (200 != $client->getResponse()->getStatusCode()) {
+            print_r($client->getResonse());
+        }
         $this->assertSame(200, $client->getResponse()->getStatusCode());
         $data = json_decode($client->getResponse()->getContent(), true);
         $this->assertArrayHasKey('id', $data);
-        $id = $data['id'];
 
-        // FIXME why do I need to load the client again, otherwise route below will fail
+        return $data['id'];
+    }
+
+    /**
+     * @depends testCreateSchool
+     */
+    public function testGetSchool($id)
+    {
         $client = $this->createAdminAuthorizedClient();
 
         $crawler = $client->request(
@@ -87,7 +103,14 @@ class SchoolControllerTest extends BaseTestCase
         $this->assertSame('21073', $data['postalcode']);
         $this->assertSame('Hamburg-Harburg', $data['place']);
         $this->assertSame('https://www.ebert-gymnasium.de/', $data['webpage']);
+    }
 
+    /**
+     * @depends testCreateSchool
+     * @depends testGetSchool
+     */
+    public function testModifySchoolFailByStudent($id)
+    {
         $client = $this->createStudentAuthorizedClient();
 
         $crawler = $client->request(
@@ -103,6 +126,14 @@ class SchoolControllerTest extends BaseTestCase
         );
 
         $this->assertSame(403, $client->getResponse()->getStatusCode());
+    }
+
+    /**
+     * @depends testCreateSchool
+     * @depends testModifySchoolFailByStudent
+     */
+    public function testModifySchoolOkay($id)
+    {
         $client = $this->createAdminAuthorizedClient();
 
         $crawler = $client->request(
@@ -117,7 +148,14 @@ class SchoolControllerTest extends BaseTestCase
             )
         );
         $this->assertSame(200, $client->getResponse()->getStatusCode());
-        // FIXME why do I need to load the client again, otherwise route below will fail
+    }
+
+    /**
+     * @depends testCreateSchool
+     * @depends testModifySchoolOkay
+     */
+    public function testModifySchoolValues($id)
+    {
         $client = $this->createAdminAuthorizedClient();
 
         $crawler = $client->request(
@@ -132,7 +170,15 @@ class SchoolControllerTest extends BaseTestCase
         $this->assertSame('21075', $data['postalcode']);
         $this->assertSame('Hamburg', $data['place']);
         $this->assertSame('http://www.ebert-gymnasium.de/', $data['webpage']);
+    }
 
+    /**
+     * @depends testCreateSchool
+     * @depends testOldCountSchools
+     * @depends testModifySchoolOkay
+     */
+    public function testListCountIsOneMore($id, $oldCount)
+    {
         // FIXME why do I need to load the client again, otherwise route below will fail
         $client = $this->createAdminAuthorizedClient();
         $crawler = $client->request(
@@ -145,14 +191,30 @@ class SchoolControllerTest extends BaseTestCase
         $newCount = count($data);
 
         $this->assertSame($oldCount + 1, $newCount);
+    }
 
+    /**
+     * @depends testCreateSchool
+     * @depends testListCountIsOneMore
+     */
+    public function testStudentNotAllowedToDelete($id)
+    {
         $client = $this->createStudentAuthorizedClient();
         $crawler = $client->request(
             'DELETE',
             self::API_PATH.'/'.$id
         );
         $this->assertSame(403, $client->getResponse()->getStatusCode());
+    }
 
+    /**
+     * @depends testCreateSchool
+     * @depends testListCountIsOneMore
+     * @depends testModifySchoolValues
+     * @depends testStudentNotAllowedToDelete
+     */
+    public function testDeleteOkay($id)
+    {
         $client = $this->createAdminAuthorizedClient();
         $crawler = $client->request(
             'DELETE',
@@ -160,8 +222,15 @@ class SchoolControllerTest extends BaseTestCase
         );
         $this->assertSame(200, $client->getResponse()->getStatusCode());
 
+        return $id;
+    }
+
+    /**
+     * @depends testDeleteOkay
+     */
+    public function testDeleteItemNotThere($id)
+    {
         // Delete again -> 404
-        // FIXME why do I need to load the client again, otherwise route below will fail
         $client = $this->createAdminAuthorizedClient();
         $crawler = $client->request(
             'DELETE',
