@@ -1,16 +1,32 @@
 <?php
 
+/*
+ * This file is part of the ADFC Radschulwegplan Backend package.
+ *
+ * <https://github.com/ADFC-Hamburg/adfc-radschulwegplan-backend>
+ *
+ * (c) 2018 by James Twellmeyer <jet02@twellmeyer.eu>
+ * (c) 2018 by Sven Anders <github2018@sven.anders.hamburg>
+ *
+ * Released under the GPL 3.0
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ *
+ * Please also visit our (german) webpage about the project:
+ *
+ * <https://hamburg.adfc.de/verkehr/themen-a-z/kinder/schulwegplanung/>
+ *
+ */
+
 namespace Tests\AppBundle\Controller;
-
-
 
 class SchoolControllerTest extends BaseTestCase
 {
-    const API_PATH = "api/v1/school";
-    
+    const API_PATH = 'api/v1/school';
+
     public function testNewSchool()
     {
-        
         $client = $this->createAdminAuthorizedClient();
 
         // old list
@@ -19,9 +35,9 @@ class SchoolControllerTest extends BaseTestCase
             self::API_PATH,
             array()
         );
-        $this->assertEquals(200, $client->getResponse()->getStatusCode());
+        $this->assertSame(200, $client->getResponse()->getStatusCode());
         $data = json_decode($client->getResponse()->getContent(), true);
-        $oldCount=count($data);
+        $oldCount = count($data);
 
         $client = $this->createStudentAuthorizedClient();
         // create item
@@ -33,10 +49,10 @@ class SchoolControllerTest extends BaseTestCase
                 'street' => 'Alter Postweg 32',
                 'postalcode' => '21073',
                 'place' => 'Hamburg-Harburg',
-                'webpage' => 'https://www.ebert-gymnasium.de/'
+                'webpage' => 'https://www.ebert-gymnasium.de/',
             )
         );
-        $this->assertEquals(403, $client->getResponse()->getStatusCode());
+        $this->assertSame(403, $client->getResponse()->getStatusCode());
 
         $client = $this->createAdminAuthorizedClient();
         // create item
@@ -48,75 +64,75 @@ class SchoolControllerTest extends BaseTestCase
                 'street' => 'Alter Postweg 32',
                 'postalcode' => '21073',
                 'place' => 'Hamburg-Harburg',
-                'webpage' => 'https://www.ebert-gymnasium.de/'
+                'webpage' => 'https://www.ebert-gymnasium.de/',
             )
         );
-        $this->assertEquals(200, $client->getResponse()->getStatusCode());
+        $this->assertSame(200, $client->getResponse()->getStatusCode());
         $data = json_decode($client->getResponse()->getContent(), true);
         $this->assertArrayHasKey('id', $data);
-        $id=$data['id'];
+        $id = $data['id'];
 
         // FIXME why do I need to load the client again, otherwise route below will fail
         $client = $this->createAdminAuthorizedClient();
 
         $crawler = $client->request(
             'GET',
-            self::API_PATH."/".$id
+            self::API_PATH.'/'.$id
         );
-        $this->assertEquals(200, $client->getResponse()->getStatusCode());
+        $this->assertSame(200, $client->getResponse()->getStatusCode());
         $data = json_decode($client->getResponse()->getContent(), true);
-        $this->assertEquals($data['id'], $id);
-        $this->assertEquals("Ebert Gymnasium",$data['name']);
-        $this->assertEquals("Alter Postweg 32", $data['street']);
-        $this->assertEquals("21073", $data['postalcode']);
-        $this->assertEquals("Hamburg-Harburg", $data['place']);
-        $this->assertEquals("https://www.ebert-gymnasium.de/", $data['webpage']);
+        $this->assertSame($data['id'], $id);
+        $this->assertSame('Ebert Gymnasium', $data['name']);
+        $this->assertSame('Alter Postweg 32', $data['street']);
+        $this->assertSame('21073', $data['postalcode']);
+        $this->assertSame('Hamburg-Harburg', $data['place']);
+        $this->assertSame('https://www.ebert-gymnasium.de/', $data['webpage']);
 
         $client = $this->createStudentAuthorizedClient();
 
         $crawler = $client->request(
             'PUT',
-            self::API_PATH."/".$id,
+            self::API_PATH.'/'.$id,
             array(
                 'name' => 'Friedrich Ebert Gymnasium',
                 'street' => 'Alter Postweg 36',
                 'postalcode' => '21075',
                 'place' => 'Hamburg',
-                'webpage' => 'http://www.ebert-gymnasium.de/'
+                'webpage' => 'http://www.ebert-gymnasium.de/',
             )
         );
 
-        $this->assertEquals(403, $client->getResponse()->getStatusCode());
+        $this->assertSame(403, $client->getResponse()->getStatusCode());
         $client = $this->createAdminAuthorizedClient();
 
         $crawler = $client->request(
             'PUT',
-            self::API_PATH."/".$id,
+            self::API_PATH.'/'.$id,
             array(
                 'name' => 'Friedrich Ebert Gymnasium',
                 'street' => 'Alter Postweg 36',
                 'postalcode' => '21075',
                 'place' => 'Hamburg',
-                'webpage' => 'http://www.ebert-gymnasium.de/'
+                'webpage' => 'http://www.ebert-gymnasium.de/',
             )
         );
-        $this->assertEquals(200, $client->getResponse()->getStatusCode());
+        $this->assertSame(200, $client->getResponse()->getStatusCode());
         // FIXME why do I need to load the client again, otherwise route below will fail
         $client = $this->createAdminAuthorizedClient();
 
         $crawler = $client->request(
             'GET',
-            self::API_PATH."/".$id
+            self::API_PATH.'/'.$id
         );
-        $this->assertEquals(200, $client->getResponse()->getStatusCode());
+        $this->assertSame(200, $client->getResponse()->getStatusCode());
         $data = json_decode($client->getResponse()->getContent(), true);
-        $this->assertEquals($data['id'], $id);
-        $this->assertEquals("Friedrich Ebert Gymnasium",$data['name']);
-        $this->assertEquals("Alter Postweg 36", $data['street']);
-        $this->assertEquals("21075", $data['postalcode']);
-        $this->assertEquals("Hamburg", $data['place']);
-        $this->assertEquals("http://www.ebert-gymnasium.de/", $data['webpage']);
-        
+        $this->assertSame($data['id'], $id);
+        $this->assertSame('Friedrich Ebert Gymnasium', $data['name']);
+        $this->assertSame('Alter Postweg 36', $data['street']);
+        $this->assertSame('21075', $data['postalcode']);
+        $this->assertSame('Hamburg', $data['place']);
+        $this->assertSame('http://www.ebert-gymnasium.de/', $data['webpage']);
+
         // FIXME why do I need to load the client again, otherwise route below will fail
         $client = $this->createAdminAuthorizedClient();
         $crawler = $client->request(
@@ -124,34 +140,33 @@ class SchoolControllerTest extends BaseTestCase
             self::API_PATH,
             array()
         );
-        $this->assertEquals(200, $client->getResponse()->getStatusCode());
+        $this->assertSame(200, $client->getResponse()->getStatusCode());
         $data = json_decode($client->getResponse()->getContent(), true);
-        $newCount=count($data);
+        $newCount = count($data);
 
-        $this->assertEquals($oldCount+1, $newCount);
+        $this->assertSame($oldCount + 1, $newCount);
 
         $client = $this->createStudentAuthorizedClient();
         $crawler = $client->request(
             'DELETE',
-            self::API_PATH."/".$id
+            self::API_PATH.'/'.$id
         );
-        $this->assertEquals(403, $client->getResponse()->getStatusCode());
-        
+        $this->assertSame(403, $client->getResponse()->getStatusCode());
+
         $client = $this->createAdminAuthorizedClient();
         $crawler = $client->request(
             'DELETE',
-            self::API_PATH."/".$id
+            self::API_PATH.'/'.$id
         );
-        $this->assertEquals(200, $client->getResponse()->getStatusCode());
+        $this->assertSame(200, $client->getResponse()->getStatusCode());
 
         // Delete again -> 404
         // FIXME why do I need to load the client again, otherwise route below will fail
         $client = $this->createAdminAuthorizedClient();
         $crawler = $client->request(
             'DELETE',
-            self::API_PATH."/".$id
+            self::API_PATH.'/'.$id
         );
-        $this->assertEquals(404, $client->getResponse()->getStatusCode());
+        $this->assertSame(404, $client->getResponse()->getStatusCode());
     }
-
 }
