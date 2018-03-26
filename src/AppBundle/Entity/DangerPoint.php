@@ -1,22 +1,36 @@
 <?php
 
+/*
+ * This file is part of the ADFC Radschulwegplan Backend package.
+ *
+ * <https://github.com/ADFC-Hamburg/adfc-radschulwegplan-backend>
+ *
+ * (c) 2018 by James Twellmeyer <jet02@twellmeyer.eu>
+ * (c) 2018 by Sven Anders <github2018@sven.anders.hamburg>
+ *
+ * Released under the GPL 3.0
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ *
+ * Please also visit our (german) webpage about the project:
+ *
+ * <https://hamburg.adfc.de/verkehr/themen-a-z/kinder/schulwegplanung/>
+ *
+ */
+
 namespace AppBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 
 /**
- * DangerPoint
+ * DangerPoint.
  *
  * @ORM\Table(name="danger_point")
  * @ORM\Entity(repositoryClass="AppBundle\Repository\DangerPointRepository")
  */
 class DangerPoint extends BaseEntity
 {
-    public function __construct()
-    {
-    }
-
-
     /**
      * @var int
      *
@@ -54,8 +68,12 @@ class DangerPoint extends BaseEntity
      */
     private $typeId;
 
+    public function __construct()
+    {
+    }
+
     /**
-     * Get id
+     * Get id.
      *
      * @return int
      */
@@ -65,7 +83,7 @@ class DangerPoint extends BaseEntity
     }
 
     /**
-     * Set pos
+     * Set pos.
      *
      * @param geometry $pos
      *
@@ -79,7 +97,7 @@ class DangerPoint extends BaseEntity
     }
 
     /**
-     * Get pos
+     * Get pos.
      *
      * @return geometry
      */
@@ -89,7 +107,7 @@ class DangerPoint extends BaseEntity
     }
 
     /**
-     * Set title
+     * Set title.
      *
      * @param string $title
      *
@@ -103,7 +121,7 @@ class DangerPoint extends BaseEntity
     }
 
     /**
-     * Get title
+     * Get title.
      *
      * @return string
      */
@@ -113,7 +131,7 @@ class DangerPoint extends BaseEntity
     }
 
     /**
-     * Set description
+     * Set description.
      *
      * @param string $description
      *
@@ -127,7 +145,7 @@ class DangerPoint extends BaseEntity
     }
 
     /**
-     * Get description
+     * Get description.
      *
      * @return string
      */
@@ -137,9 +155,9 @@ class DangerPoint extends BaseEntity
     }
 
     /**
-     * Set typeId
+     * Set typeId.
      *
-     * @param integer $typeId
+     * @param int $typeId
      *
      * @return DangerPoint
      */
@@ -151,7 +169,7 @@ class DangerPoint extends BaseEntity
     }
 
     /**
-     * Get typeId
+     * Get typeId.
      *
      * @return int
      */
