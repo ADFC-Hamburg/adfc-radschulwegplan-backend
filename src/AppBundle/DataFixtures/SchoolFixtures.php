@@ -1,16 +1,31 @@
 <?php
+
+/*
+ * This file is part of the ADFC Radschulwegplan Backend package.
+ *
+ * <https://github.com/ADFC-Hamburg/adfc-radschulwegplan-backend>
+ *
+ * (c) 2018 by James Twellmeyer <jet02@twellmeyer.eu>
+ * (c) 2018 by Sven Anders <github2018@sven.anders.hamburg>
+ *
+ * Released under the GPL 3.0
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ *
+ * Please also visit our (german) webpage about the project:
+ *
+ * <https://hamburg.adfc.de/verkehr/themen-a-z/kinder/schulwegplanung/>
+ *
+ */
+
 namespace AppBundle\DataFixtures;
 
-use Doctrine\Common\Persistence\ObjectManager;
-
-use Doctrine\Bundle\FixturesBundle\ORMFixtureInterface;
-use Doctrine\Bundle\FixturesBundle\Fixture;
-
-use Symfony\Component\DependencyInjection\ContainerAwareInterface;
-use Symfony\Component\DependencyInjection\ContainerInterface;
-use Doctrine\Common\DataFixtures\DependentFixtureInterface;
-
 use AppBundle\Entity\School;
+use Doctrine\Bundle\FixturesBundle\Fixture;
+use Doctrine\Bundle\FixturesBundle\ORMFixtureInterface;
+use Doctrine\Common\DataFixtures\DependentFixtureInterface;
+use Doctrine\Common\Persistence\ObjectManager;
 
 class SchoolFixtures extends Fixture implements ORMFixtureInterface, DependentFixtureInterface
 {
@@ -29,7 +44,6 @@ class SchoolFixtures extends Fixture implements ORMFixtureInterface, DependentFi
 
         $this->addReference('gsh-school', $s);
 
-        
         $s = new School();
         $s->setName('Schule-Hausbruch');
         $s->setStreet('Hausbrucher Bahnhofstr.19');
@@ -42,7 +56,7 @@ class SchoolFixtures extends Fixture implements ORMFixtureInterface, DependentFi
 
         $this->addReference('hausbruch-school', $s);
     }
-    
+
     public function getDependencies()
     {
         return array(

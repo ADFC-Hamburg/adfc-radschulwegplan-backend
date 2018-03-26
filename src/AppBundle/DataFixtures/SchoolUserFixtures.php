@@ -1,14 +1,32 @@
 <?php
+
+/*
+ * This file is part of the ADFC Radschulwegplan Backend package.
+ *
+ * <https://github.com/ADFC-Hamburg/adfc-radschulwegplan-backend>
+ *
+ * (c) 2018 by James Twellmeyer <jet02@twellmeyer.eu>
+ * (c) 2018 by Sven Anders <github2018@sven.anders.hamburg>
+ *
+ * Released under the GPL 3.0
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ *
+ * Please also visit our (german) webpage about the project:
+ *
+ * <https://hamburg.adfc.de/verkehr/themen-a-z/kinder/schulwegplanung/>
+ *
+ */
+
 namespace AppBundle\DataFixtures;
 
-use Doctrine\Common\Persistence\ObjectManager;
-
-use Doctrine\Bundle\FixturesBundle\ORMFixtureInterface;
 use Doctrine\Bundle\FixturesBundle\Fixture;
-
+use Doctrine\Bundle\FixturesBundle\ORMFixtureInterface;
+use Doctrine\Common\DataFixtures\DependentFixtureInterface;
+use Doctrine\Common\Persistence\ObjectManager;
 use Symfony\Component\DependencyInjection\ContainerAwareInterface;
 use Symfony\Component\DependencyInjection\ContainerInterface;
-use Doctrine\Common\DataFixtures\DependentFixtureInterface;
 
 class SchoolUserFixtures extends Fixture implements ORMFixtureInterface, ContainerAwareInterface, DependentFixtureInterface
 {
@@ -21,7 +39,7 @@ class SchoolUserFixtures extends Fixture implements ORMFixtureInterface, Contain
     {
         $this->container = $container;
     }
-    
+
     public function load(ObjectManager $manager)
     {  // Get our userManager, you must implement `ContainerAwareInterface`
         $userManager = $this->container->get('fos_user.user_manager');
@@ -49,7 +67,7 @@ class SchoolUserFixtures extends Fixture implements ORMFixtureInterface, Contain
         $userManager->updateUser($user, true);
 
         $this->addReference('review1-user', $user);
-        
+
         $user = $userManager->createUser();
         $user->setUsername('test-1student');
         $user->setEmail('test-student@example.com');
@@ -58,7 +76,7 @@ class SchoolUserFixtures extends Fixture implements ORMFixtureInterface, Contain
         $user->setRoles(array('ROLE_STUDENT'));
         $user->setSchool($school);
         $userManager->updateUser($user, true);
-        
+
         $this->addReference('student1-user', $user);
 
         $school = $this->getReference('hausbruch-school');
@@ -83,7 +101,7 @@ class SchoolUserFixtures extends Fixture implements ORMFixtureInterface, Contain
         $userManager->updateUser($user, true);
 
         $this->addReference('review2-user', $user);
-        
+
         $user = $userManager->createUser();
         $user->setUsername('test-2student');
         $user->setEmail('test-student2@example.com');
@@ -92,13 +110,10 @@ class SchoolUserFixtures extends Fixture implements ORMFixtureInterface, Contain
         $user->setRoles(array('ROLE_STUDENT'));
         $user->setSchool($school);
         $userManager->updateUser($user, true);
-        
-        $this->addReference('student2-user', $user);
 
-        
+        $this->addReference('student2-user', $user);
     }
 
-      
     public function getDependencies()
     {
         return array(

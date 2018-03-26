@@ -41,12 +41,6 @@ class User extends BaseUser
      */
     protected $id;
 
-    public function __construct()
-    {
-        parent::__construct();
-        // your own logic
-    }
-
     /**
      * @var School
      *
@@ -67,8 +61,14 @@ class User extends BaseUser
      */
     private $schoolClass;
 
+    public function __construct()
+    {
+        parent::__construct();
+        // your own logic
+    }
+
     /**
-     * getSchool
+     * getSchool.
      *
      * @return School
      */
@@ -78,9 +78,9 @@ class User extends BaseUser
     }
 
     /**
-     * hasSchool
+     * hasSchool.
      *
-     * @return boolean
+     * @return bool
      */
     public function hasSchool()
     {
@@ -88,7 +88,7 @@ class User extends BaseUser
     }
 
     /**
-     * getSchoolClass
+     * getSchoolClass.
      *
      * @return SchoolClass
      */
@@ -98,7 +98,7 @@ class User extends BaseUser
     }
 
     /**
-     * setSchool
+     * setSchool.
      *
      * @return User
      */
@@ -107,22 +107,21 @@ class User extends BaseUser
         if ((!is_null($this->schoolClass)) && ($this->schoolClass->getId() != $this->school->getId())) {
             throw new SchoolSchoolClassMismatchException($this->school->getId(), $this->schoolClass->getId());
         }
-        $this->school=$school;
-       
+        $this->school = $school;
+
         return $this;
     }
 
-    
     /**
-     * setSchoolClass (sets school too)
+     * setSchoolClass (sets school too).
      *
      * @return User
      */
     public function setSchoolClass($schoolClass)
     {
-        $this->schoolClass=$schoolClass;
-        $this->school=$scholClass->getSchool();
+        $this->schoolClass = $schoolClass;
+        $this->school = $scholClass->getSchool();
+
         return $this;
     }
-
 }

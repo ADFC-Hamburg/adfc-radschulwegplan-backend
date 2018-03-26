@@ -31,10 +31,6 @@ use Doctrine\ORM\Mapping as ORM;
  */
 class School extends BaseEntity
 {
-    public function __construct()
-    {
-    }
-    
     /**
      * @var int
      *
@@ -78,6 +74,10 @@ class School extends BaseEntity
      * @ORM\Column(name="webpage", type="string", length=255, nullable=true)
      */
     private $webpage;
+
+    public function __construct()
+    {
+    }
 
     /**
      * Get id.
