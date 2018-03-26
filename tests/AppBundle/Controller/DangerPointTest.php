@@ -24,7 +24,7 @@ namespace Tests\AppBundle\Controller;
 class DangerPointTest extends BaseTestCase
 {
     const GET_ALL_API_PATH = '/api/v1/danger_point';
-    const INSERT_API_PATH = '/api/v1/danger_point/';
+    const INSERT_API_PATH = '/api/v1/danger_point';
     const GET_ONE_API_PREFIX = '/api/v1/danger_point/';
     const DELETE_API_PREFIX = '/api/v1/danger_point/';
     const UPDATE_API_PREFIX = '/api/v1/danger_point/';
