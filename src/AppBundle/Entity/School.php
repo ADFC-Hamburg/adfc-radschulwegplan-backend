@@ -67,7 +67,7 @@ class School extends BaseEntity
     private $postalcode;
 
     /**
-     * @var string Place of the school.
+     * @var string place of the school
      *
      * @ORM\Column(name="place", type="string", length=64)
      * @SWG\Property(format="string")
