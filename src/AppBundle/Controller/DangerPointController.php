@@ -59,7 +59,7 @@ class DangerPointController extends FOSRestController
      *     description="Returns the DangerPoints of a user",
      *     @SWG\Schema(
      *         type="array",
-     *         @Model(type=DangerPoint::class)
+     *         @SWG\Items(ref="#/definitions/DangerPoint")
      *     )
      * )
      * @Rest\Get("/api/v1/danger_point")
