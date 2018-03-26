@@ -1,11 +1,30 @@
 <?php
 
+/*
+ * This file is part of the ADFC Radschulwegplan Backend package.
+ *
+ * <https://github.com/ADFC-Hamburg/adfc-radschulwegplan-backend>
+ *
+ * (c) 2018 by James Twellmeyer <jet02@twellmeyer.eu>
+ * (c) 2018 by Sven Anders <github2018@sven.anders.hamburg>
+ *
+ * Released under the GPL 3.0
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ *
+ * Please also visit our (german) webpage about the project:
+ *
+ * <https://hamburg.adfc.de/verkehr/themen-a-z/kinder/schulwegplanung/>
+ *
+ */
+
 namespace AppBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 
 /**
- * School
+ * School.
  *
  * @ORM\Table(name="school")
  * @ORM\Entity(repositoryClass="AppBundle\Repository\SchoolRepository")
@@ -62,9 +81,8 @@ class School extends BaseEntity
      */
     private $webpage;
 
-
     /**
-     * Get id
+     * Get id.
      *
      * @return int
      */
@@ -74,7 +92,7 @@ class School extends BaseEntity
     }
 
     /**
-     * Set name
+     * Set name.
      *
      * @param string $name
      *
@@ -88,7 +106,7 @@ class School extends BaseEntity
     }
 
     /**
-     * Get name
+     * Get name.
      *
      * @return string
      */
@@ -98,7 +116,7 @@ class School extends BaseEntity
     }
 
     /**
-     * Set street
+     * Set street.
      *
      * @param string $street
      *
@@ -112,7 +130,7 @@ class School extends BaseEntity
     }
 
     /**
-     * Get street
+     * Get street.
      *
      * @return string
      */
@@ -122,7 +140,7 @@ class School extends BaseEntity
     }
 
     /**
-     * Set postalcode
+     * Set postalcode.
      *
      * @param string $postalcode
      *
@@ -136,7 +154,7 @@ class School extends BaseEntity
     }
 
     /**
-     * Get postalcode
+     * Get postalcode.
      *
      * @return string
      */
@@ -146,7 +164,7 @@ class School extends BaseEntity
     }
 
     /**
-     * Set place
+     * Set place.
      *
      * @param string $place
      *
@@ -160,7 +178,7 @@ class School extends BaseEntity
     }
 
     /**
-     * Get place
+     * Get place.
      *
      * @return string
      */
@@ -170,7 +188,7 @@ class School extends BaseEntity
     }
 
     /**
-     * Set webpage
+     * Set webpage.
      *
      * @param string $webpage
      *
@@ -184,7 +202,7 @@ class School extends BaseEntity
     }
 
     /**
-     * Get webpage
+     * Get webpage.
      *
      * @return string
      */
