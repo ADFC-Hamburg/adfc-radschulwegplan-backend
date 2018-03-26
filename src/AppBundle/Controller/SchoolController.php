@@ -37,6 +37,12 @@ use Symfony\Component\HttpFoundation\Response;
  */
 class SchoolController extends FosRestController
 {
+    /** @var LoggerInterface $logger Logger */
+    private $logger;
+
+    /**
+     * @param LoggerInterface $logger LoggerInterface is created by dependency injection
+     */
     public function __construct(LoggerInterface $logger)
     {
         $this->logger = $logger;
@@ -45,12 +51,14 @@ class SchoolController extends FosRestController
     /**
      * Get all schools.
      *
+     * @return School[] all schools, every school is public
+     *
      * @SWG\Response(
      *     response=200,
      *     description="Returns all schools, every school is public",
      *     @SWG\Schema(
      *         type="array",
-     *         @Model(type=School::class)
+     *         @SWG\Items(ref="#/definitions/School")
      *     )
      * )
      * @Rest\Get("")
@@ -68,20 +76,24 @@ class SchoolController extends FosRestController
     /**
      * Get one school.
      *
+     * @param int $id id of the school
+     *
+     * @return School[] School with id=$id
+     *
      * @SWG\Response(
      *     response=200,
      *     description="Returns one school with id={id}",
-     *     @Model(type=DangerPoint::class)
+     *     @Model(type=School::class)
      * )
      * @SWG\Parameter(
      *     name="id",
      *     in="path",
      *     type="integer",
-     *     description="The id of the school"
+     *     description="id of the school"
      * )
      * @Rest\Get("/{id}")
      */
-    public function idAction($id)
+    public function getOneAction($id)
     {
         $singleresult = $this->getDoctrine()->getRepository('AppBundle:School')->find($id);
         if (null === $singleresult) {
@@ -92,7 +104,11 @@ class SchoolController extends FosRestController
     }
 
     /**
-     * Modify school.
+     * Create school.
+     *
+     * @param Request $request newObjectRequest
+     *
+     * @return School School just created
      *
      * @SWG\Parameter(
      *     name="name",
@@ -134,6 +150,16 @@ class SchoolController extends FosRestController
      *     description="Returns one School with id",
      *     @Model(type=School::class)
      * )
+     * @SWG\Response(
+     *     response=403,
+     *     description="Returns 403 HTTP if the user has no permission",
+     *     @Model(type=School::class)
+     * )
+     * @SWG\Response(
+     *     response=404,
+     *     description="Returns 404 HTTP if entry does not exists",
+     *     @Model(type=School::class)
+     * )
      * @Rest\Post("")
      */
     public function newAction(Request $request)
@@ -162,7 +188,12 @@ class SchoolController extends FosRestController
     }
 
     /**
-     * Create new School.
+     * Modify School.
+     *
+     * @param int     $id      id of the school
+     * @param Request $request newObjectRequest
+     *
+     * @return School School just modified
      *
      * @SWG\Parameter(
      *     name="name",
@@ -202,6 +233,16 @@ class SchoolController extends FosRestController
      * @SWG\Response(
      *     response=200,
      *     description="Returns one School with id",
+     *     @Model(type=School::class)
+     * )
+     * @SWG\Response(
+     *     response=403,
+     *     description="Returns 403 HTTP if the user has no permission",
+     *     @Model(type=School::class)
+     * )
+     * @SWG\Response(
+     *     response=404,
+     *     description="Returns 404 HTTP if entry does not exists",
      *     @Model(type=School::class)
      * )
      * @Rest\Put("/{id}")
@@ -265,6 +306,10 @@ class SchoolController extends FosRestController
     /**
      * Delete one School.
      *
+     * @param int $id id of the school
+     *
+     * @return View HTTP Response 200 (success), 403 (forbidden), 404 (not found)
+     *
      * @SWG\Parameter(
      *     name="id",
      *     in="path",
@@ -274,6 +319,16 @@ class SchoolController extends FosRestController
      * @SWG\Response(
      *     response=200,
      *     description="Returns 200 HTTP if sucessfull",
+     *     @Model(type=School::class)
+     * )
+     * @SWG\Response(
+     *     response=403,
+     *     description="Returns 403 HTTP if the user has no permission",
+     *     @Model(type=School::class)
+     * )
+     * @SWG\Response(
+     *     response=404,
+     *     description="Returns 404 HTTP if entry does not exists",
      *     @Model(type=School::class)
      * )
      * @Rest\Delete("/{id}")
