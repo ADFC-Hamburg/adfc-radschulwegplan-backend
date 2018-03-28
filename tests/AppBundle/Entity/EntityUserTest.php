@@ -45,7 +45,7 @@ class EntityUserTest extends KernelTestCase
         $this->assertFalse($user->isEnabled());
     }
 
-    public function testSchoolGeterAndSeter()
+    public function testSchoolGetterAndSetter()
     {
         $user = new User();
         $s = new School();
@@ -58,7 +58,7 @@ class EntityUserTest extends KernelTestCase
         $this->assertTrue($user->hasSchool());
     }
 
-    public function testSchoolClassGeterAndSeter()
+    public function testSchoolClassGetterAndSetter()
     {
         $user = new User();
         $s = new School();
@@ -73,7 +73,7 @@ class EntityUserTest extends KernelTestCase
         $this->assertTrue($user->hasSchool());
     }
 
-    public function testSchoolSeterFailure()
+    public function testSchoolSetterFailure()
     {
         $s1 = $this->createMock(School::class);
         $s1->expects($this->any())
@@ -92,7 +92,7 @@ class EntityUserTest extends KernelTestCase
         $user->setSchool($s2);
     }
 
-    public function testSchoolSeterOkay()
+    public function testSchoolSetterOkay()
     {
         $s1 = $this->createMock(School::class);
         $s1->expects($this->any())
