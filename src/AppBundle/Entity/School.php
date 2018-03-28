@@ -22,6 +22,7 @@
 namespace AppBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Swagger\Annotations as SWG;
 
 /**
  * School.
@@ -32,46 +33,52 @@ use Doctrine\ORM\Mapping as ORM;
 class School extends BaseEntity
 {
     /**
-     * @var int
+     * @var int Identify
      *
      * @ORM\Column(name="id", type="integer")
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="AUTO")
+     * @SWG\Property(format="int64")
      */
     private $id;
 
     /**
-     * @var string
+     * @var string Name of the school
      *
      * @ORM\Column(name="name", type="string", length=255)
+     * @SWG\Property(format="string")
      */
     private $name;
 
     /**
-     * @var string
+     * @var string Street including housnumber
      *
      * @ORM\Column(name="street", type="string", length=255)
+     * @SWG\Property(format="string")
      */
     private $street;
 
     /**
-     * @var string
+     * @var string Postal Code of the place, where the school is. Shall be a number with 5 digits as  a string.
      *
      * @ORM\Column(name="postalcode", type="string", length=5)
+     * @SWG\Property(format="string")
      */
     private $postalcode;
 
     /**
-     * @var string
+     * @var string place of the school
      *
      * @ORM\Column(name="place", type="string", length=64)
+     * @SWG\Property(format="string")
      */
     private $place;
 
     /**
-     * @var string
+     * @var string If the school has an homepage, please provide the url
      *
      * @ORM\Column(name="webpage", type="string", length=255, nullable=true)
+     * @SWG\Property(format="string")
      */
     private $webpage;
 
@@ -92,7 +99,7 @@ class School extends BaseEntity
     /**
      * Set name.
      *
-     * @param string $name
+     * @param string $name New Name
      *
      * @return School
      */
@@ -116,7 +123,7 @@ class School extends BaseEntity
     /**
      * Set street.
      *
-     * @param string $street
+     * @param string $street New Street
      *
      * @return School
      */
@@ -140,7 +147,7 @@ class School extends BaseEntity
     /**
      * Set postalcode.
      *
-     * @param string $postalcode
+     * @param string $postalcode new postal code
      *
      * @return School
      */
@@ -164,7 +171,7 @@ class School extends BaseEntity
     /**
      * Set place.
      *
-     * @param string $place
+     * @param string $place new place
      *
      * @return School
      */
