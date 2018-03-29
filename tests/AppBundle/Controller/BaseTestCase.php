@@ -28,39 +28,55 @@ abstract class BaseTestCase extends WebTestCase
     const ADMIN_USERNAME = 'test-admin';
     const ADMIN_PASSWORD = 'pass-admin';
 
-    const STUDENT_USERNAME = 'test-student';
-    const STUDENT_PASSWORD = 'pass-student';
+    const STUDENT1_USERNAME = 'test-1student';
+    const STUDENT1_PASSWORD = 'pass-student';
 
     /**
      * @return Client
      */
     protected function createAdminAuthorizedClient()
     {
-        $client = static::createClient();
-        $crawler = $client->request('GET', '/login');
-        $form = $crawler->selectButton('_submit')->form(array(
-            '_username' => self::ADMIN_USERNAME,
-            '_password' => self::ADMIN_PASSWORD,
-        ));
-
-        $client->submit($form);
-
-        return $client;
+        return $this->login(self::ADMIN_USERNAME, self::ADMIN_PASSWORD);
     }
 
     /**
      * @return Client
      */
-    protected function createStudentAuthorizedClient()
+    protected function createStudent1AuthorizedClient()
+    {
+        return $this->login(self::STUDENT1_USERNAME, self::STUDENT1_PASSWORD);
+    }
+
+    /**
+     * @return Client
+     */
+    protected function createStudent2AuthorizedClient()
+    {
+        return $this->login(self::STUDENT2_USERNAME, self::STUDENT2_PASSWORD);
+    }
+
+    /**
+     * Login to Symfony with FosUser Bundle and test if login is successfull.
+     *
+     * @param string $username Username
+     * @param string $password Password
+     *
+     * @return Client
+     */
+    private function login(String $username, String $password)
     {
         $client = static::createClient();
         $crawler = $client->request('GET', '/login');
         $form = $crawler->selectButton('_submit')->form(array(
-            '_username' => self::STUDENT_USERNAME,
-            '_password' => self::STUDENT_PASSWORD,
+            '_username' => $username,
+            '_password' => $password,
         ));
 
         $client->submit($form);
+
+        $this->assertSame(302, $client->getResponse()->getStatusCode());
+        // if not successfull user is redirected to /login
+        $this->assertNotContains('login', $client->getResponse()->getTargetUrl());
 
         return $client;
     }

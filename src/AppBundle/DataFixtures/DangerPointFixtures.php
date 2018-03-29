@@ -31,8 +31,9 @@ class DangerPointFixtures extends Fixture implements ORMFixtureInterface, Depend
 {
     public function load(ObjectManager $manager)
     {
-        // create 20 DangerPoints
-        for ($i = 0; $i < 20; ++$i) {
+        $user = $this->getReference('student1-user');
+        // create 10 DangerPoints
+        for ($i = 0; $i < 10; ++$i) {
             $pt = new DangerPoint();
             $pt->setTitle('point '.$i);
             $pt->setDescription('point desc '.$i);
@@ -40,7 +41,20 @@ class DangerPointFixtures extends Fixture implements ORMFixtureInterface, Depend
             $lat = 53.5 + (mt_rand(0, 1000) / 100);
             $lon = 10 + (mt_rand(0, 100) / 100);
             $pt->setPos(sprintf('SRID=4326;POINT(%f %f)', $lat, $lon));
-            $user = $this->getReference('student-user');
+            $pt->setCreatedNow($user);
+            $manager->persist($pt);
+        }
+
+        $user = $this->getReference('student2-user');
+        // create 10 DangerPoints
+        for ($i = 10; $i < 20; ++$i) {
+            $pt = new DangerPoint();
+            $pt->setTitle('point '.$i);
+            $pt->setDescription('point desc '.$i);
+            $pt->setTypeId($i);
+            $lat = 53.5 + (mt_rand(0, 1000) / 100);
+            $lon = 9.9 + (mt_rand(0, 100) / 100);
+            $pt->setPos(sprintf('SRID=4326;POINT(%f %f)', $lat, $lon));
             $pt->setCreatedNow($user);
             $manager->persist($pt);
         }
@@ -51,7 +65,7 @@ class DangerPointFixtures extends Fixture implements ORMFixtureInterface, Depend
     public function getDependencies()
     {
         return array(
-            UserFixtures::class,
+            SchoolUserFixtures::class,
         );
     }
 }
