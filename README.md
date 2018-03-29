@@ -1,9 +1,9 @@
 radschulwegplan-backend
 =======================
 
-[![Build Status](https://travis-ci.org/tabacha/adfc-radschulwegplan-backend.svg?branch=master)](https://travis-ci.org/tabacha/adfc-radschulwegplan-backend)
+[![Build Status](https://travis-ci.org/ADFC-Hamburg/adfc-radschulwegplan-backend.svg?branch=master)](https://travis-ci.org/ADFC-Hamburg/adfc-radschulwegplan-backend)
 
-[![codecov](https://codecov.io/gh/tabacha/adfc-radschulwegplan-backend/branch/master/graph/badge.svg)](https://codecov.io/gh/tabacha/adfc-radschulwegplan-backend)
+[![codecov](https://codecov.io/gh/ADFC-Hamburg/adfc-radschulwegplan-backend/branch/master/graph/badge.svg)](https://codecov.io/gh/ADFC-Hamburg/adfc-radschulwegplan-backend)
 
 
 About the project, see https://hamburg.adfc.de/verkehr/themen-a-z/kinder/schulwegplanung/

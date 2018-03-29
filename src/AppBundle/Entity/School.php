@@ -1,11 +1,31 @@
 <?php
 
+/*
+ * This file is part of the ADFC Radschulwegplan Backend package.
+ *
+ * <https://github.com/ADFC-Hamburg/adfc-radschulwegplan-backend>
+ *
+ * (c) 2018 by James Twellmeyer <jet02@twellmeyer.eu>
+ * (c) 2018 by Sven Anders <github2018@sven.anders.hamburg>
+ *
+ * Released under the GPL 3.0
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ *
+ * Please also visit our (german) webpage about the project:
+ *
+ * <https://hamburg.adfc.de/verkehr/themen-a-z/kinder/schulwegplanung/>
+ *
+ */
+
 namespace AppBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Swagger\Annotations as SWG;
 
 /**
- * School
+ * School.
  *
  * @ORM\Table(name="school")
  * @ORM\Entity(repositoryClass="AppBundle\Repository\SchoolRepository")
@@ -13,52 +33,61 @@ use Doctrine\ORM\Mapping as ORM;
 class School extends BaseEntity
 {
     /**
-     * @var int
+     * @var int Identify
      *
      * @ORM\Column(name="id", type="integer")
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="AUTO")
+     * @SWG\Property(format="int64")
      */
     private $id;
 
     /**
-     * @var string
+     * @var string Name of the school
      *
      * @ORM\Column(name="name", type="string", length=255)
+     * @SWG\Property(format="string")
      */
     private $name;
 
     /**
-     * @var string
+     * @var string Street including housnumber
      *
      * @ORM\Column(name="street", type="string", length=255)
+     * @SWG\Property(format="string")
      */
     private $street;
 
     /**
-     * @var string
+     * @var string Postal Code of the place, where the school is. Shall be a number with 5 digits as  a string.
      *
      * @ORM\Column(name="postalcode", type="string", length=5)
+     * @SWG\Property(format="string")
      */
     private $postalcode;
 
     /**
-     * @var string
+     * @var string place of the school
      *
      * @ORM\Column(name="place", type="string", length=64)
+     * @SWG\Property(format="string")
      */
     private $place;
 
     /**
-     * @var string
+     * @var string If the school has an homepage, please provide the url
      *
      * @ORM\Column(name="webpage", type="string", length=255, nullable=true)
+     * @SWG\Property(format="string")
      */
     private $webpage;
 
+    public function __construct()
+    {
+    }
 
     /**
-     * Get id
+     * Get id.
      *
      * @return int
      */
@@ -68,9 +97,9 @@ class School extends BaseEntity
     }
 
     /**
-     * Set name
+     * Set name.
      *
-     * @param string $name
+     * @param string $name New Name
      *
      * @return School
      */
@@ -82,7 +111,7 @@ class School extends BaseEntity
     }
 
     /**
-     * Get name
+     * Get name.
      *
      * @return string
      */
@@ -92,9 +121,9 @@ class School extends BaseEntity
     }
 
     /**
-     * Set street
+     * Set street.
      *
-     * @param string $street
+     * @param string $street New Street
      *
      * @return School
      */
@@ -106,7 +135,7 @@ class School extends BaseEntity
     }
 
     /**
-     * Get street
+     * Get street.
      *
      * @return string
      */
@@ -116,9 +145,9 @@ class School extends BaseEntity
     }
 
     /**
-     * Set postalcode
+     * Set postalcode.
      *
-     * @param string $postalcode
+     * @param string $postalcode new postal code
      *
      * @return School
      */
@@ -130,7 +159,7 @@ class School extends BaseEntity
     }
 
     /**
-     * Get postalcode
+     * Get postalcode.
      *
      * @return string
      */
@@ -140,9 +169,9 @@ class School extends BaseEntity
     }
 
     /**
-     * Set place
+     * Set place.
      *
-     * @param string $place
+     * @param string $place new place
      *
      * @return School
      */
@@ -154,7 +183,7 @@ class School extends BaseEntity
     }
 
     /**
-     * Get place
+     * Get place.
      *
      * @return string
      */
@@ -164,7 +193,7 @@ class School extends BaseEntity
     }
 
     /**
-     * Set webpage
+     * Set webpage.
      *
      * @param string $webpage
      *
@@ -178,7 +207,7 @@ class School extends BaseEntity
     }
 
     /**
-     * Get webpage
+     * Get webpage.
      *
      * @return string
      */
@@ -186,6 +215,4 @@ class School extends BaseEntity
     {
         return $this->webpage;
     }
-
 }
-
