@@ -38,20 +38,6 @@ class DangerPointTest extends BaseTestCase
         $this->assertContains('Welcome to Symfony', $crawler->filter('#container h1')->text());
     }
 
-    public function testGetAll()
-    {
-        $client = $this->createAdminAuthorizedClient();
-        $crawler = $client->request('GET', self::GET_ALL_API_PATH);
-        $this->assertSame(200, $client->getResponse()->getStatusCode());
-        $data = json_decode($client->getResponse()->getContent(), true);
-        $this->assertSame(20, count($data));
-        for ($i = 0; $i < 20; ++$i) {
-            $this->assertSame('point '.$i, $data[$i]['title']);
-            $this->assertSame('point desc '.$i, $data[$i]['description']);
-            $this->assertSame($i, $data[$i]['type_id']);
-        }
-    }
-
     public function testInsert()
     {
         $client = $this->createAdminAuthorizedClient();

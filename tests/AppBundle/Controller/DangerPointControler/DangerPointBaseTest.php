@@ -42,12 +42,22 @@ abstract class DangerPointBaseTest extends WebTestCase
             ORMPurger::PURGE_MODE_TRUNCATE)->getReferenceRepository();
     }
 
+    public function assertDangerPointCompare(string $dangerPointRef, $data)
+    {
+        $dp = $this->fixtures->getReference($dangerPointRef);
+        self::assertSame($dp->getId(), $data['id'], 'Id not equal on dangerPoint ' + $dangerPointRef);
+        self::assertSame($dp->getPos(), $data['pos'], 'Position not equal on dangerPoint ' + $dangerPointRef);
+        self::assertSame($dp->getTitle(), $data['title'], 'Title not equal on dangerPoint ' + $dangerPointRef);
+        self::assertSame($dp->getDescription(), $data['description'], 'Title not equal on dangerPoint ' + $dangerPointRef);
+        self::assertSame($dp->getTypeId(), $data['type_id'], 'Title not equal on dangerPoint ' + $dangerPointRef);
+    }
+
     /**
      * @return Client
      */
     protected function createAuthorizedClient(string $userRef)
     {
-        $this->loginAs($fixtures->getReference($userRef), 'main');
+        $this->loginAs($this->fixtures->getReference($userRef), 'main');
 
         return $this->makeClient();
     }
