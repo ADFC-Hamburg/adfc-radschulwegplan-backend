@@ -38,14 +38,6 @@ class DangerPointTest extends BaseTestCase
         $this->assertContains('Welcome to Symfony', $crawler->filter('#container h1')->text());
     }
 
-    public function testGetAllNoAccessWithoutLogin()
-    {
-        $client = static::createClient();
-        $crawler = $client->request('GET', self::GET_ALL_API_PATH);
-        $this->assertSame(302, $client->getResponse()->getStatusCode());
-        $this->assertContains('/login', $client->getResponse()->getTargetUrl());
-    }
-
     public function testGetAll()
     {
         $client = $this->createAdminAuthorizedClient();
