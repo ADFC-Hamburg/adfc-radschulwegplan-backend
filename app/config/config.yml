@@ -101,7 +101,7 @@ fos_user:
     firewall_name: main
     from_email:
         address:        rsw-noreply@sven.anders.hamburg
-        sender_name:    Demo App
+        sender_name:    ADFC Radschulwegplan Hamburg
     user_class: AppBundle\Entity\User
     service:
         mailer: fos_user.mailer.twig_swift 
