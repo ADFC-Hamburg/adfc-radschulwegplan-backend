@@ -27,7 +27,7 @@ class SchoolControllerTest extends BaseTestCase
 
     public function testStudentNotAllowedToCreateASchool()
     {
-        $client = $this->createStudentAuthorizedClient();
+        $client = $this->createStudent1AuthorizedClient();
         // create item
         $crawler = $client->request(
             'POST',
@@ -40,6 +40,9 @@ class SchoolControllerTest extends BaseTestCase
                 'webpage' => 'https://www.ebert-gymnasium.de/',
             )
         );
+        if (403 != $client->getResponse()->getStatusCode()) {
+            print_r($client->getResponse());
+        }
         $this->assertSame(403, $client->getResponse()->getStatusCode());
     }
 
@@ -111,7 +114,7 @@ class SchoolControllerTest extends BaseTestCase
      */
     public function testModifySchoolFailByStudent($id)
     {
-        $client = $this->createStudentAuthorizedClient();
+        $client = $this->createStudent1AuthorizedClient();
 
         $crawler = $client->request(
             'PUT',
@@ -199,7 +202,7 @@ class SchoolControllerTest extends BaseTestCase
      */
     public function testStudentNotAllowedToDelete($id)
     {
-        $client = $this->createStudentAuthorizedClient();
+        $client = $this->createStudent1AuthorizedClient();
         $crawler = $client->request(
             'DELETE',
             self::API_PATH.'/'.$id

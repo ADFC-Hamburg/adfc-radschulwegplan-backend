@@ -32,7 +32,7 @@ use Doctrine\ORM\Mapping as ORM;
 class SchoolClass extends BaseEntity
 {
     /**
-     * @var int
+     * @var int the id of the class
      *
      * @ORM\Column(name="id", type="integer")
      * @ORM\Id
@@ -41,19 +41,23 @@ class SchoolClass extends BaseEntity
     private $id;
 
     /**
-     * @var string
+     * @var string the name of the class
      *
      * @ORM\Column(name="name", type="string", length=16)
      */
     private $name;
 
     /**
-     * @var int
+     * @var int corosponding school
      *
      * @ORM\ManyToOne(targetEntity="School")
      * @ORM\JoinColumn(name="school", referencedColumnName="id")
      */
     private $school;
+
+    public function __construct()
+    {
+    }
 
     /**
      * Get id.

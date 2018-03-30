@@ -21,6 +21,7 @@
 
 namespace AppBundle\Entity;
 
+use AppBundle\Exception\SchoolSchoolClassMismatchException;
 use Doctrine\ORM\Mapping as ORM;
 use FOS\UserBundle\Model\User as BaseUser;
 
@@ -33,7 +34,7 @@ use FOS\UserBundle\Model\User as BaseUser;
 class User extends BaseUser
 {
     /**
-     * @var int
+     * @var int id
      *
      * @ORM\Column(name="id", type="integer")
      * @ORM\Id
@@ -41,9 +42,87 @@ class User extends BaseUser
      */
     protected $id;
 
+    /**
+     * @var School
+     *
+     * School
+     *
+     * @ORM\ManyToOne(targetEntity="School")
+     * @ORM\JoinColumn(name="school_id", referencedColumnName="id", nullable=true)
+     */
+    private $school = null;
+
+    /**
+     * @var SchoolClass
+     *
+     * SchoolClass
+     *
+     * @ORM\ManyToOne(targetEntity="SchoolClass")
+     * @ORM\JoinColumn(name="school_class_id", referencedColumnName="id", nullable=true)
+     */
+    private $schoolClass = null;
+
     public function __construct()
     {
         parent::__construct();
         // your own logic
+    }
+
+    /**
+     * getSchool.
+     *
+     * @return School a school associated to the user or NULL, if there is no school associated
+     */
+    public function getSchool()
+    {
+        return $this->school;
+    }
+
+    /**
+     * hasSchool.
+     *
+     * @return bool is a school associated?
+     */
+    public function hasSchool()
+    {
+        return !is_null($this->school);
+    }
+
+    /**
+     * getSchoolClass.
+     *
+     * @return SchoolClass
+     */
+    public function getSchoolClass()
+    {
+        return $this->schoolClass;
+    }
+
+    /**
+     * setSchool.
+     *
+     * @return User
+     */
+    public function setSchool($school)
+    {
+        if ((!is_null($this->schoolClass)) && ($this->schoolClass->getSchool()->getId() != $school->getId())) {
+            throw new SchoolSchoolClassMismatchException($school->getId(), $this->schoolClass->getSchool()->getId());
+        }
+        $this->school = $school;
+
+        return $this;
+    }
+
+    /**
+     * setSchoolClass (sets school too).
+     *
+     * @return User
+     */
+    public function setSchoolClass($schoolClass)
+    {
+        $this->schoolClass = $schoolClass;
+        $this->school = $schoolClass->getSchool();
+
+        return $this;
     }
 }
