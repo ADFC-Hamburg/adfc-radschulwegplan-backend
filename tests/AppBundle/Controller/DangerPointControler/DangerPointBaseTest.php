@@ -28,6 +28,9 @@ abstract class DangerPointBaseTest extends WebTestCase
 {
     const API_PATH = '/api/v1/danger_point';
 
+    /**
+     * @var Fixtures, usefull to get References to the objects
+     */
     public $fixtures = null;
 
     public function setUp()
