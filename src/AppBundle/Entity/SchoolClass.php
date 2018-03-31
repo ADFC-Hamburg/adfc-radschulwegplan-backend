@@ -22,12 +22,14 @@
 namespace AppBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Swagger\Annotations as SWG;
 
 /**
  * SchoolClass.
  *
  * @ORM\Table(name="school_class",uniqueConstraints={@ORM\UniqueConstraint(name="school_class_idx", columns={"name", "school"})})
  * @ORM\Entity(repositoryClass="AppBundle\Repository\SchoolClassRepository")
+ * @SWG\Definition(definition="SchoolClass")
  */
 class SchoolClass extends BaseEntity
 {
@@ -37,6 +39,7 @@ class SchoolClass extends BaseEntity
      * @ORM\Column(name="id", type="integer")
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="AUTO")
+     * @SWG\Property(description="The unique identifier of the class.")
      */
     private $id;
 
@@ -44,6 +47,7 @@ class SchoolClass extends BaseEntity
      * @var string the name of the class
      *
      * @ORM\Column(name="name", type="string", length=16)
+     * @SWG\Property(type="string", maxLength=16)
      */
     private $name;
 
