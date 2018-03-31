@@ -27,7 +27,7 @@ use Liip\FunctionalTestBundle\Test\WebTestCase;
 abstract class SchoolClassControllerBaseTest extends WebTestCase
 {
     const API_PATH = '/api/v1/school_class';
-    const FROM_SCHOOL_API_PATH = '/api/v1/school_class';
+    const FROM_SCHOOL_API_PATH = '/api/v1/school_class/fromSchool/';
 
     /**
      * @var Fixtures, usefull to get References to the objects
