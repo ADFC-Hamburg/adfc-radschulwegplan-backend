@@ -55,7 +55,7 @@ class SchoolClass extends BaseEntity
      * @var int corosponding school
      *
      * @ORM\ManyToOne(targetEntity="School")
-     * @ORM\JoinColumn(name="school", referencedColumnName="id")
+     * @ORM\JoinColumn(name="school", referencedColumnName="id", nullable=false)
      */
     private $school;
 

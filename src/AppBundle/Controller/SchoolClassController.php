@@ -126,6 +126,13 @@ class SchoolClassController extends FosRestController
      *     required=true,
      *     description="The schoolClass name"
      * )
+     * @SWG\Parameter(
+     *     name="schoolId",
+     *     in="formData",
+     *     type="integer",
+     *     required=true,
+     *     description="The school"
+     * )
      * @SWG\Response(
      *     response=200,
      *     description="Returns one SchoolClass with id",
@@ -136,26 +143,48 @@ class SchoolClassController extends FosRestController
      *     description="Returns 403 HTTP if the user has no permission",
      * )
      * @SWG\Response(
-     *     response=404,
-     *     description="Returns 404 HTTP if entry does not exists",
+     *     response=400,
+     *     description="Returns 400 HTTP if values are wrong",
      * )
      * @Rest\Post("")
      */
     public function newAction(Request $request)
     {
         $user = $this->get('security.token_storage')->getToken()->getUser();
-        if (!$this->get('security.authorization_checker')->isGranted('ROLE_ADMIN')) {
-            return new View('you need to be admin', Response::HTTP_FORBIDDEN);
+        $okay = false;
+        $schoolId = $request->get('schoolId');
+        if ($this->get('security.authorization_checker')->isGranted('ROLE_ADMIN')) {
+            $okay = true;
+        } elseif ($this->get('security.authorization_checker')->isGranted('ROLE_SCHOOL_ADMIN')) {
+            $okay = true;
+            if ($schoolId != $user->getSchool()->getId()) {
+                return new View('schoolAdmin can only create schoolClasses for his school', Response::HTTP_FORBIDDEN);
+            }
         }
-        $data = new SchoolClass();
+        if (false == $okay) {
+            return new View('you need to be admin or schoolAdmin', Response::HTTP_FORBIDDEN);
+        }
         $name = $request->get('name');
-        $data->setName($name);
-        $data->setCreatedNow($user);
+        if (empty($name)) {
+            return new View('please specify a name', Response::HTTP_BAD_REQUEST);
+        }
+
+        if (empty($schoolId)) {
+            return new View('please specify a schoolId', Response::HTTP_BAD_REQUEST);
+        }
+        $school = $this->getDoctrine()->getRepository('AppBundle:School')->find($schoolId);
+        if (is_null($school)) {
+            return new View('please specify a schoolId', Response::HTTP_BAD_REQUEST);
+        }
         $em = $this->getDoctrine()->getManager();
-        $newObj = $em->merge($data);
+        $data = new SchoolClass();
+        $data->setName($name);
+        $data->setSchool($school);
+        $data->setCreatedNow($user);
+        $em->persist($data);
         $em->flush();
 
-        return $newObj;
+        return $data;
     }
 
     /**

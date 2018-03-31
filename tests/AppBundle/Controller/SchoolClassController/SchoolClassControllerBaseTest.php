@@ -38,6 +38,7 @@ abstract class SchoolClassControllerBaseTest extends WebTestCase
     {
         $fixturesArray = array(
             'AppBundle\DataFixtures\SchoolClassFixtures',
+            'AppBundle\DataFixtures\SchoolUserFixtures',
         );
         $this->fixtures = $this->loadFixtures(
             $fixturesArray,
