@@ -29,7 +29,6 @@ namespace AppBundle\Repository;
  */
 class SchoolClassRepository extends \Doctrine\ORM\EntityRepository
 {
-
     /**
      * Return only schoolClass from a specific school.
      *
@@ -44,5 +43,4 @@ class SchoolClassRepository extends \Doctrine\ORM\EntityRepository
                     ->setParameter('sId', $id)
                     ->getResult();
     }
-
 }

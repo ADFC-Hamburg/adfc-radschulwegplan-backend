@@ -21,11 +21,10 @@
 
 namespace Tests\AppBundle\Controller\SchoolClassController;
 
-
-
 class GetOneTest extends SchoolClassControllerBaseTest
 {
-    public function test5aGetOne() {
+    public function test5aGetOne()
+    {
         $client = $this->createAuthorizedClient('adfc-admin-user');
         $id = $this->fixtures->getReference('class-gsh-5a')->getId();
         $schoolId = $this->fixtures->getReference('gsh-school')->getId();
