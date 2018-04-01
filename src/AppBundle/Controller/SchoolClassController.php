@@ -219,31 +219,33 @@ class SchoolClassController extends FosRestController
      */
     public function updateAction($id, Request $request)
     {
-        if (!$this->get('security.authorization_checker')->isGranted('ROLE_ADMIN')) {
-            return new View('you need to be admin', Response::HTTP_FORBIDDEN);
+        $user = $this->get('security.token_storage')->getToken()->getUser();
+        if (!(
+            $this->get('security.authorization_checker')->isGranted('ROLE_ADMIN') or
+            $this->get('security.authorization_checker')->isGranted('ROLE_SCHOOL_ADMIN'))) {
+            return new View('you need to be admin or school-admin', Response::HTTP_FORBIDDEN);
         }
+        $name = $request->get('name');
+        if (empty($name)) {
+            return new View('class not found', Response::HTTP_BAD_REQUEST);
+        } // else
         $this->logger->info('UPDATE START');
         $em = $this->getDoctrine()->getManager();
         $entry = $this->getDoctrine()->getRepository('AppBundle:SchoolClass')->find($id);
         if (empty($entry)) {
-            return new View('point not found', Response::HTTP_NOT_FOUND);
+            return new View('class not found', Response::HTTP_NOT_FOUND);
         }
         // else
-        $changed = false;
-
-        $name = $request->get('name');
-        if (!(empty($name))) {
-            $this->logger->info('name: ', array($name));
-            $entry->setName($name);
-            $changed = true;
+        if ($this->get('security.authorization_checker')->isGranted('ROLE_SCHOOL_ADMIN') and
+        ($entry->getSchool()->getId() != $user->getSchool()->getId())) {
+            return new View('school-admin is not allowed to modify classes of different schools', Response::HTTP_FORBIDDEN);
         }
+        $this->logger->info('name: ', array($name));
+        $entry->setName($name);
+        $entry->setChangedNow($user);
+        $em->persist($entry);
+        $em->flush();
 
-        if ($changed) {
-            $user = $this->get('security.token_storage')->getToken()->getUser();
-            $entry->setChangedNow($user);
-            $em->persist($entry);
-            $em->flush();
-        }
         $this->logger->info('UPDATE END');
 
         return $entry;

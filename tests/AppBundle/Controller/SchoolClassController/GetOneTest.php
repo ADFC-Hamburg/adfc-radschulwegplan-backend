@@ -28,7 +28,7 @@ class GetOneTest extends SchoolClassControllerBaseTest
         $client = $this->createAuthorizedClient('adfc-admin-user');
         $id = $this->fixtures->getReference('class-gsh-5a')->getId();
         $schoolId = $this->fixtures->getReference('gsh-school')->getId();
-        $crawler = $client->request('GET', self::API_PATH.'/'.$id);
+        $client->request('GET', self::API_PATH.'/'.$id);
         $this->assertStatusCode(200, $client);
         $data = json_decode($client->getResponse()->getContent(), true);
         $this->assertSame('5a', $data['name']);

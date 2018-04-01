@@ -29,7 +29,7 @@ class GetAllTest extends SchoolClassControllerBaseTest
         $schoolId = $this->fixtures->getReference('gsh-school')->getId();
         $id = $this->fixtures->getReference('class-gsh-5a')->getId();
 
-        $crawler = $client->request('GET', self::FROM_SCHOOL_API_PATH.$schoolId);
+        $client->request('GET', self::FROM_SCHOOL_API_PATH.$schoolId);
         $this->assertStatusCode(200, $client);
         $data = json_decode($client->getResponse()->getContent(), true);
         $this->assertSame(4, count($data));

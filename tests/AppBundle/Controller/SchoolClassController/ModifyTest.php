@@ -23,53 +23,38 @@ namespace Tests\AppBundle\Controller\SchoolClassController;
 
 use AppBundle\Entity\SchoolClass;
 
-class InsertTest extends SchoolClassControllerBaseTest
+class ModifyTest extends SchoolClassControllerBaseTest
 {
-    public function testInsertWithoutSchoolId()
+    private $url6a = null;
+
+    public function testModifyWithoutName()
     {
         $client = $this->createAuthorizedClient('adfc-admin-user');
         $client->request(
-            'POST',
-            self::API_PATH,
+            'PUT',
+            $this->url6aGsh(),
             array(
-                'name' => '5f',
             )
         );
         $this->assertStatusCode(400, $client);
     }
 
-    public function testInsertWithoutName()
-    {
-        $client = $this->createAuthorizedClient('adfc-admin-user');
-        $schoolId = $this->fixtures->getReference('gsh-school')->getId();
-        $client->request(
-            'POST',
-            self::API_PATH,
-            array(
-                'schoolId' => $schoolId,
-            )
-        );
-        $this->assertStatusCode(400, $client);
-    }
-
-    public function testAdminInsert()
+    public function testAdminModify()
     {
         $em = $this->getContainer()->get('doctrine')->getManager();
         $classes = $em->getRepository(SchoolClass::class)
                      ->findByName('5f');
+        $schoolId = $this->fixtures->getReference('gsh-school')->getId();
         $this->assertCount(0, $classes);
         $client = $this->createAuthorizedClient('adfc-admin-user');
-        $schoolId = $this->fixtures->getReference('gsh-school')->getId();
         $client->request(
-            'POST',
-            self::API_PATH,
+            'PUT',
+            $this->url6aGsh(),
             array(
                 'name' => '5f',
-                'schoolId' => $schoolId,
             )
         );
         $this->assertStatusCode(200, $client);
-
         $data = json_decode($client->getResponse()->getContent(), true);
         $id = $data['id'];
         $this->assertSame('5f', $data['name']);
@@ -83,7 +68,7 @@ class InsertTest extends SchoolClassControllerBaseTest
         $this->assertSame($schoolId, $cl->getSchool()->getId());
     }
 
-    public function testSchoolAdminInsert()
+    public function testSchoolAdminModify()
     {
         $em = $this->getContainer()->get('doctrine')->getManager();
         $classes = $em->getRepository(SchoolClass::class)
@@ -92,11 +77,10 @@ class InsertTest extends SchoolClassControllerBaseTest
         $client = $this->createAuthorizedClient('school1-admin-user');
         $schoolId = $this->fixtures->getReference('gsh-school')->getId();
         $client->request(
-            'POST',
-            self::API_PATH,
+            'PUT',
+            $this->url6aGsh(),
             array(
                 'name' => '5k',
-                'schoolId' => $schoolId,
             )
         );
         $this->assertStatusCode(200, $client);
@@ -115,48 +99,53 @@ class InsertTest extends SchoolClassControllerBaseTest
         $this->assertSame($schoolId, $cl->getSchool()->getId());
     }
 
-    public function testInsertWithInvalidSchoolId()
+    public function testModifyWithInvalidSchoolId()
     {
         $client = $this->createAuthorizedClient('adfc-admin-user');
-        $schoolId = -42;
         $client->request(
-            'POST',
-            self::API_PATH,
+            'PUT',
+            self::API_PATH.'/9999999',
             array(
                 'name' => '5f',
-                'schoolId' => $schoolId,
             )
         );
-        $this->assertStatusCode(400, $client);
+        $this->assertStatusCode(404, $client);
     }
 
-    public function testInsertFailByStudent()
+    public function testModifyFailByStudent()
     {
         $client = $this->createAuthorizedClient('student1-user');
-        $schoolId = $this->fixtures->getReference('gsh-school')->getId();
         $client->request(
-            'POST',
-            self::API_PATH,
+            'PUT',
+            $this->url6aGsh(),
             array(
                 'name' => '5g',
-                'schoolId' => $schoolId,
             )
         );
         $this->assertStatusCode(403, $client);
     }
 
-    public function testInsertFailByReviewer()
+    public function testModifyFailByReviewer()
     {
         $client = $this->createAuthorizedClient('school2-admin-user');
-        $schoolId = $this->fixtures->getReference('gsh-school')->getId();
         $client->request(
-            'POST',
-            self::API_PATH,
+            'PUT',
+            $this->url6aGsh(),
             array(
                 'name' => '5g',
-                'schoolId' => $schoolId,
             )
         );
         $this->assertStatusCode(403, $client);
+    }
+
+    private function url6aGsh()
+    {
+        if (is_null($this->url6a)) {
+            $this->url6a = self::API_PATH.
+                '/'.
+                $this->fixtures->getReference('class-gsh-6a')->getId();
+        }
+
+        return $this->url6a;
     }
 }
