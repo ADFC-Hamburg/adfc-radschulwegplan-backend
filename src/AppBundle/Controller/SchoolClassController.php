@@ -280,13 +280,21 @@ class SchoolClassController extends FosRestController
      */
     public function deleteAction($id)
     {
-        if (!$this->get('security.authorization_checker')->isGranted('ROLE_ADMIN')) {
-            return new View('you need to be admin', Response::HTTP_FORBIDDEN);
+        $user = $this->get('security.token_storage')->getToken()->getUser();
+        if (!(
+            $this->get('security.authorization_checker')->isGranted('ROLE_ADMIN') or
+            $this->get('security.authorization_checker')->isGranted('ROLE_SCHOOL_ADMIN'))) {
+            return new View('you need to be admin or school-admin', Response::HTTP_FORBIDDEN);
         }
+
         $em = $this->getDoctrine()->getManager();
         $entry = $this->getDoctrine()->getRepository('AppBundle:SchoolClass')->find($id);
         if (empty($entry)) {
             return new View('entry not found', Response::HTTP_NOT_FOUND);
+        }
+        if ($this->get('security.authorization_checker')->isGranted('ROLE_SCHOOL_ADMIN') and
+        ($entry->getSchool()->getId() != $user->getSchool()->getId())) {
+            return new View('school-admin is not allowed to modify classes of different schools', Response::HTTP_FORBIDDEN);
         }
         $em->remove($entry);
         $em->flush();
