@@ -26,7 +26,7 @@ class DangerPointTestGetAllNoAccessWithoutLogin extends DangerPointBaseTest
     public function testGetAllNoAccessWithoutLogin()
     {
         $client = static::createClient();
-        $crawler = $client->request('GET', self::API_PATH);
+        $client->request('GET', self::API_PATH);
         $this->assertStatusCode(302, $client);
         $this->assertContains('/login', $client->getResponse()->getTargetUrl());
     }

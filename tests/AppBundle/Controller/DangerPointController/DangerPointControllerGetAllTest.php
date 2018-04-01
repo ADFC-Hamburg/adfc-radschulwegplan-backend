@@ -26,7 +26,7 @@ class DangerPointControllerGetAllTest extends DangerPointBaseTest
     public function testGetAllAsAdmin()
     {
         $client = $this->createAuthorizedClient('adfc-admin-user');
-        $crawler = $client->request('GET', self::API_PATH);
+        $client->request('GET', self::API_PATH);
         $this->assertStatusCode(200, $client);
         $data = json_decode($client->getResponse()->getContent(), true);
         $this->assertSame(20, count($data));
@@ -44,7 +44,7 @@ class DangerPointControllerGetAllTest extends DangerPointBaseTest
         $client = $this->createAuthorizedClient('adfc-admin-user');
         for ($i = 0; $i < 20; ++$i) {
             $id = $this->fixtures->getReference('danger-point' + $i)->getId();
-            $crawler = $client->request('GET', self::API_PATH.'/'.$id);
+            $client->request('GET', self::API_PATH.'/'.$id);
             $this->assertStatusCode(200, $client);
             $data = json_decode($client->getResponse()->getContent(), true);
             $this->assertDangerPointCompare('danger-point' + $i, $data);
@@ -56,14 +56,14 @@ class DangerPointControllerGetAllTest extends DangerPointBaseTest
         $client = $this->createAuthorizedClient('student1-user');
         for ($i = 0; $i < 10; ++$i) {
             $id = $this->fixtures->getReference('danger-point' + $i)->getId();
-            $crawler = $client->request('GET', self::API_PATH.'/'.$id);
+            $client->request('GET', self::API_PATH.'/'.$id);
             $this->assertStatusCode(200, $client);
             $data = json_decode($client->getResponse()->getContent(), true);
             $this->assertDangerPointCompare('danger-point' + $i, $data);
         }
         for ($i = 10; $i < 20; ++$i) {
             $id = $this->fixtures->getReference('danger-point' + $i)->getId();
-            $crawler = $client->request('GET', self::API_PATH.'/'.$id);
+            $client->request('GET', self::API_PATH.'/'.$id);
             $this->assertStatusCode(403, $client);
         }
     }
@@ -71,7 +71,7 @@ class DangerPointControllerGetAllTest extends DangerPointBaseTest
     public function testGetAllAsStudent1()
     {
         $client = $this->createAuthorizedClient('student1-user');
-        $crawler = $client->request('GET', self::API_PATH);
+        $client->request('GET', self::API_PATH);
         $this->assertStatusCode(200, $client);
         $data = json_decode($client->getResponse()->getContent(), true);
         $this->assertSame(10, count($data));

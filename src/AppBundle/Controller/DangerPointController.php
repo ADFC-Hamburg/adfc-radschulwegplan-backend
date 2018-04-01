@@ -317,7 +317,6 @@ class DangerPointController extends FOSRestController
      */
     public function deleteAction($id)
     {
-        $data = new DangerPoint();
         $em = $this->getDoctrine()->getManager();
         $entry = $this->getDoctrine()->getRepository('AppBundle:DangerPoint')->find($id);
         if (empty($entry)) {
