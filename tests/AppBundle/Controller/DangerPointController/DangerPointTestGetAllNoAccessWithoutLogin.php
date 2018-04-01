@@ -19,7 +19,7 @@
  *
  */
 
-namespace Tests\AppBundle\Controller\DangerPointControler;
+namespace Tests\AppBundle\Controller\DangerPointController;
 
 class DangerPointTestGetAllNoAccessWithoutLogin extends DangerPointBaseTest
 {

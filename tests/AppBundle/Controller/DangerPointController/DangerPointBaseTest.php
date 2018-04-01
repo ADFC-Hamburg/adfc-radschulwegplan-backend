@@ -19,7 +19,7 @@
  *
  */
 
-namespace Tests\AppBundle\Controller\DangerPointControler;
+namespace Tests\AppBundle\Controller\DangerPointController;
 
 use Doctrine\Common\DataFixtures\Purger\ORMPurger;
 use Liip\FunctionalTestBundle\Test\WebTestCase;

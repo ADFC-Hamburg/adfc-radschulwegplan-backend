@@ -19,9 +19,9 @@
  *
  */
 
-namespace Tests\AppBundle\Controller\DangerPointControler;
+namespace Tests\AppBundle\Controller\DangerPointController;
 
-class DangerPointControlerGetAllTest extends DangerPointBaseTest
+class DangerPointControllerGetAllTest extends DangerPointBaseTest
 {
     public function testGetAllAsAdmin()
     {
