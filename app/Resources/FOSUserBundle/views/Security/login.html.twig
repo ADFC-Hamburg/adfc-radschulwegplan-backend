@@ -1,0 +1,17 @@
+{% extends "@FOSUser/layout.html.twig" %}
+
+{% block fos_user_content %}
+   {% if (app.environment == 'dev') or  (app.environment == 'test') %}
+<h2>Demo Usernames / Passwords </h2>
+<ul>
+  <li>test-admin / pass-admin (ADFC-Admin)</li>
+  <li>test-school1-admin / pass-admin-school1 (Admin of School1)</li>
+  <li>test-school1-review / pass-admin-review (Reviewer of School1)</li>
+  <li>test-1student / pass-student (a Student of School1)</li>
+  <li>test-school2-admin / pass-admin-school2 (Admin of School2)</li>
+  <li>test-school2-review / pass-admin-review (Reviewer of School2)</li>
+  <li>test-2student / pass-student (a Student of School2)</li>
+</ul>
+   {% endif %}
+   {{ include('@FOSUser/Security/login_content.html.twig') }}
+{% endblock fos_user_content %}
