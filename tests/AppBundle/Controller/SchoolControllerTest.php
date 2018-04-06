@@ -29,7 +29,7 @@ class SchoolControllerTest extends BaseTestCase
     {
         $client = $this->createStudent1AuthorizedClient();
         // create item
-        $crawler = $client->request(
+        $client->request(
             'POST',
             self::API_PATH,
             array(
@@ -51,7 +51,7 @@ class SchoolControllerTest extends BaseTestCase
         $client = $this->createAdminAuthorizedClient();
 
         // old list
-        $crawler = $client->request(
+        $client->request(
             'GET',
             self::API_PATH,
             array()
@@ -66,7 +66,7 @@ class SchoolControllerTest extends BaseTestCase
     {
         $client = $this->createAdminAuthorizedClient();
         // create item
-        $crawler = $client->request(
+        $client->request(
             'POST',
             self::API_PATH,
             array(
@@ -94,7 +94,7 @@ class SchoolControllerTest extends BaseTestCase
     {
         $client = $this->createAdminAuthorizedClient();
 
-        $crawler = $client->request(
+        $client->request(
             'GET',
             self::API_PATH.'/'.$id
         );
@@ -116,7 +116,7 @@ class SchoolControllerTest extends BaseTestCase
     {
         $client = $this->createStudent1AuthorizedClient();
 
-        $crawler = $client->request(
+        $client->request(
             'PUT',
             self::API_PATH.'/'.$id,
             array(
@@ -139,7 +139,7 @@ class SchoolControllerTest extends BaseTestCase
     {
         $client = $this->createAdminAuthorizedClient();
 
-        $crawler = $client->request(
+        $client->request(
             'PUT',
             self::API_PATH.'/'.$id,
             array(
@@ -161,7 +161,7 @@ class SchoolControllerTest extends BaseTestCase
     {
         $client = $this->createAdminAuthorizedClient();
 
-        $crawler = $client->request(
+        $client->request(
             'GET',
             self::API_PATH.'/'.$id
         );
@@ -184,7 +184,7 @@ class SchoolControllerTest extends BaseTestCase
     {
         // FIXME why do I need to load the client again, otherwise route below will fail
         $client = $this->createAdminAuthorizedClient();
-        $crawler = $client->request(
+        $client->request(
             'GET',
             self::API_PATH,
             array()
@@ -203,7 +203,7 @@ class SchoolControllerTest extends BaseTestCase
     public function testStudentNotAllowedToDelete($id)
     {
         $client = $this->createStudent1AuthorizedClient();
-        $crawler = $client->request(
+        $client->request(
             'DELETE',
             self::API_PATH.'/'.$id
         );
@@ -219,7 +219,7 @@ class SchoolControllerTest extends BaseTestCase
     public function testDeleteOkay($id)
     {
         $client = $this->createAdminAuthorizedClient();
-        $crawler = $client->request(
+        $client->request(
             'DELETE',
             self::API_PATH.'/'.$id
         );
@@ -235,7 +235,7 @@ class SchoolControllerTest extends BaseTestCase
     {
         // Delete again -> 404
         $client = $this->createAdminAuthorizedClient();
-        $crawler = $client->request(
+        $client->request(
             'DELETE',
             self::API_PATH.'/'.$id
         );
