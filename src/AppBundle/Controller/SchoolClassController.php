@@ -153,14 +153,14 @@ class SchoolClassController extends FosRestController
      */
     public function newAction(Request $request)
     {
-        $user = $this->get('security.token_storage')->getToken()->getUser();
+        $user = $this->getUser();
         $okay = false;
         $schoolId = $request->get('schoolId');
-        if ($this->get('security.authorization_checker')->isGranted('ROLE_ADMIN')) {
+        if ($this->isGranted('ROLE_ADMIN')) {
             $okay = true;
-        } elseif ($this->get('security.authorization_checker')->isGranted('ROLE_SCHOOL_ADMIN')) {
+        } elseif ($this->isGranted('ROLE_SCHOOL_ADMIN')) {
             $okay = true;
-            if ($schoolId != $user->getSchool()->getId()) {
+            if (!$user->isInSchool($schoolId)) {
                 return new View('schoolAdmin can only create schoolClasses for his school', Response::HTTP_FORBIDDEN);
             }
         }
@@ -222,10 +222,8 @@ class SchoolClassController extends FosRestController
      */
     public function updateAction($id, Request $request)
     {
-        $user = $this->get('security.token_storage')->getToken()->getUser();
-        if (!(
-            $this->get('security.authorization_checker')->isGranted('ROLE_ADMIN') or
-            $this->get('security.authorization_checker')->isGranted('ROLE_SCHOOL_ADMIN'))) {
+        $user = $this->getUser();
+        if (!$this->isGranted(array('ROLE_ADMIN', 'ROLE_SCHOOL_ADMIN'))) {
             return new View('you need to be admin or school-admin', Response::HTTP_FORBIDDEN);
         }
         $name = $request->get('name');
@@ -239,8 +237,7 @@ class SchoolClassController extends FosRestController
             return new View('class not found', Response::HTTP_NOT_FOUND);
         }
         // else
-        if ($this->get('security.authorization_checker')->isGranted('ROLE_SCHOOL_ADMIN') and
-        ($entry->getSchool()->getId() != $user->getSchool()->getId())) {
+        if ($this->isGranted('ROLE_SCHOOL_ADMIN') and (!$user->isInSchool($entry->getSchool()))) {
             return new View('school-admin is not allowed to modify classes of different schools', Response::HTTP_FORBIDDEN);
         }
         $this->logger->info('name: ', array($name));
@@ -283,10 +280,8 @@ class SchoolClassController extends FosRestController
      */
     public function deleteAction($id)
     {
-        $user = $this->get('security.token_storage')->getToken()->getUser();
-        if (!(
-            $this->get('security.authorization_checker')->isGranted('ROLE_ADMIN') or
-            $this->get('security.authorization_checker')->isGranted('ROLE_SCHOOL_ADMIN'))) {
+        $user = $this->getUser();
+        if (!$this->isGranted(array('ROLE_ADMIN', 'ROLE_SCHOOL_ADMIN'))) {
             return new View('you need to be admin or school-admin', Response::HTTP_FORBIDDEN);
         }
 
@@ -295,8 +290,7 @@ class SchoolClassController extends FosRestController
         if (empty($entry)) {
             return new View('entry not found', Response::HTTP_NOT_FOUND);
         }
-        if ($this->get('security.authorization_checker')->isGranted('ROLE_SCHOOL_ADMIN') and
-        ($entry->getSchool()->getId() != $user->getSchool()->getId())) {
+        if ($this->isGranted('ROLE_SCHOOL_ADMIN') and (!$user->isInSchool($entry->getSchool()))) {
             return new View('school-admin is not allowed to modify classes of different schools', Response::HTTP_FORBIDDEN);
         }
         $em->remove($entry);
