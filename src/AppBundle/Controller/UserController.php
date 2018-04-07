@@ -61,7 +61,6 @@ class UserController extends FOSRestController
      */
     public function updateAction($id, Request $request)
     {
-        $data = new User();
         $name = $request->get('name');
         $role = $request->get('role');
         $sn = $this->getDoctrine()->getManager();
