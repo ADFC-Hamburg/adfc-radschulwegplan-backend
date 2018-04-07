@@ -1,21 +1,21 @@
 FOS\UserBundle\Model\User:
     exclusion_policy: NONE
     properties:
+        id:
+            expose: true
+            groups: ["any"]
         email:
-            exclude: true
-        emailCanonical:
-            exclude: true
+            expose: true
+            groups: ["admin"]
         enabled:
-            exclude: true
+            expose: true
+            groups: ["admin"]
         username:
-            exclude: true
-        usernameCanonical:
-            exclude: true
-        password:
-            exclude: true
-        salt:
-            exclude: true
+            expose: true
+            groups: ["admin"]
         lastLogin:
-            exclude: true
+            expose: true
+            groups: ["admin"]
         roles:
-            exclude: true
+            expose: true
+            groups: ["admin"]

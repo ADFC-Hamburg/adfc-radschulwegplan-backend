@@ -24,6 +24,7 @@ namespace AppBundle\Entity;
 use AppBundle\Exception\SchoolSchoolClassMismatchException;
 use Doctrine\ORM\Mapping as ORM;
 use FOS\UserBundle\Model\User as BaseUser;
+use JMS\Serializer\Annotation\Groups;
 
 /**
  * User.
@@ -39,6 +40,7 @@ class User extends BaseUser
      * @ORM\Column(name="id", type="integer")
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="AUTO")
+     * @Groups({"any"})
      */
     protected $id;
 
@@ -49,6 +51,7 @@ class User extends BaseUser
      *
      * @ORM\ManyToOne(targetEntity="School")
      * @ORM\JoinColumn(name="school_id", referencedColumnName="id", nullable=true)
+     * @Groups({"admin"})
      */
     private $school = null;
 
@@ -59,6 +62,7 @@ class User extends BaseUser
      *
      * @ORM\ManyToOne(targetEntity="SchoolClass")
      * @ORM\JoinColumn(name="school_class_id", referencedColumnName="id", nullable=true)
+     * @Groups({"admin"})
      */
     private $schoolClass = null;
 
