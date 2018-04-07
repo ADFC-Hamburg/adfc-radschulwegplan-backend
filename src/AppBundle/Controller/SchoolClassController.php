@@ -21,7 +21,6 @@
 
 namespace AppBundle\Controller;
 
-use AppBundle\Entity\School;
 use AppBundle\Entity\SchoolClass;
 use FOS\RestBundle\Controller\Annotations as Rest;
 use FOS\RestBundle\Controller\FOSRestController;
