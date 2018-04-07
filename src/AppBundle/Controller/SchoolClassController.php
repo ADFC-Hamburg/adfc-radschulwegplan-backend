@@ -87,7 +87,7 @@ class SchoolClassController extends FosRestController
      *
      * @param int $classId id of the schoolClass
      *
-     * @return School[] SchoolClass with id=$id
+     * @return SchoolClass[] SchoolClass with id=$id
      *
      * @SWG\Response(
      *     response=200,
@@ -99,6 +99,10 @@ class SchoolClassController extends FosRestController
      *     in="path",
      *     type="integer",
      *     description="id of the schoolClass"
+     * )
+     * @SWG\Response(
+     *     response=404,
+     *     description="Returns 404 HTTP if entry does not exists",
      * )
      * @Rest\Get("/{id}")
      */
