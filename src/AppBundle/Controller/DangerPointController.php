@@ -70,12 +70,9 @@ class DangerPointController extends FOSRestController
      */
     public function getAllAction()
     {
-        if ($this->get('security.authorization_checker')->isGranted('ROLE_ADMIN')) {
+        if ($this->isGranted('ROLE_ADMIN')) {
             $restresult = $this->getDoctrine()->getRepository('AppBundle:DangerPoint')->findAll();
-        } elseif (
-            $this->get('security.authorization_checker')->isGranted('ROLE_SCHOOL_ADMIN') or
-            $this->get('security.authorization_checker')->isGranted('ROLE_SCHOOL_REVIEW') or
-            $this->get('security.authorization_checker')->isGranted('ROLE_STUDENT')) {
+        } elseif ($this->isGranted(array('ROLE_SCHOOL_ADMIN', 'ROLE_SCHOOL_REVIEW', 'ROLE_STUDENT'))) {
             $schoolId = $this->getUser()->getSchool()->getId();
             $restresult = $this->getDoctrine()->getRepository('AppBundle:DangerPoint')->findAllWithSchool($schoolId);
         } else {
@@ -121,14 +118,12 @@ class DangerPointController extends FOSRestController
             return new View('point not found', Response::HTTP_NOT_FOUND);
         }
         if (
-            $this->get('security.authorization_checker')->isGranted('ROLE_SCHOOL_ADMIN') or
-            $this->get('security.authorization_checker')->isGranted('ROLE_SCHOOL_REVIEW') or
-            $this->get('security.authorization_checker')->isGranted('ROLE_STUDENT')) {
+            $this->isGranted(array('ROLE_SCHOOL_ADMIN', 'ROLE_SCHOOL_REVIEW', 'ROLE_STUDENT'))) {
             $schoolId = $this->getUser()->getSchool()->getId();
             if ($schoolId != $singleresult->getCreatedBy()->getSchool()->getId()) {
                 return new View('you need to be admin or school member', Response::HTTP_FORBIDDEN);
             }
-        } elseif (!$this->get('security.authorization_checker')->isGranted('ROLE_ADMIN')) {
+        } elseif (!$this->isGranted('ROLE_ADMIN')) {
             return new View('you need to be admin or school member', Response::HTTP_FORBIDDEN);
         }
 
@@ -179,6 +174,11 @@ class DangerPointController extends FOSRestController
      * @SWG\Response(
      *     response=200,
      *     description="Returns one DangerPont with id",
+     *     @Model(type=DangerPoint::class)
+     * )
+     * @SWG\Response(
+     *     response=404,
+     *     description="Returns 404 HTTP if entry does not exists",
      *     @Model(type=DangerPoint::class)
      * )
      * @Rest\Put("/{id}")
@@ -311,6 +311,11 @@ class DangerPointController extends FOSRestController
      * @SWG\Response(
      *     response=200,
      *     description="Returns the DangerPoint with the given id",
+     *     @Model(type=DangerPoint::class)
+     * )
+     * @SWG\Response(
+     *     response=404,
+     *     description="Returns 404 HTTP if entry does not exists",
      *     @Model(type=DangerPoint::class)
      * )
      * @Rest\Delete("/{id}")
