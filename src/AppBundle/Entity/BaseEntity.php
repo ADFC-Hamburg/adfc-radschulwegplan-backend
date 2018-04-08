@@ -22,6 +22,7 @@
 namespace AppBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use JMS\Serializer\Annotation as JMS;
 
 /**
  * BaseEntity.
@@ -32,6 +33,8 @@ abstract class BaseEntity
      * @var \DateTime
      *
      * @ORM\Column(name="created", type="datetime")
+     *
+     * @JMS\Groups({"role-admin", "role-school-admin"})
      */
     protected $created;
 
@@ -39,6 +42,8 @@ abstract class BaseEntity
      * @var \DateTime
      *
      * @ORM\Column(name="changed", type="datetime")
+     *
+     * @JMS\Groups({"role-admin", "role-school-admin"})
      */
     protected $changed;
 
@@ -47,6 +52,8 @@ abstract class BaseEntity
      *
      * @ORM\ManyToOne(targetEntity="User")
      * @ORM\JoinColumn(name="created_by", referencedColumnName="id")
+     *
+     * @JMS\Groups({"role-admin", "role-school-admin"})
      */
     protected $createdBy;
 
@@ -55,6 +62,8 @@ abstract class BaseEntity
      *
      * @ORM\ManyToOne(targetEntity="User")
      * @ORM\JoinColumn(name="changed_by", referencedColumnName="id")
+     *
+     * @JMS\Groups({"role-admin", "role-school-admin"})
      */
     protected $changedBy;
 
