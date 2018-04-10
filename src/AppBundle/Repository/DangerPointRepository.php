@@ -29,4 +29,18 @@ namespace AppBundle\Repository;
  */
 class DangerPointRepository extends \Doctrine\ORM\EntityRepository
 {
+    /**
+     * Return only dangerPoints from a specific school.
+     *
+     * @param int $id SchoolId
+     *
+     * @return DangerPoint[]
+     */
+    public function findAllWithSchool(int $id)
+    {
+        return $this->getEntityManager()
+                    ->createQuery('SELECT p FROM AppBundle:DangerPoint p JOIN p.createdBy u WHERE u.school= :sId ORDER BY p.id')
+                    ->setParameter('sId', $id)
+                    ->getResult();
+    }
 }

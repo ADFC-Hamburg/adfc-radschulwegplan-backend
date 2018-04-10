@@ -70,8 +70,11 @@ class DangerPointController extends FOSRestController
      */
     public function getAllAction()
     {
-        if ($this->get('security.authorization_checker')->isGranted('ROLE_ADMIN')) {
+        if ($this->isGranted('ROLE_ADMIN')) {
             $restresult = $this->getDoctrine()->getRepository('AppBundle:DangerPoint')->findAll();
+        } elseif ($this->isGranted(array('ROLE_SCHOOL_ADMIN', 'ROLE_SCHOOL_REVIEW', 'ROLE_STUDENT'))) {
+            $schoolId = $this->getUser()->getSchool()->getId();
+            $restresult = $this->getDoctrine()->getRepository('AppBundle:DangerPoint')->findAllWithSchool($schoolId);
         } else {
             $restresult = array();
         }
@@ -90,6 +93,16 @@ class DangerPointController extends FOSRestController
      *     description="Returns one DangerPoint with id={id}",
      *     @Model(type=DangerPoint::class)
      * )
+     * @SWG\Response(
+     *     response=403,
+     *     description="Returns 403 HTTP if the user has no permission",
+     *     @Model(type=DangerPoint::class)
+     * )
+     * @SWG\Response(
+     *     response=404,
+     *     description="Returns 404 HTTP if entry does not exists",
+     *     @Model(type=DangerPoint::class)
+     * )
      * @SWG\Parameter(
      *     name="id",
      *     in="path",
@@ -103,6 +116,15 @@ class DangerPointController extends FOSRestController
         $singleresult = $this->getDoctrine()->getRepository('AppBundle:DangerPoint')->find($id);
         if (null === $singleresult) {
             return new View('point not found', Response::HTTP_NOT_FOUND);
+        }
+        if (
+            $this->isGranted(array('ROLE_SCHOOL_ADMIN', 'ROLE_SCHOOL_REVIEW', 'ROLE_STUDENT'))) {
+            $schoolId = $this->getUser()->getSchool()->getId();
+            if ($schoolId != $singleresult->getCreatedBy()->getSchool()->getId()) {
+                return new View('you need to be admin or school member', Response::HTTP_FORBIDDEN);
+            }
+        } elseif (!$this->isGranted('ROLE_ADMIN')) {
+            return new View('you need to be admin or school member', Response::HTTP_FORBIDDEN);
         }
 
         return $singleresult;
@@ -152,6 +174,11 @@ class DangerPointController extends FOSRestController
      * @SWG\Response(
      *     response=200,
      *     description="Returns one DangerPont with id",
+     *     @Model(type=DangerPoint::class)
+     * )
+     * @SWG\Response(
+     *     response=404,
+     *     description="Returns 404 HTTP if entry does not exists",
      *     @Model(type=DangerPoint::class)
      * )
      * @Rest\Put("/{id}")
@@ -286,11 +313,15 @@ class DangerPointController extends FOSRestController
      *     description="Returns the DangerPoint with the given id",
      *     @Model(type=DangerPoint::class)
      * )
+     * @SWG\Response(
+     *     response=404,
+     *     description="Returns 404 HTTP if entry does not exists",
+     *     @Model(type=DangerPoint::class)
+     * )
      * @Rest\Delete("/{id}")
      */
     public function deleteAction($id)
     {
-        $data = new DangerPoint();
         $em = $this->getDoctrine()->getManager();
         $entry = $this->getDoctrine()->getRepository('AppBundle:DangerPoint')->find($id);
         if (empty($entry)) {
