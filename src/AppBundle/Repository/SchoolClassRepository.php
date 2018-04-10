@@ -29,4 +29,18 @@ namespace AppBundle\Repository;
  */
 class SchoolClassRepository extends \Doctrine\ORM\EntityRepository
 {
+    /**
+     * Return only schoolClass from a specific school.
+     *
+     * @param int $id SchoolId
+     *
+     * @return SchoolClass[]
+     */
+    public function findAllFromSchool(int $id)
+    {
+        return $this->getEntityManager()
+                    ->createQuery('SELECT c FROM AppBundle:SchoolClass c  WHERE c.school = :sId ORDER BY c.id')
+                    ->setParameter('sId', $id)
+                    ->getResult();
+    }
 }
