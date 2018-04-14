@@ -21,8 +21,10 @@
 
 namespace Tests\AppBundle\Controller\SchoolClassController;
 
+use Doctrine\Common\DataFixtures\Executor\AbstractExecutor;
 use Doctrine\Common\DataFixtures\Purger\ORMPurger;
 use Liip\FunctionalTestBundle\Test\WebTestCase;
+use Symfony\Bundle\FrameworkBundle\Client;
 
 abstract class SchoolClassControllerBaseTest extends WebTestCase
 {
@@ -30,7 +32,7 @@ abstract class SchoolClassControllerBaseTest extends WebTestCase
     const FROM_SCHOOL_API_PATH = '/api/v1/school_class/fromSchool/';
 
     /**
-     * @var Fixtures, usefull to get References to the objects
+     * @var AbstractExecutor, usefull to get References to the objects
      */
     public $fixtures = null;
 

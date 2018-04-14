@@ -21,13 +21,15 @@
 
 namespace Tests\AppBundle\Controller;
 
+use Doctrine\Common\DataFixtures\Executor\AbstractExecutor;
 use Doctrine\Common\DataFixtures\Purger\ORMPurger;
 use Liip\FunctionalTestBundle\Test\WebTestCase;
+use Symfony\Bundle\FrameworkBundle\Client;
 
 abstract class ControllerBaseTestCase extends WebTestCase
 {
     /**
-     * @var Fixtures, usefull to get References to the objects
+     * @var AbstractExecutor Fixtures, usefull to get References to the objects
      */
     private $fixtures = null;
 
@@ -60,9 +62,9 @@ abstract class ControllerBaseTestCase extends WebTestCase
     /**
      * Get Fixture Object from Ref.
      *
-     * @param $ref Reference
+     * @param $ref String Reference
      *
-     * @return Fixture Object
+     * @return object Fixture
      */
     protected function getFixtureFromRef(string $ref)
     {

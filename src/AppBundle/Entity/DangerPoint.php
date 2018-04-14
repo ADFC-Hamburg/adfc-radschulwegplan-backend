@@ -23,6 +23,7 @@ namespace AppBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 use JMS\Serializer\Annotation as JMS;
+use Jsor\Doctrine\PostGIS\Functions\Geometry;
 
 /**
  * DangerPoint.
@@ -47,7 +48,7 @@ class DangerPoint extends BaseEntity
     private $id;
 
     /**
-     * @var geometry
+     * @var Geometry
      *
      * @ORM\Column(name="pos", type="geometry",options={"geometry_type"="POINT", "srid"=4326})
      *

@@ -23,6 +23,7 @@ namespace AppBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 use JMS\Serializer\Annotation as JMS;
+use Jsor\Doctrine\PostGIS\Functions\Geometry;
 
 /**
  * SchoolWay.
@@ -47,7 +48,7 @@ class SchoolWay extends BaseEntity
     private $id;
 
     /**
-     * @var geometry
+     * @var Geometry
      *
      * @ORM\Column(name="way", type="geometry",options={"geometry_type"="LINESTRING", "srid"=4326})
      *
