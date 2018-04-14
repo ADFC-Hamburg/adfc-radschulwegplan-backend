@@ -43,7 +43,7 @@ class DangerPointControllerGetAllTest extends DangerPointBaseTest
     {
         $client = $this->createAuthorizedClient('adfc-admin-user');
         for ($i = 0; $i < 20; ++$i) {
-            $id = $this->fixtures->getReference('danger-point' + $i)->getId();
+            $id = $this->getFixtureFromRef('danger-point' + $i)->getId();
             $client->request('GET', self::API_PATH.'/'.$id);
             $this->assertStatusCode(200, $client);
             $data = json_decode($client->getResponse()->getContent(), true);
@@ -55,14 +55,14 @@ class DangerPointControllerGetAllTest extends DangerPointBaseTest
     {
         $client = $this->createAuthorizedClient('student1-user');
         for ($i = 0; $i < 10; ++$i) {
-            $id = $this->fixtures->getReference('danger-point' + $i)->getId();
+            $id = $this->getFixtureFromRef('danger-point' + $i)->getId();
             $client->request('GET', self::API_PATH.'/'.$id);
             $this->assertStatusCode(200, $client);
             $data = json_decode($client->getResponse()->getContent(), true);
             $this->assertDangerPointCompare('danger-point' + $i, $data);
         }
         for ($i = 10; $i < 20; ++$i) {
-            $id = $this->fixtures->getReference('danger-point' + $i)->getId();
+            $id = $this->getFixtureFromRef('danger-point' + $i)->getId();
             $client->request('GET', self::API_PATH.'/'.$id);
             $this->assertStatusCode(403, $client);
         }

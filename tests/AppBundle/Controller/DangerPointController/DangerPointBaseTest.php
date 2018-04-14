@@ -21,47 +21,26 @@
 
 namespace Tests\AppBundle\Controller\DangerPointController;
 
-use Doctrine\Common\DataFixtures\Purger\ORMPurger;
-use Liip\FunctionalTestBundle\Test\WebTestCase;
+use Tests\AppBundle\Controller\ControllerBaseTestCase;
 
-abstract class DangerPointBaseTest extends WebTestCase
+abstract class DangerPointBaseTest extends ControllerBaseTestCase
 {
     const API_PATH = '/api/v1/danger_point';
 
-    /**
-     * @var Fixtures, usefull to get References to the objects
-     */
-    public $fixtures = null;
-
     public function setUp()
     {
-        $fixturesArray = array(
+        $this->loadFixturesWithTrunc(array(
             'AppBundle\DataFixtures\DangerPointFixtures',
-        );
-        $this->fixtures = $this->loadFixtures(
-            $fixturesArray,
-            null,
-            'doctrine',
-            ORMPurger::PURGE_MODE_TRUNCATE)->getReferenceRepository();
+        ));
     }
 
     public function assertDangerPointCompare(string $dangerPointRef, $data)
     {
-        $dp = $this->fixtures->getReference($dangerPointRef);
+        $dp = $this->getFixtureFromRef($dangerPointRef);
         self::assertSame($dp->getId(), $data['id'], 'Id not equal on dangerPoint ' + $dangerPointRef);
         self::assertSame($dp->getPos(), $data['pos'], 'Position not equal on dangerPoint ' + $dangerPointRef);
         self::assertSame($dp->getTitle(), $data['title'], 'Title not equal on dangerPoint ' + $dangerPointRef);
         self::assertSame($dp->getDescription(), $data['description'], 'Title not equal on dangerPoint ' + $dangerPointRef);
         self::assertSame($dp->getTypeId(), $data['type_id'], 'Title not equal on dangerPoint ' + $dangerPointRef);
-    }
-
-    /**
-     * @return Client
-     */
-    protected function createAuthorizedClient(string $userRef)
-    {
-        $this->loginAs($this->fixtures->getReference($userRef), 'main');
-
-        return $this->makeClient();
     }
 }
