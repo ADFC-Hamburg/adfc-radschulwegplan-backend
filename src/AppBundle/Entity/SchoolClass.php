@@ -23,6 +23,7 @@ namespace AppBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 use JMS\Serializer\Annotation as JMS;
+use Swagger\Annotations as SWG;
 
 /**
  * SchoolClass.
@@ -31,6 +32,9 @@ use JMS\Serializer\Annotation as JMS;
  * @ORM\Entity(repositoryClass="AppBundle\Repository\SchoolClassRepository")
  *
  * @JMS\ExclusionPolicy("all")
+
+ * @SWG\Definition(definition="SchoolClass")
+
  */
 class SchoolClass extends BaseEntity
 {
@@ -43,6 +47,8 @@ class SchoolClass extends BaseEntity
      *
      * @JMS\Expose(true)
      * @JMS\Groups({"any"})
+     *
+     * @SWG\Property(description="The unique identifier of the class.")
      */
     private $id;
 
@@ -53,6 +59,9 @@ class SchoolClass extends BaseEntity
      *
      * @JMS\Expose(true)
      * @JMS\Groups({"role-admin", "role-school-admin", "role-student", "role-school-reviewer"})
+     *
+     * @SWG\Property(type="string", maxLength=16)
+
      */
     private $name;
 
@@ -60,7 +69,7 @@ class SchoolClass extends BaseEntity
      * @var int corosponding school
      *
      * @ORM\ManyToOne(targetEntity="School")
-     * @ORM\JoinColumn(name="school", referencedColumnName="id")
+     * @ORM\JoinColumn(name="school", referencedColumnName="id", nullable=false)
      *
      * @JMS\Expose(true)
      * @JMS\Groups({"any"})

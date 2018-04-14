@@ -41,9 +41,10 @@
     },
     "require-dev": {
         "doctrine/doctrine-fixtures-bundle": "^3.0",
+        "friendsofphp/php-cs-fixer": "^2.11",
+        "liip/functional-test-bundle": "^1.9",
         "sensio/generator-bundle": "^3.0",
-        "symfony/phpunit-bridge": "^3.0",
-	"friendsofphp/php-cs-fixer": "^2.11"
+        "symfony/phpunit-bridge": "^3.0"
     },
     "scripts": {
         "symfony-scripts": [

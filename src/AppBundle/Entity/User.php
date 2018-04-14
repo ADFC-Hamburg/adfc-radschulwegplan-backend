@@ -101,6 +101,26 @@ class User extends FOSUser
     }
 
     /**
+     * isInSchool.
+     *
+     * @param School|int $school
+     *
+     * @return bool is the user in this school?
+     */
+    public function isInSchool($school)
+    {
+        if ($this->hasSchool()) {
+            if ($school instanceof School) {
+                $school = $school->getId();
+            }
+
+            return $this->school->getId() == $school;
+        } // else
+
+        return false;
+    }
+
+    /**
      * getSchoolClass.
      *
      * @return SchoolClass

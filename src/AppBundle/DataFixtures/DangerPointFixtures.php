@@ -43,6 +43,8 @@ class DangerPointFixtures extends Fixture implements ORMFixtureInterface, Depend
             $pt->setPos(sprintf('SRID=4326;POINT(%f %f)', $lat, $lon));
             $pt->setCreatedNow($user);
             $manager->persist($pt);
+            $manager->flush();
+            $this->addReference('danger-point' + $i, $pt);
         }
 
         $user = $this->getReference('student2-user');
@@ -57,9 +59,9 @@ class DangerPointFixtures extends Fixture implements ORMFixtureInterface, Depend
             $pt->setPos(sprintf('SRID=4326;POINT(%f %f)', $lat, $lon));
             $pt->setCreatedNow($user);
             $manager->persist($pt);
+            $manager->flush();
+            $this->addReference('danger-point' + $i, $pt);
         }
-
-        $manager->flush();
     }
 
     public function getDependencies()
