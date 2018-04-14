@@ -34,7 +34,6 @@ use Swagger\Annotations as SWG;
  * @JMS\ExclusionPolicy("all")
 
  * @SWG\Definition(definition="SchoolClass")
-
  */
 class SchoolClass extends BaseEntity
 {
@@ -61,7 +60,6 @@ class SchoolClass extends BaseEntity
      * @JMS\Groups({"role-admin", "role-school-admin", "role-student", "role-school-reviewer"})
      *
      * @SWG\Property(type="string", maxLength=16)
-
      */
     private $name;
 
