@@ -31,14 +31,19 @@ use Symfony\Component\Security\Core\Authorization\AuthorizationCheckerInterface;
 
 class ADFCResponseListener implements EventSubscriberInterface
 {
-    private $logger;
     /**
-     * @var AuthorizationCheckerInterface
+     * @var LoggerInterface Logger to save log messages
+     */
+    private $logger;
+
+    /**
+     * @var AuthorizationCheckerInterface Auth Checker, check roles
      */
     private $authorizationChecker;
 
-    public function __construct(LoggerInterface $logger, AuthorizationCheckerInterface $authorizationChecker)
-    {
+    public function __construct(LoggerInterface $logger,
+        AuthorizationCheckerInterface $authorizationChecker
+    ) {
         $this->logger = $logger;
         $this->authorizationChecker = $authorizationChecker;
     }
@@ -48,6 +53,8 @@ class ADFCResponseListener implements EventSubscriberInterface
      * rendered content.
      *
      * @param GetResponseForControllerResultEvent $event
+     *
+     * @return View
      */
     public function onKernelView(GetResponseForControllerResultEvent $event)
     {
@@ -58,7 +65,6 @@ class ADFCResponseListener implements EventSubscriberInterface
         }
 
         $view = $event->getControllerResult();
-        $this->logger->error('HUHU class ');
         if (!$view instanceof View) {
             $view = new View($view);
         }
@@ -84,6 +90,9 @@ class ADFCResponseListener implements EventSubscriberInterface
         return $view;
     }
 
+    /**
+     * @return array
+     */
     public static function getSubscribedEvents()
     {
         // Must be executed before SensioFrameworkExtraBundle's listener
