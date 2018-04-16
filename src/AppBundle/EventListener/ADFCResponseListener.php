@@ -86,6 +86,7 @@ class ADFCResponseListener implements EventSubscriberInterface
         $this->logger->debug('role-based-serializerGroups', $groups);
         $context->setGroups($groups);
         $context->enableMaxDepth();
+        $view->setContext($context);
 
         return $view;
     }
