@@ -18,6 +18,8 @@ security:
             pattern: ^/
             form_login:
                 provider: fos_userbundle
+            json_login:
+                check_path: /api/v1/login
             logout:       true
             anonymous:    true
             logout_on_user_change: true
@@ -27,6 +29,8 @@ security:
         - { path: ^/register, role: IS_AUTHENTICATED_ANONYMOUSLY }
         - { path: ^/resetting, role: IS_AUTHENTICATED_ANONYMOUSLY }
         - { path: ^/admin/, role: ROLE_ADMIN }
+        - { path: ^/api/v1/login$, role: IS_AUTHENTICATED_ANONYMOUSLY }
+        - { path: ^/api/v1/doc, role: IS_AUTHENTICATED_ANONYMOUSLY }    
         - { path: ^/api/, role: ROLE_USER } 
 
 
