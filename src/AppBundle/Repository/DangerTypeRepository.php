@@ -37,7 +37,7 @@ class DangerTypeRepository extends \Doctrine\ORM\EntityRepository
         array('id' => 3, 'icon' => 'fa-exchange-alt', 'name' => 'Radwegauf- bzw. abfahrt ist schlecht oder nicht vorhanden.'),
         array('id' => 4, 'icon' => 'fa-hourglas', 'name' => 'Ampelschaltung ist schlecht.'),
         array('id' => 5, 'icon' => 'fa-exclamation', 'name' => 'Unübersichtliche Stelle'),
-        array('id' => 6, 'icon' => 'fa-ambulance', 'name' => 'Autofahrer - Radfahrer Konflikt      '),
+        array('id' => 6, 'icon' => 'fa-ambulance', 'name' => 'Autofahrer - Radfahrer Konflikt.'),
         array('id' => 7, 'icon' => 'fa-male', 'name' => 'Fußgänger - Radfahrer Konflikt '),
         array('id' => 8, 'icon' => 'fa-map-signs', 'name' => 'Hindernisse wie Laternen, Poller, Plakate'),
         array('id' => 9, 'icon' => 'fa-car', 'name' => 'Parkende Autos sind (regelmäßig) im Weg.'),

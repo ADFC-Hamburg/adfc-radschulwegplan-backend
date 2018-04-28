@@ -24,10 +24,10 @@ namespace AppBundle\Entity;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
- * DangerPoint.
+ * DangerType.
  *
  * @ORM\Table(name="danger_type")
- * @ORM\Entity(repositoryClass="AppBundle\Repository\DangerPointRepository")
+ * @ORM\Entity(repositoryClass="AppBundle\Repository\DangerTypeRepository")
  */
 class DangerType
 {
@@ -42,7 +42,7 @@ class DangerType
     /**
      * @var string
      *
-     * @ORM\Column(name="name", type="string", length=30)
+     * @ORM\Column(name="name", type="string", length=60)
      */
     private $name;
 
