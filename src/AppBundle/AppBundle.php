@@ -21,8 +21,20 @@
 
 namespace AppBundle;
 
+use AppBundle\Repository\DangerTypeRepository;
 use Symfony\Component\HttpKernel\Bundle\Bundle;
 
 class AppBundle extends Bundle
 {
+    public $dtr;
+
+    public function __construct(DangerTypeRepository $dtr)
+    {
+        $this->dtr = $dtr;
+    }
+
+    public function boot()
+    {
+        $dtr->insertDangerTypes();
+    }
 }

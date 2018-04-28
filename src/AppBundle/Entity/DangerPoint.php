@@ -64,9 +64,24 @@ class DangerPoint extends BaseEntity
     /**
      * @var int
      *
-     * @ORM\Column(name="typeId", type="integer")
+     * @ORM\ManyToOne(targetEntity="DangerType")
+     * @ORM\JoinColumn(name="typeId", referencedColumnName="id", nullable=false)
      */
     private $typeId;
+
+    /**
+     * @var bool
+     *
+     * @ORM\Column(name="danger", type="boolean", nullable=false, options={"default" : false})
+     */
+    private $danger;
+
+    /**
+     * @var bool
+     *
+     * @ORM\Column(name="area", type="boolean", nullable=false, options={"default" : false})
+     */
+    private $area;
 
     public function __construct()
     {
