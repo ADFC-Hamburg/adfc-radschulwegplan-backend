@@ -68,20 +68,27 @@ class ADFCResponseListener implements EventSubscriberInterface
         }
         $context = $view->getContext();
         $path = str_replace('/api/v1/', '', $request->getPathInfo());
-        $path = str_replace('/', '', $path);
+        $path = preg_split("/\//", $path);
 
-        $groups = array('any', 'path-'.$path.'-any');
+        $groups = array('any', 'path-'.$path[0].'-any');
+        if (count($path) > 1) {
+            $groups[] = array('any', 'path-'.$path[0].'-'.$path[1].'-any');
+        }
         $roles = array('ROLE_ADMIN', 'ROLE_SCHOOL_ADMIN', 'ROLE_SCHOOL_REVIEW', 'ROLE_STUDENT');
 
         foreach ($roles as $role) {
             if ($this->authorizationChecker->isGranted($role)) {
                 $baserole = strtolower(str_replace('ROLE_', '', $role));
                 $baserole = strtolower(str_replace('_', '-', $baserole));
-                $groups[] = 'path-'.$path.'-'.$baserole;
+                $groups[] = 'path-'.$path[0].'-'.$baserole;
+                if (count($path) > 1) {
+                    $groups[] = array('any', 'path-'.$path[0].'-'.$path[1].'-'.$baserole);
+                }
                 $groups[] = 'role-'.$baserole;
             }
         }
         $this->logger->debug('role-based-serializerGroups', $groups);
+
         $context->setGroups($groups);
         $context->enableMaxDepth();
         $view->setContext($context);
