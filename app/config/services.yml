@@ -34,7 +34,6 @@ services:
         tags:
             - { name: doctrine.event_subscriber }
 
-    # add more services, or override services that need manual wiring
-    # AppBundle\Service\ExampleService:
-    #     arguments:
-    #         $someArgument: 'some_value'
+    AppBundle\EventListener\ADFCResponseListener:
+        tags:
+            - { name: kernel.event_subscriber }
