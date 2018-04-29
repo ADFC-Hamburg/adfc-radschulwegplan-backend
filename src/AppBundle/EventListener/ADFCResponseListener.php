@@ -53,8 +53,6 @@ class ADFCResponseListener implements EventSubscriberInterface
      * rendered content.
      *
      * @param GetResponseForControllerResultEvent $event
-     *
-     * @return View
      */
     public function onKernelView(GetResponseForControllerResultEvent $event)
     {
@@ -87,8 +85,7 @@ class ADFCResponseListener implements EventSubscriberInterface
         $context->setGroups($groups);
         $context->enableMaxDepth();
         $view->setContext($context);
-
-        return $view;
+        $event->setControllerResult($view);
     }
 
     /**
