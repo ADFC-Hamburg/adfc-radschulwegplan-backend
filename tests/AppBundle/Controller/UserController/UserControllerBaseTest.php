@@ -39,25 +39,32 @@ abstract class UserControllerBaseTest extends ControllerBaseTestCase
     {
         // @var User $user
         $user = $this->getFixtureFromRef($userRef);
-        print_r($data);
-        self::assertSame($user->getId(), $data['id'], 'Id not equal on user ' + $userRef);
+        $this->assertArrayHasKey('id', $data);
+
         $this->assertArrayNotHasKey('email', $data);
         $this->assertArrayNotHasKey('username', $data);
         $this->assertArrayNotHasKey('password', $data);
         $this->assertArrayNotHasKey('username_canonical', $data);
         $this->assertArrayNotHasKey('email_canonical', $data);
+
+        self::assertSame($user->getId(), $data['id'], 'Id not equal on user ' + $userRef);
     }
 
     public function assertAdminUserCompare(string $userRef, $data)
     {
         // @var User $user
         $user = $this->getFixtureFromRef($userRef);
-        print_r($data);
-        self::assertSame($user->getUserName(), $data['username'], 'Username not equal on user ' + $userRef);
-        self::assertSame($user->getEMail(), $data['email'], 'Email not equal on user ' + $userRef);
-        self::assertSame($user->getId(), $data['id'], 'Id not equal on user ' + $userRef);
+
+        $this->assertArrayHasKey('username', $data);
+        $this->assertArrayHasKey('email', $data);
+        $this->assertArrayHasKey('id', $data);
+
         $this->assertArrayNotHasKey('password', $data);
         $this->assertArrayNotHasKey('username_canonical', $data);
         $this->assertArrayNotHasKey('email_canonical', $data);
+
+        self::assertSame($user->getUserName(), $data['username'], 'Username not equal on user ' + $userRef);
+        self::assertSame($user->getEMail(), $data['email'], 'Email not equal on user ' + $userRef);
+        self::assertSame($user->getId(), $data['id'], 'Id not equal on user ' + $userRef);
     }
 }
