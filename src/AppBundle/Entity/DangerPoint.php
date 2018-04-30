@@ -43,7 +43,7 @@ class DangerPoint extends BaseEntity
      * @ORM\GeneratedValue(strategy="AUTO")
      *
      * @JMS\Expose(true)
-     * @JMS\Groups({"role-admin", "path-danger-point-any"})
+     * @JMS\Groups({"role-admin", "path-danger_point-any"})
      */
     private $id;
 
@@ -53,7 +53,7 @@ class DangerPoint extends BaseEntity
      * @ORM\Column(name="pos", type="geometry",options={"geometry_type"="POINT", "srid"=4326})
      *
      * @JMS\Expose(true)
-     * @JMS\Groups({"role-admin", "path-danger-point-any"})
+     * @JMS\Groups({"role-admin", "path-danger_point-any"})
      */
     private $pos;
 
@@ -63,7 +63,7 @@ class DangerPoint extends BaseEntity
      * @ORM\Column(name="title", type="string", length=128)
      *
      * @JMS\Expose(true)
-     * @JMS\Groups({"role-admin", "path-danger-point-any"})
+     * @JMS\Groups({"role-admin", "path-danger_point-any"})
      */
     private $title;
 
@@ -73,7 +73,7 @@ class DangerPoint extends BaseEntity
      * @ORM\Column(name="description", type="text", nullable=true)
      *
      * @JMS\Expose(true)
-     * @JMS\Groups({"role-admin", "path-danger-point-any"})
+     * @JMS\Groups({"role-admin", "path-danger_point-any"})
      */
     private $description;
 
@@ -83,7 +83,7 @@ class DangerPoint extends BaseEntity
      * @ORM\Column(name="typeId", type="integer")
      *
      * @JMS\Expose(true)
-     * @JMS\Groups({"role-admin", "path-danger-point-any"})
+     * @JMS\Groups({"role-admin", "path-danger_point-any"})
      */
     private $typeId;
 
