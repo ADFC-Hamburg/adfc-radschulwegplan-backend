@@ -32,32 +32,36 @@ class DangerPointFixtures extends Fixture implements ORMFixtureInterface, Depend
     public function load(ObjectManager $manager)
     {
         $user = $this->getReference('student1-user');
-        // create 10 DangerPoints
-        for ($i = 0; $i < 10; ++$i) {
+        // create 6 DangerPoints
+        for ($i = 0; $i < 6; ++$i) {
             $pt = new DangerPoint();
             $pt->setTitle('point '.$i);
             $pt->setDescription('point desc '.$i);
-            $pt->setTypeId($i);
+            $pt->setType($this->getReference('DangerType-'.$i));
             $lat = 53.5 + (mt_rand(0, 1000) / 100);
             $lon = 10 + (mt_rand(0, 100) / 100);
             $pt->setPos(sprintf('SRID=4326;POINT(%f %f)', $lat, $lon));
             $pt->setCreatedNow($user);
+            $pt->setArea(true);
+            $pt->setDanger(false);
             $manager->persist($pt);
             $manager->flush();
             $this->addReference('danger-point' + $i, $pt);
         }
 
         $user = $this->getReference('student2-user');
-        // create 10 DangerPoints
-        for ($i = 10; $i < 20; ++$i) {
+        // create 6 DangerPoints
+        for ($i = 6; $i < 12; ++$i) {
             $pt = new DangerPoint();
             $pt->setTitle('point '.$i);
             $pt->setDescription('point desc '.$i);
-            $pt->setTypeId($i);
+            $pt->setType($this->getReference('DangerType-'.$i));
             $lat = 53.5 + (mt_rand(0, 1000) / 100);
             $lon = 9.9 + (mt_rand(0, 100) / 100);
             $pt->setPos(sprintf('SRID=4326;POINT(%f %f)', $lat, $lon));
             $pt->setCreatedNow($user);
+            $pt->setArea(false);
+            $pt->setDanger(true);
             $manager->persist($pt);
             $manager->flush();
             $this->addReference('danger-point' + $i, $pt);
@@ -67,7 +71,7 @@ class DangerPointFixtures extends Fixture implements ORMFixtureInterface, Depend
     public function getDependencies()
     {
         return array(
-            SchoolUserFixtures::class,
+            SchoolUserFixtures::class, DangerTypeFixtures::class,
         );
     }
 }

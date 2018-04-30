@@ -41,7 +41,7 @@ class DangerPoint extends BaseEntity
     private $id;
 
     /**
-     * @var geometry
+     * @var Geometry
      *
      * @ORM\Column(name="pos", type="geometry",options={"geometry_type"="POINT", "srid"=4326})
      */
@@ -64,9 +64,24 @@ class DangerPoint extends BaseEntity
     /**
      * @var int
      *
-     * @ORM\Column(name="typeId", type="integer")
+     * @ORM\ManyToOne(targetEntity="DangerType")
+     * @ORM\JoinColumn(name="typeId", referencedColumnName="id", nullable=false)
      */
-    private $typeId;
+    private $type;
+
+    /**
+     * @var bool
+     *
+     * @ORM\Column(name="danger", type="boolean", nullable=false, options={"default" : false})
+     */
+    private $danger;
+
+    /**
+     * @var bool
+     *
+     * @ORM\Column(name="area", type="boolean", nullable=false, options={"default" : false})
+     */
+    private $area;
 
     public function __construct()
     {
@@ -85,7 +100,7 @@ class DangerPoint extends BaseEntity
     /**
      * Set pos.
      *
-     * @param geometry $pos
+     * @param Geometry $pos
      *
      * @return DangerPoint
      */
@@ -99,7 +114,7 @@ class DangerPoint extends BaseEntity
     /**
      * Get pos.
      *
-     * @return geometry
+     * @return Geometry
      */
     public function getPos()
     {
@@ -155,26 +170,76 @@ class DangerPoint extends BaseEntity
     }
 
     /**
-     * Set typeId.
+     * Set type.
      *
-     * @param int $typeId
+     * @param int $type
      *
      * @return DangerPoint
      */
-    public function setTypeId($typeId)
+    public function setType($type)
     {
-        $this->typeId = $typeId;
+        $this->type = $type;
 
         return $this;
     }
 
     /**
-     * Get typeId.
+     * Get type.
      *
      * @return int
      */
-    public function getTypeId()
+    public function getType()
     {
-        return $this->typeId;
+        return $this->type;
+    }
+
+    /**
+     * IsArea.
+     *
+     * @return bool is true if this is an area or false if its is an point
+     */
+    public function isArea()
+    {
+        return $this->area;
+    }
+
+    /**
+     * SetArea.
+     *
+     * @param bool $area if this is an area or false if it is an point
+     *
+     * @return DangerPoint
+     */
+    public function setArea(bool $area)
+    {
+        $this->area = $area;
+
+        return $this;
+    }
+
+    /**
+     * IsDanger
+     * is this a danger-Area or (only) a problem?
+     *
+     *
+     * @return bool
+     */
+    public function isDanger()
+    {
+        return $this->danger;
+    }
+
+    /**
+     * SetArea.
+     *
+     * @param bool $area set true if it is dangurous
+     *
+     * @return DangerPoint
+     */
+    public function setDanger(bool $danger)
+    {
+        $this->danger = $danger;
+
+        return $this;
     }
 }

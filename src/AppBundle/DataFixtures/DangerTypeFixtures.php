@@ -19,13 +19,23 @@
  *
  */
 
-namespace AppBundle;
+namespace AppBundle\DataFixtures;
 
-use Symfony\Component\HttpKernel\Bundle\Bundle;
+use Doctrine\Bundle\FixturesBundle\Fixture;
+use Doctrine\Bundle\FixturesBundle\ORMFixtureInterface;
+use Doctrine\Common\Persistence\ObjectManager;
 
-class AppBundle extends Bundle
+class DangerTypeFixtures extends Fixture implements ORMFixtureInterface
 {
-    public function __construct()
+    public function load(ObjectManager $manager)
     {
+        $repo = $manager->getRepository('AppBundle:DangerType');
+        $arr = $repo->insertDangerTypes();
+        $i = 0;
+        foreach ($arr as $t) {
+            $typeName = 'DangerType-'.$i;
+            $this->addReference($typeName, $t);
+            ++$i;
+        }
     }
 }
