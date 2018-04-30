@@ -22,12 +22,16 @@
 namespace AppBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use JMS\Serializer\Annotation as JMS;
+use Jsor\Doctrine\PostGIS\Functions\Geometry;
 
 /**
  * DangerPoint.
  *
  * @ORM\Table(name="danger_point")
  * @ORM\Entity(repositoryClass="AppBundle\Repository\DangerPointRepository")
+ *
+ * @JMS\ExclusionPolicy("all")
  */
 class DangerPoint extends BaseEntity
 {
@@ -37,13 +41,19 @@ class DangerPoint extends BaseEntity
      * @ORM\Column(name="id", type="integer")
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="AUTO")
+     *
+     * @JMS\Expose(true)
+     * @JMS\Groups({"role-admin", "path-danger_point-any"})
      */
     private $id;
 
     /**
-     * @var geometry
+     * @var Geometry
      *
      * @ORM\Column(name="pos", type="geometry",options={"geometry_type"="POINT", "srid"=4326})
+     *
+     * @JMS\Expose(true)
+     * @JMS\Groups({"role-admin", "path-danger_point-any"})
      */
     private $pos;
 
@@ -51,6 +61,9 @@ class DangerPoint extends BaseEntity
      * @var string
      *
      * @ORM\Column(name="title", type="string", length=128)
+     *
+     * @JMS\Expose(true)
+     * @JMS\Groups({"role-admin", "path-danger_point-any"})
      */
     private $title;
 
@@ -58,6 +71,9 @@ class DangerPoint extends BaseEntity
      * @var string
      *
      * @ORM\Column(name="description", type="text", nullable=true)
+     *
+     * @JMS\Expose(true)
+     * @JMS\Groups({"role-admin", "path-danger_point-any"})
      */
     private $description;
 
@@ -65,6 +81,9 @@ class DangerPoint extends BaseEntity
      * @var int
      *
      * @ORM\Column(name="typeId", type="integer")
+     *
+     * @JMS\Expose(true)
+     * @JMS\Groups({"role-admin", "path-danger_point-any"})
      */
     private $typeId;
 

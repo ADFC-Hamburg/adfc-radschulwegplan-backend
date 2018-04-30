@@ -22,12 +22,16 @@
 namespace AppBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use JMS\Serializer\Annotation as JMS;
+use Jsor\Doctrine\PostGIS\Functions\Geometry;
 
 /**
  * SchoolWay.
  *
  * @ORM\Table(name="school_way")
  * @ORM\Entity(repositoryClass="AppBundle\Repository\SchoolWayRepository")
+ *
+ * @JMS\ExclusionPolicy("all")
  */
 class SchoolWay extends BaseEntity
 {
@@ -37,13 +41,19 @@ class SchoolWay extends BaseEntity
      * @ORM\Column(name="id", type="integer")
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="AUTO")
+     *
+     * @JMS\Expose(true)
+     * @JMS\Groups({"any"})
      */
     private $id;
 
     /**
-     * @var geometry
+     * @var Geometry
      *
      * @ORM\Column(name="way", type="geometry",options={"geometry_type"="LINESTRING", "srid"=4326})
+     *
+     * @JMS\Expose(true)
+     * @JMS\Groups({"path-school-way"})
      */
     private $way;
 
@@ -51,6 +61,9 @@ class SchoolWay extends BaseEntity
      * @var int
      *
      * @ORM\Column(name="wayType", type="integer")
+     *
+     * @JMS\Expose(true)
+     * @JMS\Groups({"path-school-way"})
      */
     private $wayType;
 
@@ -58,6 +71,9 @@ class SchoolWay extends BaseEntity
      * @var int
      *
      * @ORM\Column(name="year", type="integer")
+     *
+     * @JMS\Expose(true)
+     * @JMS\Groups({"path-school-way"})
      */
     private $year;
 

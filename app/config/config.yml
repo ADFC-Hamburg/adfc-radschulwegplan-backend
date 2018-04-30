@@ -90,7 +90,6 @@ fos_rest:
         rules:
             - { path: '^/api/', priorities: ['json'], fallback_format: json, prefer_extension: false }
             - { path: '^/', priorities: ['json', 'html'], fallback_format: 'html' }
-    serializer:
     param_fetcher_listener: true
     view:
         view_response_listener: 'force'
@@ -102,7 +101,7 @@ fos_user:
     firewall_name: main
     from_email:
         address:        rsw-noreply@sven.anders.hamburg
-        sender_name:    Demo App
+        sender_name:    ADFC Radschulwegplan Hamburg
     user_class: AppBundle\Entity\User
     service:
         mailer: fos_user.mailer.twig_swift 
@@ -116,3 +115,9 @@ nelmio_api_doc:
             title: 'ADFC-Radschulwegplan-Backend'
             description: 'ADFC Hamburg Radschulwegplan Backend'
             version: 0.0.2
+jms_serializer:
+        metadata:
+            directories:
+                FOSUB:
+                    namespace_prefix: "FOS\\UserBundle"
+                    path: "%kernel.root_dir%/serializer/FOSUB"

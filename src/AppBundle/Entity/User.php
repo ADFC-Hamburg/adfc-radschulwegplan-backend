@@ -23,15 +23,18 @@ namespace AppBundle\Entity;
 
 use AppBundle\Exception\SchoolSchoolClassMismatchException;
 use Doctrine\ORM\Mapping as ORM;
-use FOS\UserBundle\Model\User as BaseUser;
+use FOS\UserBundle\Model\User as FOSUser;
+use JMS\Serializer\Annotation as JMS;
 
 /**
  * User.
  *
  * @ORM\Table(name="fos_user")
  * @ORM\Entity(repositoryClass="AppBundle\Repository\UserRepository")
+ *
+ * @JMS\ExclusionPolicy("all")
  */
-class User extends BaseUser
+class User extends FOSUser
 {
     /**
      * @var int id
@@ -39,6 +42,9 @@ class User extends BaseUser
      * @ORM\Column(name="id", type="integer")
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="AUTO")
+     *
+     * @JMS\Expose(true)
+     * @JMS\Groups({"any"})
      */
     protected $id;
 
@@ -49,6 +55,9 @@ class User extends BaseUser
      *
      * @ORM\ManyToOne(targetEntity="School")
      * @ORM\JoinColumn(name="school_id", referencedColumnName="id", nullable=true)
+     *
+     * @JMS\Expose(true)
+     * @JMS\Groups({"role-admin"})
      */
     private $school = null;
 
@@ -59,6 +68,9 @@ class User extends BaseUser
      *
      * @ORM\ManyToOne(targetEntity="SchoolClass")
      * @ORM\JoinColumn(name="school_class_id", referencedColumnName="id", nullable=true)
+     *
+     * @JMS\Expose(true)
+     * @JMS\Groups({"role-admin"})
      */
     private $schoolClass = null;
 

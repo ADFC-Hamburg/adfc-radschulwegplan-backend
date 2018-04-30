@@ -1,0 +1,21 @@
+FOS\UserBundle\Model\User:
+    exclusion_policy: all
+    properties:
+        id:
+            expose: true
+            groups: ["any"]
+        email:
+            expose: true
+            groups: ["role-admin"]
+        enabled:
+            expose: true
+            groups: ["role-admin"]
+        username:
+            expose: true
+            groups: ["role-admin"]
+        lastLogin:
+            expose: true
+            groups: ["role-admin"]
+        roles:
+            expose: true
+            groups: ["role-admin"]

@@ -21,6 +21,8 @@
 
 namespace AppBundle\Repository;
 
+use AppBundle\Entity\SchoolClass;
+
 /**
  * SchoolClassRepository.
  *

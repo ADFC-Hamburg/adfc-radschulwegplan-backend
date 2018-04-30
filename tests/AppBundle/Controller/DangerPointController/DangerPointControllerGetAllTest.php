@@ -39,35 +39,6 @@ class DangerPointControllerGetAllTest extends DangerPointBaseTest
         }
     }
 
-    public function testGetOneAsAdmin()
-    {
-        $client = $this->createAuthorizedClient('adfc-admin-user');
-        for ($i = 0; $i < 20; ++$i) {
-            $id = $this->fixtures->getReference('danger-point' + $i)->getId();
-            $client->request('GET', self::API_PATH.'/'.$id);
-            $this->assertStatusCode(200, $client);
-            $data = json_decode($client->getResponse()->getContent(), true);
-            $this->assertDangerPointCompare('danger-point' + $i, $data);
-        }
-    }
-
-    public function testGetOneAsStudent1()
-    {
-        $client = $this->createAuthorizedClient('student1-user');
-        for ($i = 0; $i < 10; ++$i) {
-            $id = $this->fixtures->getReference('danger-point' + $i)->getId();
-            $client->request('GET', self::API_PATH.'/'.$id);
-            $this->assertStatusCode(200, $client);
-            $data = json_decode($client->getResponse()->getContent(), true);
-            $this->assertDangerPointCompare('danger-point' + $i, $data);
-        }
-        for ($i = 10; $i < 20; ++$i) {
-            $id = $this->fixtures->getReference('danger-point' + $i)->getId();
-            $client->request('GET', self::API_PATH.'/'.$id);
-            $this->assertStatusCode(403, $client);
-        }
-    }
-
     public function testGetAllAsStudent1()
     {
         $client = $this->createAuthorizedClient('student1-user');

@@ -22,6 +22,7 @@
 namespace AppBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use JMS\Serializer\Annotation as JMS;
 use Swagger\Annotations as SWG;
 
 /**
@@ -29,6 +30,8 @@ use Swagger\Annotations as SWG;
  *
  * @ORM\Table(name="school")
  * @ORM\Entity(repositoryClass="AppBundle\Repository\SchoolRepository")
+ *
+ * @JMS\ExclusionPolicy("all")
  */
 class School extends BaseEntity
 {
@@ -39,6 +42,9 @@ class School extends BaseEntity
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="AUTO")
      * @SWG\Property(format="int64")
+     *
+     * @JMS\Expose(true)
+     * @JMS\Groups({"any"})
      */
     private $id;
 
@@ -47,6 +53,9 @@ class School extends BaseEntity
      *
      * @ORM\Column(name="name", type="string", length=255)
      * @SWG\Property(format="string")
+     *
+     * @JMS\Expose(true)
+     * @JMS\Groups({"any"})
      */
     private $name;
 
@@ -55,6 +64,9 @@ class School extends BaseEntity
      *
      * @ORM\Column(name="street", type="string", length=255)
      * @SWG\Property(format="string")
+     *
+     * @JMS\Expose(true)
+     * @JMS\Groups({"role-admin"})
      */
     private $street;
 
@@ -63,6 +75,9 @@ class School extends BaseEntity
      *
      * @ORM\Column(name="postalcode", type="string", length=5)
      * @SWG\Property(format="string")
+     *
+     * @JMS\Expose(true)
+     * @JMS\Groups({"any"})
      */
     private $postalcode;
 
@@ -71,6 +86,9 @@ class School extends BaseEntity
      *
      * @ORM\Column(name="place", type="string", length=64)
      * @SWG\Property(format="string")
+     *
+     * @JMS\Expose(true)
+     * @JMS\Groups({"any"})
      */
     private $place;
 
@@ -79,6 +97,9 @@ class School extends BaseEntity
      *
      * @ORM\Column(name="webpage", type="string", length=255, nullable=true)
      * @SWG\Property(format="string")
+     *
+     * @JMS\Expose(true)
+     * @JMS\Groups({"any"})
      */
     private $webpage;
 

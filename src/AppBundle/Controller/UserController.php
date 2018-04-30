@@ -28,6 +28,9 @@ use FOS\RestBundle\View\View;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 
+/**
+ * UserControler.
+ */
 class UserController extends FOSRestController
 {
     /**

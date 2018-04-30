@@ -19,29 +19,27 @@
  *
  */
 
-namespace Tests\AppBundle\Controller\SchoolClassController;
+namespace Tests\AppBundle\Controller;
 
 use Doctrine\Common\DataFixtures\Executor\AbstractExecutor;
 use Doctrine\Common\DataFixtures\Purger\ORMPurger;
 use Liip\FunctionalTestBundle\Test\WebTestCase;
 use Symfony\Bundle\FrameworkBundle\Client;
 
-abstract class SchoolClassControllerBaseTest extends WebTestCase
+abstract class ControllerBaseTestCase extends WebTestCase
 {
-    const API_PATH = '/api/v1/school_class';
-    const FROM_SCHOOL_API_PATH = '/api/v1/school_class/fromSchool/';
+    /**
+     * @var AbstractExecutor Fixtures, usefull to get References to the objects
+     */
+    private $fixtures = null;
 
     /**
-     * @var AbstractExecutor, usefull to get References to the objects
+     * Load Fixtures with ORM PRUGE_MODE_TRUNCATE.
+     *
+     * @param array $fixturesArray Fixtures to load
      */
-    public $fixtures = null;
-
-    public function setUp()
+    public function loadFixturesWithTrunc($fixturesArray)
     {
-        $fixturesArray = array(
-            'AppBundle\DataFixtures\SchoolClassFixtures',
-            'AppBundle\DataFixtures\SchoolUserFixtures',
-        );
         $this->fixtures = $this->loadFixtures(
             $fixturesArray,
             null,
@@ -49,14 +47,9 @@ abstract class SchoolClassControllerBaseTest extends WebTestCase
             ORMPurger::PURGE_MODE_TRUNCATE)->getReferenceRepository();
     }
 
-    public function assertSchoolClassCompare(string $schoolClassRef, $data)
-    {
-        $dp = $this->fixtures->getReference($schoolClassRef);
-        self::assertSame($dp->getId(), $data['id'], 'Id not equal on schoolClass ' + $dangerPointRef);
-        self::assertSame($dp->getName(), $data['name'], 'Name not equal on schoolClass ' + $dangerPointRef);
-    }
-
     /**
+     * create Authorized Client from User Fixture.
+     *
      * @return Client
      */
     protected function createAuthorizedClient(string $userRef)
@@ -64,5 +57,17 @@ abstract class SchoolClassControllerBaseTest extends WebTestCase
         $this->loginAs($this->fixtures->getReference($userRef), 'main');
 
         return $this->makeClient();
+    }
+
+    /**
+     * Get Fixture Object from Ref.
+     *
+     * @param $ref String Reference
+     *
+     * @return object Fixture
+     */
+    protected function getFixtureFromRef(string $ref)
+    {
+        return  $this->fixtures->getReference($ref);
     }
 }
