@@ -38,7 +38,7 @@ class SchoolClass extends BaseEntity
      *
      * @ORM\Column(name="id", type="integer")
      * @ORM\Id
-     * @ORM\GeneratedValue(strategy="AUTO")
+     * @ORM\GeneratedValue(strategy="IDENTITY")
      * @SWG\Property(description="The unique identifier of the class.")
      */
     private $id;
