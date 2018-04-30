@@ -72,7 +72,7 @@ class ADFCResponseListener implements EventSubscriberInterface
 
         $groups = array('any', 'path-'.$path[0].'-any');
         if (count($path) > 1) {
-            $groups[] = array('any', 'path-'.$path[0].'-'.$path[1].'-any');
+            $groups[] = 'path-'.$path[0].'-'.$path[1].'-any';
         }
         $roles = array('ROLE_ADMIN', 'ROLE_SCHOOL_ADMIN', 'ROLE_SCHOOL_REVIEW', 'ROLE_STUDENT');
 
@@ -82,7 +82,7 @@ class ADFCResponseListener implements EventSubscriberInterface
                 $baserole = strtolower(str_replace('_', '-', $baserole));
                 $groups[] = 'path-'.$path[0].'-'.$baserole;
                 if (count($path) > 1) {
-                    $groups[] = array('any', 'path-'.$path[0].'-'.$path[1].'-'.$baserole);
+                    $groups[] = 'path-'.$path[0].'-'.$path[1].'-'.$baserole;
                 }
                 $groups[] = 'role-'.$baserole;
             }
