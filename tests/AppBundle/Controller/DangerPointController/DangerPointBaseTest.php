@@ -23,13 +23,14 @@ namespace Tests\AppBundle\Controller\DangerPointController;
 
 use Doctrine\Common\DataFixtures\Purger\ORMPurger;
 use Liip\FunctionalTestBundle\Test\WebTestCase;
+use Symfony\Bundle\FrameworkBundle\Client;
 
 abstract class DangerPointBaseTest extends WebTestCase
 {
     const API_PATH = '/api/v1/danger_point';
 
     /**
-     * @var Fixtures, usefull to get References to the objects
+     * @var array|null usefull to get References to the objects
      */
     public $fixtures = null;
 
@@ -52,7 +53,9 @@ abstract class DangerPointBaseTest extends WebTestCase
         self::assertSame($dp->getPos(), $data['pos'], 'Position not equal on dangerPoint ' + $dangerPointRef);
         self::assertSame($dp->getTitle(), $data['title'], 'Title not equal on dangerPoint ' + $dangerPointRef);
         self::assertSame($dp->getDescription(), $data['description'], 'Title not equal on dangerPoint ' + $dangerPointRef);
-        self::assertSame($dp->getTypeId(), $data['type_id'], 'Title not equal on dangerPoint ' + $dangerPointRef);
+        self::assertSame($dp->getType()->getId(), $data['type']['id'], 'Type not equal on dangerPoint ' + $dangerPointRef);
+        self::assertSame($dp->isDanger(), $data['danger'], 'Danger not equal on dangerPoint ' + $dangerPointRef);
+        self::assertSame($dp->isArea(), $data['area'], 'Area not equal on dangerPoint ' + $dangerPointRef);
     }
 
     /**

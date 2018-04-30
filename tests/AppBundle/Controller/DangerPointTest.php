@@ -41,7 +41,7 @@ class DangerPointTest extends BaseTestCase
     public function testInsert()
     {
         $client = $this->createAdminAuthorizedClient();
-        // test typeId is required:
+        // test type is required:
         $crawler = $client->request(
             'POST',
             self::INSERT_API_PATH,
@@ -84,13 +84,15 @@ class DangerPointTest extends BaseTestCase
                 'title' => 'Bordstein zu hoch',
                 'description' => 'Der Bordstein ist hier 50 cm',
                 'typeId' => 9,
+                'danger' => true,
+                'area' => false,
             )
         );
         $this->assertSame(200, $client->getResponse()->getStatusCode());
         $data = json_decode($client->getResponse()->getContent(), true);
         $this->assertArrayHasKey('id', $data);
         $id = $data['id'];
-        $this->assertSame(9, $data['type_id']);
+        $this->assertSame(9, $data['type']['id']);
         $this->assertSame('SRID=4326;POINT(53.511420 10.101000)', $data['pos']);
         $this->assertSame('Bordstein zu hoch', $data['title']);
         $this->assertSame('Der Bordstein ist hier 50 cm', $data['description']);
@@ -107,7 +109,7 @@ class DangerPointTest extends BaseTestCase
         $this->assertSame(200, $client->getResponse()->getStatusCode());
         $data = json_decode($client->getResponse()->getContent(), true);
         $this->assertSame($olddata['id'], $data['id']);
-        $this->assertSame(9, $data['type_id']);
+        $this->assertSame(9, $data['type']['id']);
         $this->assertSame('SRID=4326;POINT(53.51142 10.101)', $data['pos']);
         $this->assertSame('Bordstein zu hoch', $data['title']);
         $this->assertSame('Der Bordstein ist hier 50 cm', $data['description']);
@@ -123,7 +125,9 @@ class DangerPointTest extends BaseTestCase
                 'lon' => 10.142,
                 'title' => 'Bordstein zu tief',
                 'description' => 'Der Bordstein ist hier -50 cm',
-                'typeId' => 19,
+                'typeId' => 14,
+                'danger' => false,
+                'area' => false,
             )
         );
         if (200 != $client->getResponse()->getStatusCode()) {
@@ -140,7 +144,7 @@ class DangerPointTest extends BaseTestCase
         $this->assertSame(200, $client->getResponse()->getStatusCode());
         $data = json_decode($client->getResponse()->getContent(), true);
         $this->assertSame($olddata['id'], $data['id']);
-        $this->assertSame(19, $data['type_id']);
+        $this->assertSame(14, $data['type']['id']);
         $this->assertSame('SRID=4326;POINT(53.542 10.142)', $data['pos']);
         $this->assertSame('Bordstein zu tief', $data['title']);
         $this->assertSame('Der Bordstein ist hier -50 cm', $data['description']);

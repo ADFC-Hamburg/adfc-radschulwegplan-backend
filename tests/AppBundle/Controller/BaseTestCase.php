@@ -22,6 +22,7 @@
 namespace Tests\AppBundle\Controller;
 
 use Liip\FunctionalTestBundle\Test\WebTestCase;
+use Symfony\Bundle\FrameworkBundle\Client;
 
 abstract class BaseTestCase extends WebTestCase
 {

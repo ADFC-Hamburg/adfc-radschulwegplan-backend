@@ -29,11 +29,10 @@ class DangerPointControllerGetAllTest extends DangerPointBaseTest
         $client->request('GET', self::API_PATH);
         $this->assertStatusCode(200, $client);
         $data = json_decode($client->getResponse()->getContent(), true);
-        $this->assertSame(20, count($data));
-        for ($i = 0; $i < 20; ++$i) {
+        $this->assertSame(12, count($data));
+        for ($i = 0; $i < 12; ++$i) {
             $this->assertSame('point '.$i, $data[$i]['title']);
             $this->assertSame('point desc '.$i, $data[$i]['description']);
-            $this->assertSame($i, $data[$i]['type_id']);
             $data = json_decode($client->getResponse()->getContent(), true);
             $this->assertDangerPointCompare('danger-point' + $i, $data[$i]);
         }
@@ -42,7 +41,7 @@ class DangerPointControllerGetAllTest extends DangerPointBaseTest
     public function testGetOneAsAdmin()
     {
         $client = $this->createAuthorizedClient('adfc-admin-user');
-        for ($i = 0; $i < 20; ++$i) {
+        for ($i = 0; $i < 12; ++$i) {
             $id = $this->fixtures->getReference('danger-point' + $i)->getId();
             $client->request('GET', self::API_PATH.'/'.$id);
             $this->assertStatusCode(200, $client);
@@ -54,14 +53,14 @@ class DangerPointControllerGetAllTest extends DangerPointBaseTest
     public function testGetOneAsStudent1()
     {
         $client = $this->createAuthorizedClient('student1-user');
-        for ($i = 0; $i < 10; ++$i) {
+        for ($i = 0; $i < 6; ++$i) {
             $id = $this->fixtures->getReference('danger-point' + $i)->getId();
             $client->request('GET', self::API_PATH.'/'.$id);
             $this->assertStatusCode(200, $client);
             $data = json_decode($client->getResponse()->getContent(), true);
             $this->assertDangerPointCompare('danger-point' + $i, $data);
         }
-        for ($i = 10; $i < 20; ++$i) {
+        for ($i = 6; $i < 12; ++$i) {
             $id = $this->fixtures->getReference('danger-point' + $i)->getId();
             $client->request('GET', self::API_PATH.'/'.$id);
             $this->assertStatusCode(403, $client);
@@ -74,11 +73,10 @@ class DangerPointControllerGetAllTest extends DangerPointBaseTest
         $client->request('GET', self::API_PATH);
         $this->assertStatusCode(200, $client);
         $data = json_decode($client->getResponse()->getContent(), true);
-        $this->assertSame(10, count($data));
-        for ($i = 0; $i < 10; ++$i) {
+        $this->assertSame(6, count($data));
+        for ($i = 0; $i < 6; ++$i) {
             $this->assertSame('point '.$i, $data[$i]['title']);
             $this->assertSame('point desc '.$i, $data[$i]['description']);
-            $this->assertSame($i, $data[$i]['type_id']);
             $data = json_decode($client->getResponse()->getContent(), true);
             $this->assertDangerPointCompare('danger-point' + $i, $data[$i]);
         }

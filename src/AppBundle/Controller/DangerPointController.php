@@ -165,6 +165,20 @@ class DangerPointController extends FOSRestController
      *     description="The typeId of the point"
      * )
      * @SWG\Parameter(
+     *     name="area",
+     *     in="formData",
+     *     type="boolean",
+     *     required=true,
+     *     description="Is the point an area?"
+     * )
+     * @SWG\Parameter(
+     *     name="danger",
+     *     in="formData",
+     *     type="boolean",
+     *     required=true,
+     *     description="Is it dangerous?"
+     * )
+     * @SWG\Parameter(
      *     name="id",
      *     in="path",
      *     type="integer",
@@ -215,7 +229,18 @@ class DangerPointController extends FOSRestController
         $typeId = $request->get('typeId');
         if (!(empty($typeId))) {
             $this->logger->info('typeId: ', array($typeId));
-            $entry->setTypeId($typeId);
+            $type = $this->getDoctrine()->getRepository('AppBundle:DangerType')->find($typeId);
+            $entry->setType($type);
+            $changed = true;
+        }
+        $area = $request->get('area');
+        if (!(empty($area))) {
+            $entry->setArea($area);
+            $changed = true;
+        }
+        $danger = $request->get('danger');
+        if (!(empty($area))) {
+            $entry->setArea($danger);
             $changed = true;
         }
         if ($changed) {
@@ -267,6 +292,20 @@ class DangerPointController extends FOSRestController
      *     required=true,
      *     description="The typeId of the point"
      * )
+     * @SWG\Parameter(
+     *     name="area",
+     *     in="formData",
+     *     type="boolean",
+     *     required=true,
+     *     description="Is the point an area?"
+     * )
+     * @SWG\Parameter(
+     *     name="danger",
+     *     in="formData",
+     *     type="boolean",
+     *     required=true,
+     *     description="Is it dangerous?"
+     * )
      * @SWG\Response(
      *     response=200,
      *     description="Returns one DangerPoint with id",
@@ -283,15 +322,20 @@ class DangerPointController extends FOSRestController
         $title = $request->get('title');
         $description = $request->get('description');
         $typeId = $request->get('typeId');
+        $area = $request->get('area');
+        $danger = $request->get('danger');
         if (empty($lat) || empty($lon) || empty($typeId)) {
             return new View('NULL VALUES ARE NOT ALLOWED'.$lat, Response::HTTP_NOT_ACCEPTABLE);
         }
         $data->setTitle($title);
         $data->setDescription($description);
-        $data->setTypeId($typeId);
+        $type = $this->getDoctrine()->getRepository('AppBundle:DangerType')->find($typeId);
+        $data->setType($type);
         $data->setPos(sprintf('SRID=4326;POINT(%f %f)', $lat, $lon));
         $data->setCreatedNow($user);
-
+        $data->setArea($area);
+        $data->setDanger($danger);
+        print_r($data);
         $em = $this->getDoctrine()->getManager();
         $newObj = $em->merge($data);
         $em->flush();

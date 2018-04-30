@@ -54,13 +54,17 @@ class DangerTypeRepository extends \Doctrine\ORM\EntityRepository
     public function insertDangerTypes()
     {
         $em = $this->getEntityManager();
+        $arr = array();
         foreach (self::ITEMS as $data) {
             $type = new DangerType();
             $type->setId($data['id']);
             $type->setName($data['name']);
             $type->setIcon($data['icon']);
             $em->persist($type);
+            $arr[] = $type;
         }
         $em->flush();
+
+        return $arr;
     }
 }
